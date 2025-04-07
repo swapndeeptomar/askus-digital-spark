@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Code, Smartphone, Search, PieChart, PaintBrush, Shield, Server, Settings, FileCheck } from 'lucide-react';
+import { Code, Smartphone, Search, PieChart, Paintbrush, Shield, Server, Settings, FileCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';

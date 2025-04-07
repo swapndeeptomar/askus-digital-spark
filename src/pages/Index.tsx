@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Code, Smartphone, Search, PieChart, PaintBrush, Shield, ChevronRight, ArrowRight } from 'lucide-react';
+import { Code, Smartphone, Search, PieChart, Paintbrush, Shield, ChevronRight, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
