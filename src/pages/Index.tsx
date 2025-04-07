@@ -6,10 +6,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ServiceCard from '@/components/ServiceCard';
 import ProjectCard from '@/components/ProjectCard';
-
 const Index = () => {
-  return (
-    <div className="flex flex-col min-h-screen">
+  return <div className="flex flex-col min-h-screen">
       <Navbar />
       
       {/* Hero Section */}
@@ -19,14 +17,18 @@ const Index = () => {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight animate-fade-in">
               Transform Your Digital Presence with AskUS
             </h1>
-            <p className="text-lg md:text-xl text-gray-100 mb-8 animate-slide-up opacity-0" style={{ animationDelay: '0.2s' }}>
+            <p className="text-lg md:text-xl text-gray-100 mb-8 animate-slide-up opacity-0" style={{
+            animationDelay: '0.2s'
+          }}>
               We provide innovative digital solutions to help your business thrive in the online world. From web development to digital marketing, we've got you covered.
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4 animate-slide-up opacity-0" style={{ animationDelay: '0.4s' }}>
+            <div className="flex flex-col sm:flex-row justify-center gap-4 animate-slide-up opacity-0" style={{
+            animationDelay: '0.4s'
+          }}>
               <Button className="bg-white text-askus-purple hover:bg-gray-100 text-lg py-6 px-8 rounded-full">
                 Get Started
               </Button>
-              <Button variant="outline" className="text-white border-white hover:bg-white/10 text-lg py-6 px-8 rounded-full">
+              <Button variant="outline" className="border-white text-lg py-6 px-8 rounded-full bg-slate-50 text-purple-600">
                 Our Services
               </Button>
             </div>
@@ -45,36 +47,12 @@ const Index = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <ServiceCard 
-              title="Web Development" 
-              description="Custom web development solutions tailored to meet your business needs, ensuring seamless user experience and robust functionality."
-              icon={Code}
-            />
-            <ServiceCard 
-              title="Mobile App Development" 
-              description="Innovative mobile app solutions that enhance user engagement and streamline business operations on both iOS and Android platforms."
-              icon={Smartphone}
-            />
-            <ServiceCard 
-              title="SEO Optimization" 
-              description="Boost your online presence with our expert SEO services, designed to improve search rankings and drive organic traffic to your website."
-              icon={Search}
-            />
-            <ServiceCard 
-              title="Digital Marketing" 
-              description="Comprehensive digital marketing strategies that increase brand visibility and customer engagement across various online platforms."
-              icon={PieChart}
-            />
-            <ServiceCard 
-              title="Graphic Design" 
-              description="Creative design services that capture your brand's essence and communicate your message clearly and effectively."
-              icon={Paintbrush}
-            />
-            <ServiceCard 
-              title="Cybersecurity" 
-              description="Protect your business and customer data with our advanced cybersecurity solutions, ensuring peace of mind and operational integrity."
-              icon={Shield}
-            />
+            <ServiceCard title="Web Development" description="Custom web development solutions tailored to meet your business needs, ensuring seamless user experience and robust functionality." icon={Code} />
+            <ServiceCard title="Mobile App Development" description="Innovative mobile app solutions that enhance user engagement and streamline business operations on both iOS and Android platforms." icon={Smartphone} />
+            <ServiceCard title="SEO Optimization" description="Boost your online presence with our expert SEO services, designed to improve search rankings and drive organic traffic to your website." icon={Search} />
+            <ServiceCard title="Digital Marketing" description="Comprehensive digital marketing strategies that increase brand visibility and customer engagement across various online platforms." icon={PieChart} />
+            <ServiceCard title="Graphic Design" description="Creative design services that capture your brand's essence and communicate your message clearly and effectively." icon={Paintbrush} />
+            <ServiceCard title="Cybersecurity" description="Protect your business and customer data with our advanced cybersecurity solutions, ensuring peace of mind and operational integrity." icon={Shield} />
           </div>
 
           <div className="text-center mt-12">
@@ -135,11 +113,7 @@ const Index = () => {
             </div>
             
             <div className="rounded-xl overflow-hidden shadow-xl">
-              <img 
-                src="public/lovable-uploads/57393e5d-f497-4439-b607-606324e331bc.png" 
-                alt="Digital Marketing Team" 
-                className="w-full h-full object-cover"
-              />
+              <img src="public/lovable-uploads/57393e5d-f497-4439-b607-606324e331bc.png" alt="Digital Marketing Team" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
@@ -156,27 +130,9 @@ const Index = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <ProjectCard 
-              title="TechCorp Website" 
-              description="A modern and responsive website designed to showcase TechCorp's services and ensure seamless user experience across all devices."
-              client="TechCorp"
-              clientRole="CEO"
-              imageUrl="public/lovable-uploads/a3c632f7-8a70-411c-94a8-8b5271719754.png"
-            />
-            <ProjectCard 
-              title="ShopEase App" 
-              description="Developed a user-friendly eCommerce application with a smooth shopping experience tailored specifically for ShopEase's customers."
-              client="ShopEase"
-              clientRole="Founder"
-              imageUrl="public/lovable-uploads/938ba006-17ea-4022-b354-32b4422ecdb2.png"
-            />
-            <ProjectCard 
-              title="GreenLeaf Branding" 
-              description="Crafted a unique and vibrant visual identity with a distinctive logo, color scheme, and marketing materials tailored specifically for GreenLeaf."
-              client="GreenLeaf"
-              clientRole="Marketing Director"
-              imageUrl="public/lovable-uploads/44bad806-745b-4cf7-afbb-37673806efb8.png"
-            />
+            <ProjectCard title="TechCorp Website" description="A modern and responsive website designed to showcase TechCorp's services and ensure seamless user experience across all devices." client="TechCorp" clientRole="CEO" imageUrl="public/lovable-uploads/a3c632f7-8a70-411c-94a8-8b5271719754.png" />
+            <ProjectCard title="ShopEase App" description="Developed a user-friendly eCommerce application with a smooth shopping experience tailored specifically for ShopEase's customers." client="ShopEase" clientRole="Founder" imageUrl="public/lovable-uploads/938ba006-17ea-4022-b354-32b4422ecdb2.png" />
+            <ProjectCard title="GreenLeaf Branding" description="Crafted a unique and vibrant visual identity with a distinctive logo, color scheme, and marketing materials tailored specifically for GreenLeaf." client="GreenLeaf" clientRole="Marketing Director" imageUrl="public/lovable-uploads/44bad806-745b-4cf7-afbb-37673806efb8.png" />
           </div>
 
           <div className="text-center mt-12">
@@ -203,7 +159,7 @@ const Index = () => {
                   Contact Us
                 </Button>
               </Link>
-              <Button variant="outline" className="text-white border-white hover:bg-white/10 text-lg py-6 px-8 rounded-full">
+              <Button variant="outline" className="border-white py-6 px-8 rounded-full text-lg text-purple-600 bg-slate-50">
                 Get a Free Quote
               </Button>
             </div>
@@ -212,8 +168,6 @@ const Index = () => {
       </section>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
