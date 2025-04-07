@@ -11,7 +11,7 @@ const Services = () => {
       <Navbar />
       
       {/* Header */}
-      <section className="pt-32 pb-16 gradient-bg text-white">
+      <section className="pt-32 pb-16 bg-black-red-gradient text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">Our Services</h1>
@@ -114,7 +114,7 @@ const Services = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-20 gradient-bg text-white">
+      <section className="py-16 md:py-20 bg-black-red-gradient text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Get Started?</h2>

@@ -13,7 +13,7 @@ const Index = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 md:pb-28 gradient-bg text-white">
+      <section className="pt-32 pb-20 md:pb-28 bg-black-red-gradient text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight animate-fade-in">
@@ -35,7 +35,7 @@ const Index = () => {
       </section>
 
       {/* Services Section */}
-      <section className="section-padding bg-gray-50">
+      <section className="section-padding bg-gray-900">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-askus-dark">Our Services</h2>
@@ -146,7 +146,7 @@ const Index = () => {
       </section>
 
       {/* Projects Section */}
-      <section className="section-padding bg-gray-50">
+      <section className="section-padding bg-gray-900">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-askus-dark">Our Projects</h2>
@@ -190,7 +190,7 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-20 gradient-bg text-white">
+      <section className="py-16 md:py-20 bg-black-red-gradient text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Digital Presence?</h2>
