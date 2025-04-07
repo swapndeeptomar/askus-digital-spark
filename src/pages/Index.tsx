@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Code, Smartphone, Search, PieChart, Paintbrush, Shield, ChevronRight, ArrowRight } from 'lucide-react';
@@ -69,7 +68,7 @@ const Index = () => {
             <ServiceCard 
               title="Graphic Design" 
               description="Creative design services that capture your brand's essence and communicate your message clearly and effectively."
-              icon={PaintBrush}
+              icon={Paintbrush}
             />
             <ServiceCard 
               title="Cybersecurity" 

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Code, Smartphone, Search, PieChart, Paintbrush, Shield, Server, Settings, FileCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -50,7 +49,7 @@ const Services = () => {
             <ServiceCard 
               title="Graphic Design" 
               description="Creative design services that capture your brand's essence and communicate your message clearly and effectively."
-              icon={PaintBrush}
+              icon={Paintbrush}
             />
             <ServiceCard 
               title="Cybersecurity" 
