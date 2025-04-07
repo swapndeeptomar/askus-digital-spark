@@ -1,0 +1,137 @@
+
+import React from 'react';
+import { Code, Smartphone, Search, PieChart, PaintBrush, Shield, Server, Settings, FileCheck } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import ServiceCard from '@/components/ServiceCard';
+
+const Services = () => {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      
+      {/* Header */}
+      <section className="pt-32 pb-16 gradient-bg text-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">Our Services</h1>
+            <p className="text-lg md:text-xl text-gray-100">
+              Explore our range of services designed to enhance your digital presence and drive business growth.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <ServiceCard 
+              title="Web Development" 
+              description="Custom web development solutions tailored to meet your business needs, ensuring seamless user experience and robust functionality."
+              icon={Code}
+            />
+            <ServiceCard 
+              title="Mobile App Development" 
+              description="Innovative mobile app solutions that enhance user engagement and streamline business operations on both iOS and Android platforms."
+              icon={Smartphone}
+            />
+            <ServiceCard 
+              title="SEO Optimization" 
+              description="Boost your online presence with our expert SEO services, designed to improve search rankings and drive organic traffic to your website."
+              icon={Search}
+            />
+            <ServiceCard 
+              title="Digital Marketing" 
+              description="Comprehensive digital marketing strategies that increase brand visibility and customer engagement across various online platforms."
+              icon={PieChart}
+            />
+            <ServiceCard 
+              title="Graphic Design" 
+              description="Creative design services that capture your brand's essence and communicate your message clearly and effectively."
+              icon={PaintBrush}
+            />
+            <ServiceCard 
+              title="Cybersecurity" 
+              description="Protect your business and customer data with our advanced cybersecurity solutions, ensuring peace of mind and operational integrity."
+              icon={Shield}
+            />
+            <ServiceCard 
+              title="Custom Software Development" 
+              description="Tailored software solutions designed to address your specific business challenges and streamline your operations."
+              icon={Server}
+            />
+            <ServiceCard 
+              title="UI/UX Design" 
+              description="User-centered design services that create intuitive, engaging interfaces to enhance user satisfaction and drive conversions."
+              icon={Settings}
+            />
+            <ServiceCard 
+              title="Software & App Testing" 
+              description="Comprehensive testing services to ensure your software and applications are bug-free, secure, and perform optimally across all platforms."
+              icon={FileCheck}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Process Section */}
+      <section className="py-16 md:py-24 bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-askus-dark">Our Process</h2>
+            <p className="text-lg text-gray-600">
+              We follow a structured approach to ensure the success of your digital projects.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 text-center">
+              <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center text-askus-purple mx-auto mb-4">1</div>
+              <h3 className="text-xl font-semibold mb-3 text-askus-dark">Discovery</h3>
+              <p className="text-gray-600">We start by understanding your business goals, target audience, and project requirements.</p>
+            </div>
+            
+            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 text-center">
+              <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center text-askus-purple mx-auto mb-4">2</div>
+              <h3 className="text-xl font-semibold mb-3 text-askus-dark">Planning</h3>
+              <p className="text-gray-600">We create a detailed project plan with timelines, milestones, and deliverables.</p>
+            </div>
+            
+            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 text-center">
+              <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center text-askus-purple mx-auto mb-4">3</div>
+              <h3 className="text-xl font-semibold mb-3 text-askus-dark">Execution</h3>
+              <p className="text-gray-600">Our team works diligently to develop and implement the solutions as per the plan.</p>
+            </div>
+            
+            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 text-center">
+              <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center text-askus-purple mx-auto mb-4">4</div>
+              <h3 className="text-xl font-semibold mb-3 text-askus-dark">Delivery & Support</h3>
+              <p className="text-gray-600">We deliver the final product and provide ongoing support to ensure its success.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 md:py-20 gradient-bg text-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Get Started?</h2>
+            <p className="text-xl mb-8">
+              Contact us today to discuss how our services can help your business grow and succeed in the digital world.
+            </p>
+            <Button className="bg-white text-askus-purple hover:bg-gray-100 text-lg py-6 px-8 rounded-full">
+              Contact Us
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default Services;
