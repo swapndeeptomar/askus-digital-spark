@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -32,15 +33,15 @@
   }
 
   .gradient-bg {
-    @apply bg-gradient-to-br from-askus-purple/90 to-askus-dark;
+    @apply bg-gradient-to-br from-askus-red/90 to-askus-black;
   }
 
   .service-card {
-    @apply p-6 rounded-xl bg-white shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 h-full flex flex-col;
+    @apply p-6 rounded-xl bg-askus-black/90 shadow-md hover:shadow-lg transition-all duration-300 border border-askus-red/20 h-full flex flex-col text-white;
   }
 
   .service-icon {
-    @apply text-askus-purple mb-4 p-3 rounded-lg bg-purple-50 inline-block;
+    @apply text-askus-red mb-4 p-3 rounded-lg bg-askus-black inline-block border border-askus-red/30;
   }
 
   .section-padding {
