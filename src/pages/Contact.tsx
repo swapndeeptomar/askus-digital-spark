@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,10 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-
 const Contact = () => {
-  return (
-    <div className="flex flex-col min-h-screen">
+  return <div className="flex flex-col min-h-screen">
       <Navbar />
       
       {/* Header */}
@@ -36,40 +33,22 @@ const Contact = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
-                    <Input 
-                      id="name" 
-                      placeholder="Enter your name" 
-                      className="w-full p-3 border rounded-lg"
-                    />
+                    <Input id="name" placeholder="Enter your name" className="w-full p-3 border rounded-lg" />
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Your Email</label>
-                    <Input 
-                      id="email" 
-                      type="email" 
-                      placeholder="Enter your email" 
-                      className="w-full p-3 border rounded-lg"
-                    />
+                    <Input id="email" type="email" placeholder="Enter your email" className="w-full p-3 border rounded-lg" />
                   </div>
                 </div>
                 
                 <div>
                   <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-                  <Input 
-                    id="subject" 
-                    placeholder="Enter subject" 
-                    className="w-full p-3 border rounded-lg"
-                  />
+                  <Input id="subject" placeholder="Enter subject" className="w-full p-3 border rounded-lg" />
                 </div>
                 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Your Message</label>
-                  <Textarea 
-                    id="message" 
-                    placeholder="Enter your message" 
-                    className="w-full p-3 border rounded-lg"
-                    rows={6}
-                  />
+                  <Textarea id="message" placeholder="Enter your message" className="w-full p-3 border rounded-lg" rows={6} />
                 </div>
                 
                 <Button type="submit" className="w-full bg-askus-purple hover:bg-askus-purple/90 flex items-center justify-center gap-2">
@@ -85,11 +64,7 @@ const Contact = () => {
               
               {/* Map */}
               <div className="h-64 bg-gray-200 rounded-xl mb-8 overflow-hidden">
-                <img 
-                  src="public/lovable-uploads/6f63107c-1796-4af7-98af-0a2a7ad593d0.png" 
-                  alt="Location Map" 
-                  className="w-full h-full object-cover"
-                />
+                <img alt="Location Map" className="w-full h-full object-cover" src="https://onefivenine.com/images/GoogleMapImages/22_7475_89.jpg" />
               </div>
               
               <div className="bg-white p-8 rounded-xl shadow-md border border-gray-100">
@@ -130,13 +105,13 @@ const Contact = () => {
                 
                 <div className="mt-6 flex space-x-4">
                   <a href="https://facebook.com" className="text-askus-purple hover:text-askus-purple/80" aria-label="Facebook">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
                   </a>
                   <a href="https://twitter.com" className="text-askus-purple hover:text-askus-purple/80" aria-label="Twitter">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" /></svg>
                   </a>
                   <a href="https://linkedin.com" className="text-askus-purple hover:text-askus-purple/80" aria-label="LinkedIn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" /></svg>
                   </a>
                 </div>
               </div>
@@ -188,8 +163,6 @@ const Contact = () => {
       </section>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Contact;
