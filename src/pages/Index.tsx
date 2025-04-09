@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Code, Smartphone, Search, PieChart, Paintbrush, Shield, ChevronRight, ArrowRight, Play } from 'lucide-react';
@@ -17,6 +16,12 @@ const Index = () => {
   const animation2 = useScrollAnimation({ threshold: 0.2, rootMargin: '100px' });
   const animation3 = useScrollAnimation({ threshold: 0.2, rootMargin: '150px' });
   const imageAnimation = useScrollAnimation({ threshold: 0.3 });
+
+  // Add new animation hooks for project cards with left direction
+  const projectSectionAnimation = useScrollAnimation({ threshold: 0.1 });
+  const projectCard1Animation = useScrollAnimation({ threshold: 0.2, direction: 'left', delay: 0 });
+  const projectCard2Animation = useScrollAnimation({ threshold: 0.2, direction: 'left', delay: 150 });
+  const projectCard3Animation = useScrollAnimation({ threshold: 0.2, direction: 'left', delay: 300 });
 
   return <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -186,7 +191,13 @@ const Index = () => {
       {/* Projects Section */}
       <section className="section-padding bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div 
+            ref={projectSectionAnimation.ref}
+            className={cn(
+              "text-center max-w-3xl mx-auto mb-16 transition-all duration-700 transform",
+              projectSectionAnimation.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            )}
+          >
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-askus-dark">Our Projects</h2>
             <p className="text-lg text-gray-600">
               Check out some of our recent work that showcases our capabilities and expertise.
@@ -194,9 +205,68 @@ const Index = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <ProjectCard title="TechCorp Website" description="A modern and responsive website designed to showcase TechCorp's services and ensure seamless user experience across all devices." client="TechCorp" clientRole="CEO" imageUrl="public/lovable-uploads/a3c632f7-8a70-411c-94a8-8b5271719754.png" />
-            <ProjectCard title="ShopEase App" description="Developed a user-friendly eCommerce application with a smooth shopping experience tailored specifically for ShopEase's customers." client="ShopEase" clientRole="Founder" imageUrl="public/lovable-uploads/938ba006-17ea-4022-b354-32b4422ecdb2.png" />
-            <ProjectCard title="GreenLeaf Branding" description="Crafted a unique and vibrant visual identity with a distinctive logo, color scheme, and marketing materials tailored specifically for GreenLeaf." client="GreenLeaf" clientRole="Marketing Director" imageUrl="public/lovable-uploads/44bad806-745b-4cf7-afbb-37673806efb8.png" />
+            <div 
+              ref={projectCard1Animation.ref}
+              className={cn(
+                "transition-all duration-1000 transform",
+                projectCard1Animation.isVisible 
+                  ? "opacity-100 translate-x-0" 
+                  : "opacity-0 -translate-x-24"
+              )}
+              style={{ 
+                transitionDelay: `${projectCard1Animation.delay}ms` 
+              }}
+            >
+              <ProjectCard 
+                title="TechCorp Website" 
+                description="A modern and responsive website designed to showcase TechCorp's services and ensure seamless user experience across all devices." 
+                client="TechCorp" 
+                clientRole="CEO" 
+                imageUrl="public/lovable-uploads/a3c632f7-8a70-411c-94a8-8b5271719754.png" 
+              />
+            </div>
+            
+            <div 
+              ref={projectCard2Animation.ref}
+              className={cn(
+                "transition-all duration-1000 transform",
+                projectCard2Animation.isVisible 
+                  ? "opacity-100 translate-x-0" 
+                  : "opacity-0 -translate-x-24"
+              )}
+              style={{ 
+                transitionDelay: `${projectCard2Animation.delay}ms` 
+              }}
+            >
+              <ProjectCard 
+                title="ShopEase App" 
+                description="Developed a user-friendly eCommerce application with a smooth shopping experience tailored specifically for ShopEase's customers." 
+                client="ShopEase" 
+                clientRole="Founder" 
+                imageUrl="public/lovable-uploads/938ba006-17ea-4022-b354-32b4422ecdb2.png" 
+              />
+            </div>
+            
+            <div 
+              ref={projectCard3Animation.ref}
+              className={cn(
+                "transition-all duration-1000 transform",
+                projectCard3Animation.isVisible 
+                  ? "opacity-100 translate-x-0" 
+                  : "opacity-0 -translate-x-24"
+              )}
+              style={{ 
+                transitionDelay: `${projectCard3Animation.delay}ms` 
+              }}
+            >
+              <ProjectCard 
+                title="GreenLeaf Branding" 
+                description="Crafted a unique and vibrant visual identity with a distinctive logo, color scheme, and marketing materials tailored specifically for GreenLeaf." 
+                client="GreenLeaf" 
+                clientRole="Marketing Director" 
+                imageUrl="public/lovable-uploads/44bad806-745b-4cf7-afbb-37673806efb8.png" 
+              />
+            </div>
           </div>
 
           <div className="text-center mt-12">

@@ -113,4 +113,8 @@
   .scroll-slide-in-right {
     @apply transition-all duration-1000 transform;
   }
+
+  .scroll-slide-in-left {
+    @apply transition-all duration-1000 transform;
+  }
 }
