@@ -85,6 +85,25 @@
     @apply bg-background text-foreground;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .scroll-container {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+  }
+
+  .scroll-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
   .gradient-bg {
     @apply bg-gradient-to-br from-askus-purple/90 to-askus-dark;
   }

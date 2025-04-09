@@ -6,6 +6,7 @@ interface ScrollOptions {
   rootMargin?: string;
   direction?: 'up' | 'right' | 'left';
   delay?: number;
+  triggerOnce?: boolean;
 }
 
 export const useScrollAnimation = (options: ScrollOptions = {}) => {
@@ -17,8 +18,13 @@ export const useScrollAnimation = (options: ScrollOptions = {}) => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          // Once visible, no need to observe anymore
-          if (ref.current) observer.unobserve(ref.current);
+          // If triggerOnce is true or not specified, unobserve after becoming visible
+          if (options.triggerOnce !== false && ref.current) {
+            observer.unobserve(ref.current);
+          }
+        } else if (options.triggerOnce === false) {
+          // If triggerOnce is false, we want to reset visibility when out of view
+          setIsVisible(false);
         }
       },
       {
@@ -37,7 +43,13 @@ export const useScrollAnimation = (options: ScrollOptions = {}) => {
         observer.unobserve(currentRef);
       }
     };
-  }, [options.threshold, options.rootMargin]);
+  }, [options.threshold, options.rootMargin, options.triggerOnce]);
   
-  return { ref, isVisible, direction: options.direction || 'up', delay: options.delay || 0 };
+  return { 
+    ref, 
+    isVisible, 
+    direction: options.direction || 'up', 
+    delay: options.delay || 0,
+    triggerOnce: options.triggerOnce !== false
+  };
 };
