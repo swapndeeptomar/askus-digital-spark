@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Code, Smartphone, Search, PieChart, Paintbrush, Shield, ChevronRight, ArrowRight, Play } from 'lucide-react';
@@ -24,12 +23,13 @@ const Index = () => {
   const projectCard2Animation = useScrollAnimation({ threshold: 0.2, direction: 'left', delay: 150 });
   const projectCard3Animation = useScrollAnimation({ threshold: 0.2, direction: 'left', delay: 300 });
 
-  return (
-    <div className="flex flex-col min-h-screen scroll-container">
+  return <div className="flex flex-col min-h-screen">
+      <Navbar />
+      
       {/* Video Banner */}
-      <section className="w-full relative scroll-section">
-        <div className="w-full h-full">
-          <AspectRatio ratio={16/9} className="bg-black h-full">
+      <section className="w-full relative">
+        <div className="w-full">
+          <AspectRatio ratio={16/9} className="bg-black">
             <video 
               autoPlay 
               muted 
@@ -53,8 +53,8 @@ const Index = () => {
       </section>
       
       {/* Hero Section */}
-      <section className="scroll-section gradient-bg text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <section className="pt-24 pb-20 md:pb-28 gradient-bg text-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight animate-fade-in">
               Transform Your Digital Presence with AskUS
@@ -79,8 +79,8 @@ const Index = () => {
       </section>
 
       {/* Services Section */}
-      <section className="scroll-section bg-gray-50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+      <section className="section-padding bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-askus-dark">Our Services</h2>
             <p className="text-lg text-gray-600">
@@ -108,8 +108,8 @@ const Index = () => {
       </section>
 
       {/* About Section */}
-      <section className="scroll-section">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+      <section className="section-padding">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-askus-dark">
@@ -189,8 +189,8 @@ const Index = () => {
       </section>
 
       {/* Projects Section */}
-      <section className="scroll-section bg-gray-50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+      <section className="section-padding bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div 
             ref={projectSectionAnimation.ref}
             className={cn(
@@ -280,8 +280,8 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="scroll-section gradient-bg text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+      <section className="py-16 md:py-20 gradient-bg text-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Digital Presence?</h2>
             <p className="text-xl mb-8">
@@ -302,7 +302,6 @@ const Index = () => {
       </section>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
 export default Index;
