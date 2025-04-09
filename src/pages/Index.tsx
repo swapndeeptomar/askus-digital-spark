@@ -8,8 +8,16 @@ import Footer from '@/components/Footer';
 import ServiceCard from '@/components/ServiceCard';
 import ProjectCard from '@/components/ProjectCard';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { cn } from '@/lib/utils';
 
 const Index = () => {
+  // Create scroll animation hooks for different sections
+  const animation1 = useScrollAnimation({ threshold: 0.2 });
+  const animation2 = useScrollAnimation({ threshold: 0.2, rootMargin: '100px' });
+  const animation3 = useScrollAnimation({ threshold: 0.2, rootMargin: '150px' });
+  const imageAnimation = useScrollAnimation({ threshold: 0.3 });
+
   return <div className="flex flex-col min-h-screen">
       <Navbar />
       
@@ -107,7 +115,13 @@ const Index = () => {
               </p>
               
               <div className="space-y-4">
-                <div className="flex items-start gap-4">
+                <div 
+                  ref={animation1.ref} 
+                  className={cn(
+                    "flex items-start gap-4 transition-all duration-700 transform",
+                    animation1.isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+                  )}
+                >
                   <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-askus-purple flex-shrink-0">1</div>
                   <div>
                     <h3 className="text-xl font-semibold mb-2 text-askus-dark">Expertise & Experience</h3>
@@ -115,7 +129,13 @@ const Index = () => {
                   </div>
                 </div>
                 
-                <div className="flex items-start gap-4">
+                <div 
+                  ref={animation2.ref} 
+                  className={cn(
+                    "flex items-start gap-4 transition-all duration-700 transform delay-150",
+                    animation2.isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+                  )}
+                >
                   <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-askus-purple flex-shrink-0">2</div>
                   <div>
                     <h3 className="text-xl font-semibold mb-2 text-askus-dark">Client-Focused Approach</h3>
@@ -123,7 +143,13 @@ const Index = () => {
                   </div>
                 </div>
                 
-                <div className="flex items-start gap-4">
+                <div 
+                  ref={animation3.ref} 
+                  className={cn(
+                    "flex items-start gap-4 transition-all duration-700 transform delay-300",
+                    animation3.isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+                  )}
+                >
                   <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-askus-purple flex-shrink-0">3</div>
                   <div>
                     <h3 className="text-xl font-semibold mb-2 text-askus-dark">Innovation & Quality</h3>
@@ -132,7 +158,10 @@ const Index = () => {
                 </div>
               </div>
               
-              <div className="mt-8">
+              <div className={cn(
+                "mt-8 transition-all duration-700 transform delay-500",
+                animation3.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+              )}>
                 <Link to="/about">
                   <Button className="bg-askus-purple hover:bg-askus-purple/90">
                     Learn More About Us <ArrowRight className="ml-2" size={16} />
@@ -141,7 +170,13 @@ const Index = () => {
               </div>
             </div>
             
-            <div className="rounded-xl overflow-hidden shadow-xl">
+            <div 
+              ref={imageAnimation.ref}
+              className={cn(
+                "rounded-xl overflow-hidden shadow-xl transition-all duration-1000 transform",
+                imageAnimation.isVisible ? "opacity-100 translate-x-0 rotate-0" : "opacity-0 translate-x-20 rotate-6"
+              )}
+            >
               <img src="public/lovable-uploads/57393e5d-f497-4439-b607-606324e331bc.png" alt="Digital Marketing Team" className="w-full h-full object-cover" />
             </div>
           </div>

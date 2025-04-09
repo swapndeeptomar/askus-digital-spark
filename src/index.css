@@ -100,4 +100,17 @@
   .section-padding {
     @apply py-16 md:py-24;
   }
+
+  /* ScrollView Animation Classes */
+  .scroll-fade-in {
+    @apply transition-opacity duration-1000 ease-out;
+  }
+
+  .scroll-slide-up {
+    @apply transition-all duration-700 transform;
+  }
+
+  .scroll-slide-in-right {
+    @apply transition-all duration-1000 transform;
+  }
 }
