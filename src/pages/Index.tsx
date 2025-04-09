@@ -52,8 +52,8 @@ const Index = () => {
       <section className="w-full relative">
         <div className="w-full">
           <AspectRatio ratio={16 / 9} className="bg-black">
-            <video autoPlay muted loop className="w-full h-full object-cover" poster="public/lovable-uploads/6f63107c-1796-4af7-98af-0a2a7ad593d0.png">
-              <source src="https://assets.mixkit.co/videos/preview/mixkit-set-of-plateaus-seen-from-the-heights-in-a-sunset-32807-large.mp4" type="video/mp4" />
+            <video autoPlay muted loop className="w-full h-full object-cover" poster="">
+              <source src="src/images/vecteezy_futuristic-digital-landscape-with-vibrant-neon-lines_54523303.mov"/>
               Your browser does not support the video tag.
             </video>
             <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
@@ -171,7 +171,7 @@ const Index = () => {
             </div>
             
             <div ref={imageAnimation.ref} className={cn("rounded-xl overflow-hidden shadow-xl transition-all duration-1000 transform", imageAnimation.isVisible ? "opacity-100 translate-x-0 rotate-0" : "opacity-0 translate-x-20 rotate-6")}>
-              <img src="public/lovable-uploads/57393e5d-f497-4439-b607-606324e331bc.png" alt="Digital Marketing Team" className="w-full h-full object-cover" />
+              <img src="src/images/Leonardo_Phoenix_09_A_sleek_and_modern_design_for_AskUS_digita_2.jpg" alt="Digital Marketing Team" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
@@ -191,19 +191,19 @@ const Index = () => {
             <div ref={projectCard1Animation.ref} className={cn("transition-all duration-1000 transform", projectCard1Animation.isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-24")} style={{
             transitionDelay: `${projectCard1Animation.delay}ms`
           }}>
-              <ProjectCard title="TechCorp Website" description="A modern and responsive website designed to showcase TechCorp's services and ensure seamless user experience across all devices." client="TechCorp" clientRole="CEO" imageUrl="public/lovable-uploads/a3c632f7-8a70-411c-94a8-8b5271719754.png" />
+              <ProjectCard title="TechCorp Website" description="A modern and responsive website designed to showcase TechCorp's services and ensure seamless user experience across all devices." client="TechCorp" clientRole="CEO" imageUrl="src/images/_e6f1ab64-aa5d-4734-ab3f-4a0e44626aa3.jfif" />
             </div>
             
             <div ref={projectCard2Animation.ref} className={cn("transition-all duration-1000 transform", projectCard2Animation.isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-24")} style={{
             transitionDelay: `${projectCard2Animation.delay}ms`
           }}>
-              <ProjectCard title="ShopEase App" description="Developed a user-friendly eCommerce application with a smooth shopping experience tailored specifically for ShopEase's customers." client="ShopEase" clientRole="Founder" imageUrl="public/lovable-uploads/938ba006-17ea-4022-b354-32b4422ecdb2.png" />
+              <ProjectCard title="ShopEase App" description="Developed a user-friendly eCommerce application with a smooth shopping experience tailored specifically for ShopEase's customers." client="ShopEase" clientRole="Founder" imageUrl="src/images/Leonardo_Phoenix_09_A_modern_and_clean_mobile_app_design_conce_3.jpg" />
             </div>
             
             <div ref={projectCard3Animation.ref} className={cn("transition-all duration-1000 transform", projectCard3Animation.isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-24")} style={{
             transitionDelay: `${projectCard3Animation.delay}ms`
           }}>
-              <ProjectCard title="GreenLeaf Branding" description="Crafted a unique and vibrant visual identity with a distinctive logo, color scheme, and marketing materials tailored specifically for GreenLeaf." client="GreenLeaf" clientRole="Marketing Director" imageUrl="public/lovable-uploads/44bad806-745b-4cf7-afbb-37673806efb8.png" />
+              <ProjectCard title="GreenLeaf Branding" description="Crafted a unique and vibrant visual identity with a distinctive logo, color scheme, and marketing materials tailored specifically for GreenLeaf." client="GreenLeaf" clientRole="Marketing Director" imageUrl="src/images/_5ff173b6-d833-48c4-87c1-cd0e6b132cd4.jfif" />
             </div>
           </div>
 

@@ -9,7 +9,7 @@ const About = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      
+    
       {/* Header */}
       <section className="pt-32 pb-16 gradient-bg text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,7 +28,7 @@ const About = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <img 
-                src="public/lovable-uploads/57393e5d-f497-4439-b607-606324e331bc.png" 
+                src="src/images/_421dcb59-fed4-4e7d-a602-57786bf36f2a.jfif" 
                 alt="AskUS Team" 
                 className="rounded-xl shadow-xl w-full"
               />
