@@ -1,17 +1,46 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Code, Smartphone, Search, PieChart, Paintbrush, Shield, ChevronRight, ArrowRight } from 'lucide-react';
+import { Code, Smartphone, Search, PieChart, Paintbrush, Shield, ChevronRight, ArrowRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ServiceCard from '@/components/ServiceCard';
 import ProjectCard from '@/components/ProjectCard';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
+
 const Index = () => {
   return <div className="flex flex-col min-h-screen">
       <Navbar />
       
+      {/* Video Banner */}
+      <section className="w-full relative">
+        <div className="w-full">
+          <AspectRatio ratio={16/9} className="bg-black">
+            <video 
+              autoPlay 
+              muted 
+              loop 
+              className="w-full h-full object-cover"
+              poster="public/lovable-uploads/6f63107c-1796-4af7-98af-0a2a7ad593d0.png"
+            >
+              <source src="https://assets.mixkit.co/videos/preview/mixkit-set-of-plateaus-seen-from-the-heights-in-a-sunset-32807-large.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+              <div className="text-center p-6">
+                <Button variant="outline" className="rounded-full w-16 h-16 flex items-center justify-center mb-4 border-white/70 bg-transparent hover:bg-white/10">
+                  <Play className="h-8 w-8 text-white" />
+                </Button>
+                <h2 className="text-white text-2xl md:text-3xl font-bold">Discover AskUS</h2>
+              </div>
+            </div>
+          </AspectRatio>
+        </div>
+      </section>
+      
       {/* Hero Section */}
-      <section className="pt-32 pb-20 md:pb-28 gradient-bg text-white">
+      <section className="pt-24 pb-20 md:pb-28 gradient-bg text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight animate-fade-in">
