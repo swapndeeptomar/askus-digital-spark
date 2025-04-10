@@ -9,6 +9,7 @@ interface ScrollOptions {
   duration?: number;
   distance?: number;
   once?: boolean;
+  animation?: 'fade' | 'slide' | 'scale' | 'rotate' | 'bounce';
 }
 
 export const useScrollAnimation = (options: ScrollOptions = {}) => {
@@ -53,6 +54,7 @@ export const useScrollAnimation = (options: ScrollOptions = {}) => {
     direction: options.direction || 'up',
     delay: options.delay || 0,
     duration: options.duration || 700,
-    distance: options.distance || 40
+    distance: options.distance || 40,
+    animation: options.animation || 'fade'
   };
 };

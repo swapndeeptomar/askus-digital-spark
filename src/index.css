@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -235,5 +236,45 @@
   
   .vision-mission-card:hover .vision-mission-icon {
     @apply bg-askus-purple text-white transform rotate-12;
+  }
+
+  /* Technology Card Animations */
+  .tech-card {
+    @apply relative transition-all duration-500 ease-out;
+  }
+
+  .tech-card:hover {
+    @apply transform -translate-y-2;
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  .animate-float {
+    animation: float 5s ease-in-out infinite;
   }
 }

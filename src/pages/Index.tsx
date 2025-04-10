@@ -6,9 +6,11 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ServiceCard from '@/components/ServiceCard';
 import ProjectCard from '@/components/ProjectCard';
+import TechnologyCard from '@/components/TechnologyCard';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
+
 const Index = () => {
   // Create scroll animation hooks for different sections
   const animation1 = useScrollAnimation({
@@ -45,6 +47,31 @@ const Index = () => {
     direction: 'left',
     delay: 300
   });
+
+  // Technology section animation hook
+  const techSectionAnimation = useScrollAnimation({
+    threshold: 0.1
+  });
+
+  // Technologies data with their logos
+  const technologies = [
+    { name: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+    { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+    { name: "MongoDB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
+    { name: "PHP", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" },
+    { name: "Shopify", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/shopify/shopify-original.svg" },
+    { name: "SEMrush", icon: "public/lovable-uploads/355079fa-3be5-4af2-b786-58ec41387fcf.png" },
+    { name: "WordPress", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-original.svg" },
+    { name: "MySQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
+    { name: "MOZ", icon: "public/lovable-uploads/355079fa-3be5-4af2-b786-58ec41387fcf.png" },
+    { name: "Ahrefs", icon: "public/lovable-uploads/355079fa-3be5-4af2-b786-58ec41387fcf.png" },
+    { name: "Photoshop", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg" },
+    { name: "Canva", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/canva/canva-original.svg" },
+    { name: "Premiere Pro", icon: "public/lovable-uploads/355079fa-3be5-4af2-b786-58ec41387fcf.png" },
+    { name: "Illustrator", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/illustrator/illustrator-plain.svg" },
+    { name: "After Effects", icon: "public/lovable-uploads/355079fa-3be5-4af2-b786-58ec41387fcf.png" },
+  ];
+
   return <div className="flex flex-col min-h-screen">
       <Navbar />
       
@@ -119,6 +146,34 @@ const Index = () => {
                 View All Services <ChevronRight className="ml-2" size={16} />
               </Button>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Technologies We Use Section */}
+      <section className="section-padding bg-white overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div ref={techSectionAnimation.ref} className={cn("mb-12 transition-all duration-700 transform", techSectionAnimation.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
+            <div className="text-left max-w-3xl mb-6">
+              <h3 className="text-xl md:text-2xl font-bold text-amber-500 mb-2">Tech Use</h3>
+              <h2 className="text-3xl md:text-5xl font-bold mb-6 text-askus-dark">Technology<br />We Use</h2>
+              <p className="text-lg text-gray-600 max-w-2xl">
+                AskUS has always been focused on appreciating advanced technology to achieve higher standards. 
+                This is our way of ensuring that we deliver solutions that are relevant to the current market 
+                and those that would be deemed relevant in the near future.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 justify-items-center">
+            {technologies.map((tech, index) => (
+              <TechnologyCard 
+                key={tech.name} 
+                name={tech.name} 
+                icon={tech.icon} 
+                delay={index * 100} 
+              />
+            ))}
           </div>
         </div>
       </section>
