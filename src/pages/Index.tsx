@@ -60,7 +60,7 @@ const Index = () => {
     { name: "MongoDB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
     { name: "PHP", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" },
     { name: "Shopify", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ58f__Hs5QwGWIEcsawDwW1o5IQzaYNPONhQ&s" },
-    { name: "SEMrush", icon: "public/lovable-uploads/355079fa-3be5-4af2-b786-58ec41387fcf.png" },
+    { name: "SEMrush", icon: "https://prowly-prod.s3.eu-west-1.amazonaws.com/uploads/60169/assets/601039/-1f98f505180d14739e58c06d7a11eaea.png" },
     { name: "WordPress", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-original.svg" },
     { name: "MySQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
     { name: "MOZ", icon: "https://e7.pngegg.com/pngimages/839/267/png-clipart-moz-logo-moz-logo-seo-icons-logos-emojis-tech-companies.png" },
@@ -85,10 +85,10 @@ const Index = () => {
             </video>
             <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
               <div className="text-center p-6">
-                <Button variant="outline" className="rounded-full w-16 h-16 flex items-center justify-center mb-4 border-white/70 bg-transparent hover:bg-white/10 mx-[79px]">
+                <Button variant="outline" className="rounded-full w-16 h-16 flex items-center justify-center mb-4 border-white/70 bg-transparent hover:bg-white/10 mx-auto">
                   <Play className="h-8 w-8 text-white" />
                 </Button>
-                <h2 className="text-white text-2xl md:text-3xl font-bold">Discover AskUs</h2>
+                <h2 className="text-white text-2xl md:text-3xl font-bold flex items-center">Discover AskUs</h2>
               </div>
             </div>
           </AspectRatio>
@@ -111,10 +111,14 @@ const Index = () => {
             animationDelay: '0.4s'
           }}>
               <Button className="bg-white text-askus-purple hover:bg-gray-100 text-lg py-6 px-8 rounded-full">
+              <Link to="/contact">
                 Get Started
+                </Link>
               </Button>
               <Button variant="outline" className="border-white text-lg py-6 px-8 rounded-full bg-slate-50 text-purple-600">
+              <Link to="/services">
                 Our Services
+                </Link>
               </Button>
             </div>
           </div>

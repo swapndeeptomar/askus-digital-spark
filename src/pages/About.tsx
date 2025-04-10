@@ -143,19 +143,19 @@ const About = () => {
                 }}
               >
                 <div className="text-center p-4 rounded-lg hover:bg-purple-50 transition-colors duration-300">
-                  <div className="text-3xl font-bold text-askus-purple mb-2 transition-transform duration-300 hover:scale-110">200+</div>
+                  <div className="text-3xl font-bold text-askus-purple mb-2 transition-transform duration-300 hover:scale-110">20+</div>
                   <p className="text-gray-600">Projects Completed</p>
                 </div>
                 <div className="text-center p-4 rounded-lg hover:bg-purple-50 transition-colors duration-300">
-                  <div className="text-3xl font-bold text-askus-purple mb-2 transition-transform duration-300 hover:scale-110">50+</div>
+                  <div className="text-3xl font-bold text-askus-purple mb-2 transition-transform duration-300 hover:scale-110">25+</div>
                   <p className="text-gray-600">Happy Clients</p>
                 </div>
                 <div className="text-center p-4 rounded-lg hover:bg-purple-50 transition-colors duration-300">
-                  <div className="text-3xl font-bold text-askus-purple mb-2 transition-transform duration-300 hover:scale-110">15+</div>
+                  <div className="text-3xl font-bold text-askus-purple mb-2 transition-transform duration-300 hover:scale-110">5+</div>
                   <p className="text-gray-600">Team Members</p>
                 </div>
                 <div className="text-center p-4 rounded-lg hover:bg-purple-50 transition-colors duration-300">
-                  <div className="text-3xl font-bold text-askus-purple mb-2 transition-transform duration-300 hover:scale-110">8+</div>
+                  <div className="text-3xl font-bold text-askus-purple mb-2 transition-transform duration-300 hover:scale-110">1+</div>
                   <p className="text-gray-600">Years of Experience</p>
                 </div>
               </div>

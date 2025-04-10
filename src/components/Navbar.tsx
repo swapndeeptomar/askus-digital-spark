@@ -28,9 +28,11 @@ const Navbar = () => {
           </nav>
 
           <div className="hidden md:block">
+          <Link to="/contact">
             <Button className="bg-askus-purple hover:bg-askus-purple/90">
               Get Started
             </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
