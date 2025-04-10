@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Code, Smartphone, Search, PieChart, Paintbrush, Shield, ChevronRight, ArrowRight, Play } from 'lucide-react';
@@ -10,8 +11,11 @@ import TechnologyCard from '@/components/TechnologyCard';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Index = () => {
+  const isMobile = useIsMobile();
+  
   // Create scroll animation hooks for different sections
   const animation1 = useScrollAnimation({
     threshold: 0.2
@@ -75,10 +79,10 @@ const Index = () => {
   return <div className="flex flex-col min-h-screen">
       <Navbar />
       
-      {/* Video Banner */}
+      {/* Video Banner - Modified for better mobile alignment */}
       <section className="w-full relative">
         <div className="w-full">
-          <AspectRatio ratio={16 / 9} className="bg-black">
+          <AspectRatio ratio={isMobile ? 9 / 16 : 16 / 9} className="bg-black">
             <video autoPlay muted loop className="w-full h-full object-cover" poster="">
               <source src="https://media-hosting.imagekit.io/b0477b7546ce42f5/vecteezy_futuristic-digital-landscape-with-vibrant-neon-lines_54523303.mov?Expires=1838903280&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=fwFT3NK88TKwXHnicbE91SMujREVzPDLBAc8eTdigqZvyAF0bsjGCLKrIQUtEGihkYlpIbl5~HMDmRH71ji2tTlssbcl8IbVLsqHWLplYMISDOM67q48w9B0u~07u3l7qlkX~41WmHLmGQAi-KiMplR3ccwXVmvJNPN5au1TyvBKBLHF1CdLJtgZ1bmtT-ybkVT1lMtNU4WsYSdQZh63FuGy18WCWh1rWPUXZAkdaJ-QvqZwnag5~~waTry1gpdKRvEiLzCnP1O2JTOVEHQpZ-mlHfiOVC07TZK1B7l8Ozl4YP64BN2Vfvbgr5FRov0u7YsoHG~ALgYWaKbwGxSkbw__"/>
               Your browser does not support the video tag.
@@ -88,7 +92,7 @@ const Index = () => {
                 <Button variant="outline" className="rounded-full w-16 h-16 flex items-center justify-center mb-4 border-white/70 bg-transparent hover:bg-white/10 mx-auto">
                   <Play className="h-8 w-8 text-white" />
                 </Button>
-                <h2 className="text-white text-2xl md:text-3xl font-bold flex items-center">Discover AskUs</h2>
+                <h2 className="text-white text-2xl md:text-3xl font-bold flex items-center justify-center">Discover AskUs</h2>
               </div>
             </div>
           </AspectRatio>
