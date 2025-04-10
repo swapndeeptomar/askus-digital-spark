@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -434,7 +433,7 @@ const Vision = () => {
         </div>
       </section>
 
-      {/* Process Section with Animation */}
+      {/* Process Section with Enhanced Animation */}
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">

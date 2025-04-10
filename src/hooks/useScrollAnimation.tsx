@@ -8,6 +8,7 @@ interface ScrollOptions {
   delay?: number;
   duration?: number;
   distance?: number;
+  once?: boolean;
 }
 
 export const useScrollAnimation = (options: ScrollOptions = {}) => {
@@ -19,8 +20,13 @@ export const useScrollAnimation = (options: ScrollOptions = {}) => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          // Once visible, no need to observe anymore
-          if (ref.current) observer.unobserve(ref.current);
+          // If once is true or not provided (default behavior), stop observing after becoming visible
+          if (options.once !== false && ref.current) {
+            observer.unobserve(ref.current);
+          }
+        } else if (options.once === false) {
+          // If once is explicitly set to false, allow toggling visibility
+          setIsVisible(false);
         }
       },
       {
@@ -39,7 +45,7 @@ export const useScrollAnimation = (options: ScrollOptions = {}) => {
         observer.unobserve(currentRef);
       }
     };
-  }, [options.threshold, options.rootMargin]);
+  }, [options.threshold, options.rootMargin, options.once]);
   
   return { 
     ref, 

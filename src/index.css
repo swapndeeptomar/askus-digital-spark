@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -165,13 +164,13 @@
     @apply scale-110;
   }
   
-  /* Process Steps Animation */
+  /* Process Steps Animation - Enhanced */
   .process-step {
-    @apply relative p-6 rounded-xl bg-white border border-gray-100 shadow-sm transition-all duration-300 overflow-hidden;
+    @apply relative p-6 rounded-xl bg-white border border-gray-100 shadow-sm transition-all duration-500 overflow-hidden;
   }
   
   .process-step:hover {
-    @apply shadow-lg border-askus-purple/30 bg-purple-50/50;
+    @apply shadow-lg border-askus-purple/30 bg-purple-50/50 transform -translate-y-2;
   }
   
   .process-icon {
@@ -179,16 +178,34 @@
   }
   
   .process-step:hover .process-icon {
-    @apply transform scale-110 rotate-12;
+    @apply transform scale-125 rotate-12;
   }
   
   .process-step:hover .process-number {
-    @apply bg-askus-purple text-white;
+    @apply bg-askus-purple text-white transform scale-110;
   }
   
   .process-number {
     @apply w-12 h-12 rounded-full bg-purple-100 text-askus-purple text-lg font-bold 
-           flex items-center justify-center transition-all duration-300;
+           flex items-center justify-center transition-all duration-500;
+  }
+  
+  .process-step::after {
+    content: '';
+    @apply absolute -bottom-1 -right-1 w-0 h-0 rounded-full bg-askus-purple/10 
+           transition-all duration-700 ease-out;
+  }
+  
+  .process-step:hover::after {
+    @apply w-32 h-32;
+  }
+  
+  .process-step h3 {
+    @apply transition-all duration-300;
+  }
+  
+  .process-step:hover h3 {
+    @apply text-askus-purple;
   }
   
   /* Vision & Mission Animations */
