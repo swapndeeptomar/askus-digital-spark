@@ -80,7 +80,7 @@ const Index = () => {
         <div className="w-full">
           <AspectRatio ratio={16 / 9} className="bg-black">
             <video autoPlay muted loop className="w-full h-full object-cover" poster="">
-              <source src="src/images/vecteezy_futuristic-digital-landscape-with-vibrant-neon-lines_54523303.mov"/>
+              <source src="https://media-hosting.imagekit.io/b0477b7546ce42f5/vecteezy_futuristic-digital-landscape-with-vibrant-neon-lines_54523303.mov?Expires=1838903280&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=fwFT3NK88TKwXHnicbE91SMujREVzPDLBAc8eTdigqZvyAF0bsjGCLKrIQUtEGihkYlpIbl5~HMDmRH71ji2tTlssbcl8IbVLsqHWLplYMISDOM67q48w9B0u~07u3l7qlkX~41WmHLmGQAi-KiMplR3ccwXVmvJNPN5au1TyvBKBLHF1CdLJtgZ1bmtT-ybkVT1lMtNU4WsYSdQZh63FuGy18WCWh1rWPUXZAkdaJ-QvqZwnag5~~waTry1gpdKRvEiLzCnP1O2JTOVEHQpZ-mlHfiOVC07TZK1B7l8Ozl4YP64BN2Vfvbgr5FRov0u7YsoHG~ALgYWaKbwGxSkbw__"/>
               Your browser does not support the video tag.
             </video>
             <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
@@ -237,7 +237,7 @@ const Index = () => {
             </div>
             
             <div ref={imageAnimation.ref} className={cn("rounded-xl overflow-hidden shadow-xl transition-all duration-1000 transform", imageAnimation.isVisible ? "opacity-100 translate-x-0 rotate-0" : "opacity-0 translate-x-20 rotate-6")}>
-              <img src="src/images/Leonardo_Phoenix_09_A_sleek_and_modern_design_for_AskUS_digita_2.jpg" alt="Digital Marketing Team" className="w-full h-full object-cover" />
+              <img src="https://media-hosting.imagekit.io/b7be3e2a05d844af/Leonardo_Phoenix_09_A_sleek_and_modern_design_for_AskUS_digita_2.jpg?Expires=1838903280&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=fHwCtYKX6H~dSMASF7NrC7Cbs5mzkzXuH0k4qS21En0Y927PaA8d6s02tGEgDEYIF-Lvk-ZEJ9U80dYCUvwIpyfPtET5aUrScYo991LFrb6Ch3jcWJEQjjHDDNg5FZsGN3eVKZrebA9cA6FUrvmBkCNHn5pigzQIz9GY~oehXnc19ZWOxFhX9hDEKFnOFX3ZBS7sUk4G1FigsAOUtcBCI5cDGh2AAbvPDMLF4u8I7oFNh2QdDGC7fHxNNwGcRt1ncBIBRHys4rQXRmVISafAYscsbu-DoVjuIvsKarvhekA8~wQWaSU4~Vl0DUy4MKTufdee1rRdPfhZcY9xAJLcfw__" alt="Digital Marketing Team" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
@@ -257,19 +257,19 @@ const Index = () => {
             <div ref={projectCard1Animation.ref} className={cn("transition-all duration-1000 transform", projectCard1Animation.isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-24")} style={{
             transitionDelay: `${projectCard1Animation.delay}ms`
           }}>
-              <ProjectCard title="TechCorp Website" description="A modern and responsive website designed to showcase TechCorp's services and ensure seamless user experience across all devices." client="TechCorp" clientRole="CEO" imageUrl="src/images/_e6f1ab64-aa5d-4734-ab3f-4a0e44626aa3.jfif" />
+              <ProjectCard title="TechCorp Website" description="A modern and responsive website designed to showcase TechCorp's services and ensure seamless user experience across all devices." client="TechCorp" clientRole="CEO" imageUrl="https://media-hosting.imagekit.io/7b0d6ee564f64ed1/_e6f1ab64-aa5d-4734-ab3f-4a0e44626aa3.jfif?Expires=1838903280&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=cD~KFnB1PprK-ucJK5tHWeBYmjziNgxWIXIP8eybxNKhAQI-fksHZUM2n1JB-x8-8~rxajg8cz0Ve6H~nn0S3QK34jWYWENQkMgfpPZc6dHglHnn7iKyA2PnJzSzk8LvMO7z4fD3v0Hr~xIy2NquBEGXfoHmOPNhabG9yjVo16e24BWHuQWgPt3f52b46KyhGS0wMXr5Cn3ZxKUGQPI9NqCElKFlnFzof~oB9Yd5VgV2ESW1zIo3epQS3KPnBpLOSDgkKT6fIAgQMa7K6NqEs2CVi~kUg6ZUL4M9OuAomcbR8YqnqpqbA9dlCdTz5TmFNpIS9gBKEBcaD~ry5LlGWA__" />
             </div>
             
             <div ref={projectCard2Animation.ref} className={cn("transition-all duration-1000 transform", projectCard2Animation.isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-24")} style={{
             transitionDelay: `${projectCard2Animation.delay}ms`
           }}>
-              <ProjectCard title="ShopEase App" description="Developed a user-friendly eCommerce application with a smooth shopping experience tailored specifically for ShopEase's customers." client="ShopEase" clientRole="Founder" imageUrl="src/images/Leonardo_Phoenix_09_A_modern_and_clean_mobile_app_design_conce_3.jpg" />
+              <ProjectCard title="ShopEase App" description="Developed a user-friendly eCommerce application with a smooth shopping experience tailored specifically for ShopEase's customers." client="ShopEase" clientRole="Founder" imageUrl="https://media-hosting.imagekit.io/d52c2497398b4d7f/Leonardo_Phoenix_09_A_modern_and_clean_mobile_app_design_conce_3.jpg?Expires=1838903280&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=ySt0z1bdkhNhVCj8nXMmuNVivRG4g~LDGuUbbG95ggce7OVs0cyQ4KmSEyHBa373etoTwoHCiy6Zv3s8uf3xpVecCsHvxEnAvw2FRMyjOY3-B31iualdfyzjlvOWWdAjQjr4aUwcMLiEyTqVQgGtQZtw3EtDMGKg~zn8JdvVe~Xvb6dkMtuNxt5fqou1qwTtKedqw-Q5vzTctQdztdVSnxTNVdFR~eU2K4tRN0ICMhvyeGccSqwBXqb5mijlvCbbW4eIqrz~JCnset4Vhqg18UPVGbsBFRFLCbYC1p5x0u6CzKCD1A5eQ50B~81srw5uthnIZWas-bUId-Zn8IcpAg__" />
             </div>
             
             <div ref={projectCard3Animation.ref} className={cn("transition-all duration-1000 transform", projectCard3Animation.isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-24")} style={{
             transitionDelay: `${projectCard3Animation.delay}ms`
           }}>
-              <ProjectCard title="GreenLeaf Branding" description="Crafted a unique and vibrant visual identity with a distinctive logo, color scheme, and marketing materials tailored specifically for GreenLeaf." client="GreenLeaf" clientRole="Marketing Director" imageUrl="src/images/_5ff173b6-d833-48c4-87c1-cd0e6b132cd4.jfif" />
+              <ProjectCard title="GreenLeaf Branding" description="Crafted a unique and vibrant visual identity with a distinctive logo, color scheme, and marketing materials tailored specifically for GreenLeaf." client="GreenLeaf" clientRole="Marketing Director" imageUrl="https://media-hosting.imagekit.io/4543383170dc4009/_5ff173b6-d833-48c4-87c1-cd0e6b132cd4.jfif?Expires=1838903280&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=JRABbaxhokGtRPfE8tq1KQqnAsMjnlqymhUPTXsc2ihbZSN52oXjTLumeMCpTCBvlBS0Xnl0meP-ajXfzM4PsH2f~6rBb0UH9GmnKj96BmQV6cp3~L9eaT0Jzrqu3QErhMqK6bN4LX0DoELPfb0gtkbwnGLTyLaoKji7LQeigUu-DDOQ9bcBdgQGADSDCOEJLd3pkfJYv~O4SvTC4oscANDaVebaRqK3Q~DUnh6sy~aj8gw0nvek0xHTp~NLNiA95IZFMV~lrAFStLAMwKgih8M1p73AHoV5jdk49mh14DZAkFivoQ~c0ROZ9lNQoWv--lK4EziF5d4-jG~Hencaag__" />
             </div>
           </div>
 

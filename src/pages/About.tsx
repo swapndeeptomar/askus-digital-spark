@@ -123,7 +123,7 @@ const About = () => {
                 Our Story
               </h2>
               <p className="text-lg text-gray-600 mb-6">
-                Founded in 2016, AskUS began with a simple mission: to help businesses harness the power of digital technology to grow and succeed. What started as a small team of passionate digital enthusiasts has evolved into a comprehensive digital solutions provider.
+                Founded in 2025, AskUS began with a simple mission: to help businesses harness the power of digital technology to grow and succeed. What started as a small team of passionate digital enthusiasts has evolved into a comprehensive digital solutions provider.
               </p>
               <p className="text-lg text-gray-600 mb-8">
                 Over the years, we've worked with businesses of all sizes across various industries, helping them transform their digital presence and achieve their business goals. Our commitment to quality, innovation, and client satisfaction has been the cornerstone of our success.
@@ -348,10 +348,10 @@ const About = () => {
                 />
               </div>
               <div className="p-6 text-center">
-                <h3 className="text-xl font-semibold text-askus-dark">John Smith</h3>
+                <h3 className="text-xl font-semibold text-askus-dark"> Kartik Raghuvanshi</h3>
                 <p className="text-askus-purple mb-3">CEO & Founder</p>
                 <p className="text-gray-600 text-sm">
-                  With over 15 years of experience in digital technology, John leads our team with vision and expertise.
+                   Kartik leads our team with vision and expertise.
                 </p>
               </div>
               <div className="team-social">
@@ -389,10 +389,10 @@ const About = () => {
                 />
               </div>
               <div className="p-6 text-center">
-                <h3 className="text-xl font-semibold text-askus-dark">Sarah Johnson</h3>
-                <p className="text-askus-purple mb-3">CTO</p>
+                <h3 className="text-xl font-semibold text-askus-dark">Akshat Thakkar</h3>
+                <p className="text-askus-purple mb-3">Co Founder</p>
                 <p className="text-gray-600 text-sm">
-                  Sarah oversees all technical aspects of our projects, ensuring we deliver cutting-edge solutions.
+                  Akshat oversees all technical aspects of our projects, ensuring we deliver cutting-edge solutions.
                 </p>
               </div>
               <div className="team-social">
@@ -430,10 +430,10 @@ const About = () => {
                 />
               </div>
               <div className="p-6 text-center">
-                <h3 className="text-xl font-semibold text-askus-dark">Michael Chen</h3>
-                <p className="text-askus-purple mb-3">Creative Director</p>
+                <h3 className="text-xl font-semibold text-askus-dark">Swapndeep Tomar</h3>
+                <p className="text-askus-purple mb-3">Co Founder</p>
                 <p className="text-gray-600 text-sm">
-                  Michael brings creativity and innovation to all our design projects, creating stunning visual experiences.
+                  Swapndeep brings creativity and innovation to all our design projects, creating stunning visual experiences.
                 </p>
               </div>
               <div className="team-social">

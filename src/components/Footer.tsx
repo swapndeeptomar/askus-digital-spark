@@ -55,22 +55,25 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
                 <Mail className="mt-1 text-askus-purple" size={16} />
-                <span className="text-gray-300">contact@askus.com</span>
+                <span className="text-gray-300">ask.us.technocrats@gmail.com</span>
               </li>
               <li className="flex items-start gap-3">
                 <Phone className="mt-1 text-askus-purple" size={16} />
-                <span className="text-gray-300">(123) 456-7890</span>
+                <span className="text-gray-300"><u><a href="">9926089855</a></u></span>
+                <span className="text-gray-300"><u><a href="">9294711619</a></u></span></li>
+                <li className="flex items-start gap-3"><span className="text-gray-300"> &nbsp;&nbsp; <u><a href="">9039616208</a></u></span>
+              
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="mt-1 text-askus-purple" size={16} />
-                <span className="text-gray-300">123 AskUS Lane, Knowledge City, Knowland</span>
+                <span className="text-gray-300">Indore , Madhya Pradesh</span>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm">© {new Date().getFullYear()} AskUS. All rights reserved.</p>
+          <p className="text-gray-400 text-sm">© {new Date().getFullYear()} AskUs. All rights reserved.</p>
           <div className="mt-4 md:mt-0 flex space-x-6">
             <Link to="/privacy" className="text-gray-400 hover:text-white text-sm">Privacy Policy</Link>
             <Link to="/terms" className="text-gray-400 hover:text-white text-sm">Terms of Service</Link>
