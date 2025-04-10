@@ -59,17 +59,17 @@ const Index = () => {
     { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
     { name: "MongoDB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
     { name: "PHP", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" },
-    { name: "Shopify", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/shopify/shopify-original.svg" },
+    { name: "Shopify", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ58f__Hs5QwGWIEcsawDwW1o5IQzaYNPONhQ&s" },
     { name: "SEMrush", icon: "public/lovable-uploads/355079fa-3be5-4af2-b786-58ec41387fcf.png" },
     { name: "WordPress", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-original.svg" },
     { name: "MySQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
-    { name: "MOZ", icon: "public/lovable-uploads/355079fa-3be5-4af2-b786-58ec41387fcf.png" },
-    { name: "Ahrefs", icon: "public/lovable-uploads/355079fa-3be5-4af2-b786-58ec41387fcf.png" },
+    { name: "MOZ", icon: "https://e7.pngegg.com/pngimages/839/267/png-clipart-moz-logo-moz-logo-seo-icons-logos-emojis-tech-companies.png" },
+    { name: "Ahrefs", icon: "https://ahrefs.com/assets/esbuild/primary-light-AK6KQQMG.png" },
     { name: "Photoshop", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg" },
     { name: "Canva", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/canva/canva-original.svg" },
-    { name: "Premiere Pro", icon: "public/lovable-uploads/355079fa-3be5-4af2-b786-58ec41387fcf.png" },
+    { name: "Premiere Pro", icon: "https://mir-s3-cdn-cf.behance.net/projects/404/328cfe200010453.666d37dd6d937.png" },
     { name: "Illustrator", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/illustrator/illustrator-plain.svg" },
-    { name: "After Effects", icon: "public/lovable-uploads/355079fa-3be5-4af2-b786-58ec41387fcf.png" },
+    { name: "After Effects", icon: "https://cdn.worldvectorlogo.com/logos/after-effects-2019.svg" },
   ];
 
   return <div className="flex flex-col min-h-screen">
@@ -88,7 +88,7 @@ const Index = () => {
                 <Button variant="outline" className="rounded-full w-16 h-16 flex items-center justify-center mb-4 border-white/70 bg-transparent hover:bg-white/10 mx-[79px]">
                   <Play className="h-8 w-8 text-white" />
                 </Button>
-                <h2 className="text-white text-2xl md:text-3xl font-bold">Discover AskUS</h2>
+                <h2 className="text-white text-2xl md:text-3xl font-bold">Discover AskUs</h2>
               </div>
             </div>
           </AspectRatio>
@@ -100,7 +100,7 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight animate-fade-in">
-              Transform Your Digital Presence with AskUS
+              Transform Your Digital Presence with AskUs
             </h1>
             <p className="text-lg md:text-xl text-gray-100 mb-8 animate-slide-up opacity-0" style={{
             animationDelay: '0.2s'
@@ -155,10 +155,10 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div ref={techSectionAnimation.ref} className={cn("mb-12 transition-all duration-700 transform", techSectionAnimation.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
             <div className="text-left max-w-3xl mb-6">
-              <h3 className="text-xl md:text-2xl font-bold text-amber-500 mb-2">Tech Use</h3>
-              <h2 className="text-3xl md:text-5xl font-bold mb-6 text-askus-dark">Technology<br />We Use</h2>
+              <h3 className="text-xl md:text-2xl font-bold text-purple-500 mb-2">Tech Use</h3>
+              <h2 className="text-3xl md:text-5xl font-bold mb-6 text-askus-dark">Technology We Use</h2>
               <p className="text-lg text-gray-600 max-w-2xl">
-                AskUS has always been focused on appreciating advanced technology to achieve higher standards. 
+                AskUs has always been focused on appreciating advanced technology to achieve higher standards. 
                 This is our way of ensuring that we deliver solutions that are relevant to the current market 
                 and those that would be deemed relevant in the near future.
               </p>
@@ -176,6 +176,13 @@ const Index = () => {
             ))}
           </div>
         </div>
+        <div className="text-center mt-12">
+            <Link to="/contact">
+              <Button className="bg-askus-purple hover:bg-askus-purple/90">
+                View All Technologies <ChevronRight className="ml-2" size={16} />
+              </Button>
+            </Link>
+          </div>
       </section>
 
       {/* About Section */}
@@ -184,10 +191,10 @@ const Index = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-askus-dark">
-                Why Choose AskUS?
+                Why Choose AskUs?
               </h2>
               <p className="text-lg text-gray-600 mb-8">
-                At AskUS, we are dedicated to transforming your business through innovative digital solutions. With our expertise and commitment to excellence, we help you stay ahead in the competitive digital landscape.
+                At AskUs, we are dedicated to transforming your business through innovative digital solutions. With our expertise and commitment to excellence, we help you stay ahead in the competitive digital landscape.
               </p>
               
               <div className="space-y-4">

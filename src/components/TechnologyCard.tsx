@@ -16,9 +16,9 @@ const TechnologyCard: React.FC<TechnologyCardProps> = ({ name, icon, delay = 0 }
       className={cn(
         "tech-card group cursor-pointer",
         "flex flex-col items-center justify-center p-5",
-        "bg-amber-50 rounded-full w-36 h-36 md:w-40 md:h-40",
+        "bg-purple-50 rounded-full w-36 h-36 md:w-40 md:h-40",
         "transition-all duration-500",
-        "hover:shadow-lg hover:bg-amber-100",
+        "hover:shadow-lg hover:bg-blue-100",
         "opacity-0 animate-fade-in"
       )}
       style={{ 

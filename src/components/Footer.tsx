@@ -11,7 +11,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-full bg-askus-purple text-white flex items-center justify-center font-bold">A</div>
-              <span className="text-xl font-bold">AskUS</span>
+              <span className="text-xl font-bold">AskUs</span>
             </div>
             <p className="text-gray-300 mb-4">Innovative digital solutions for businesses of all sizes. Transform your online presence with our expert services.</p>
             <div className="flex space-x-4">
