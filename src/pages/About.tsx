@@ -101,7 +101,7 @@ const About = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <img 
-                src="src/images/_421dcb59-fed4-4e7d-a602-57786bf36f2a.jfif" 
+                src="https://media-hosting.imagekit.io/ed620acfeec14105/_421dcb59-fed4-4e7d-a602-57786bf36f2a.jfif?Expires=1838903280&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=Foi57QBTzCeJzmLXCcszSWnySbZwOqnm~G~tZwtTGnmbRcYsBLIppGulhXzyNVQ45yVBrlqWTqxiRBXow3Cb9kIT3wStiTqt5lo4-jJdyFk4PrFvYlsVKnX1WSEDfHHB3zg9k6g1X8GiBI6HuC5EGNA7YBZQWH7IF1NjR-~QoY5c~wgllXgJByvN8rna1nXrAQ0YU0y3KzCj9sWkluv-gA1~kPySDUekyZcyUW8HiSfbv9QiaOWhCj27eVHi5Xyyr3NDLSzMgIxnpQY3ryyzo-hM9i~UDgW0az-4koZ1PXtOYw4M~a3ueK1kxNzGjdP6G1QqeJRgFNt75uep4OmbKA__" 
                 alt="AskUS Team" 
                 className="rounded-xl shadow-xl w-full transition-all duration-500 hover:shadow-2xl hover:scale-[1.02]"
               />
