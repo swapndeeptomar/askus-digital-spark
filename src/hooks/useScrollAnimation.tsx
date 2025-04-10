@@ -4,8 +4,10 @@ import { useState, useEffect, useRef } from 'react';
 interface ScrollOptions {
   threshold?: number;
   rootMargin?: string;
-  direction?: 'up' | 'right' | 'left';
+  direction?: 'up' | 'right' | 'left' | 'down';
   delay?: number;
+  duration?: number;
+  distance?: number;
 }
 
 export const useScrollAnimation = (options: ScrollOptions = {}) => {
@@ -39,5 +41,12 @@ export const useScrollAnimation = (options: ScrollOptions = {}) => {
     };
   }, [options.threshold, options.rootMargin]);
   
-  return { ref, isVisible, direction: options.direction || 'up', delay: options.delay || 0 };
+  return { 
+    ref, 
+    isVisible, 
+    direction: options.direction || 'up',
+    delay: options.delay || 0,
+    duration: options.duration || 700,
+    distance: options.distance || 40
+  };
 };

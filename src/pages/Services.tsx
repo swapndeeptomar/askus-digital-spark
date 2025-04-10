@@ -1,11 +1,40 @@
+
 import React from 'react';
 import { Code, Smartphone, Search, PieChart, Paintbrush, Shield, Server, Settings, FileCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ServiceCard from '@/components/ServiceCard';
+import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { cn } from '@/lib/utils';
+import { Link } from 'react-router-dom';
 
 const Services = () => {
+  // Create animation hooks for the process steps
+  const process1Animation = useScrollAnimation({
+    threshold: 0.2,
+    direction: 'up',
+    delay: 0
+  });
+  
+  const process2Animation = useScrollAnimation({
+    threshold: 0.2,
+    direction: 'up',
+    delay: 150
+  });
+  
+  const process3Animation = useScrollAnimation({
+    threshold: 0.2,
+    direction: 'up',
+    delay: 300
+  });
+  
+  const process4Animation = useScrollAnimation({
+    threshold: 0.2,
+    direction: 'up',
+    delay: 450
+  });
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -86,28 +115,92 @@ const Services = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 text-center">
-              <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center text-askus-purple mx-auto mb-4">1</div>
-              <h3 className="text-xl font-semibold mb-3 text-askus-dark">Discovery</h3>
-              <p className="text-gray-600">We start by understanding your business goals, target audience, and project requirements.</p>
+            <div 
+              ref={process1Animation.ref} 
+              className={cn(
+                "process-step",
+                process1Animation.isVisible 
+                  ? "opacity-100 transform-none" 
+                  : "opacity-0 translate-y-10"
+              )}
+              style={{
+                transitionDuration: `${process1Animation.duration}ms`,
+                transitionDelay: `${process1Animation.delay}ms`
+              }}
+            >
+              <div className="flex justify-center mb-4">
+                <div className="process-number">1</div>
+              </div>
+              <h3 className="text-xl font-semibold mb-3 text-askus-dark text-center">Discovery</h3>
+              <p className="text-gray-600 text-center">
+                We start by understanding your business goals, target audience, and project requirements.
+              </p>
             </div>
             
-            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 text-center">
-              <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center text-askus-purple mx-auto mb-4">2</div>
-              <h3 className="text-xl font-semibold mb-3 text-askus-dark">Planning</h3>
-              <p className="text-gray-600">We create a detailed project plan with timelines, milestones, and deliverables.</p>
+            <div 
+              ref={process2Animation.ref} 
+              className={cn(
+                "process-step",
+                process2Animation.isVisible 
+                  ? "opacity-100 transform-none" 
+                  : "opacity-0 translate-y-10"
+              )}
+              style={{
+                transitionDuration: `${process2Animation.duration}ms`,
+                transitionDelay: `${process2Animation.delay}ms`
+              }}
+            >
+              <div className="flex justify-center mb-4">
+                <div className="process-number">2</div>
+              </div>
+              <h3 className="text-xl font-semibold mb-3 text-askus-dark text-center">Planning</h3>
+              <p className="text-gray-600 text-center">
+                We create a detailed project plan with timelines, milestones, and deliverables.
+              </p>
             </div>
             
-            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 text-center">
-              <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center text-askus-purple mx-auto mb-4">3</div>
-              <h3 className="text-xl font-semibold mb-3 text-askus-dark">Execution</h3>
-              <p className="text-gray-600">Our team works diligently to develop and implement the solutions as per the plan.</p>
+            <div 
+              ref={process3Animation.ref} 
+              className={cn(
+                "process-step",
+                process3Animation.isVisible 
+                  ? "opacity-100 transform-none" 
+                  : "opacity-0 translate-y-10"
+              )}
+              style={{
+                transitionDuration: `${process3Animation.duration}ms`,
+                transitionDelay: `${process3Animation.delay}ms`
+              }}
+            >
+              <div className="flex justify-center mb-4">
+                <div className="process-number">3</div>
+              </div>
+              <h3 className="text-xl font-semibold mb-3 text-askus-dark text-center">Execution</h3>
+              <p className="text-gray-600 text-center">
+                Our team works diligently to develop and implement the solutions as per the plan.
+              </p>
             </div>
             
-            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 text-center">
-              <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center text-askus-purple mx-auto mb-4">4</div>
-              <h3 className="text-xl font-semibold mb-3 text-askus-dark">Delivery & Support</h3>
-              <p className="text-gray-600">We deliver the final product and provide ongoing support to ensure its success.</p>
+            <div 
+              ref={process4Animation.ref} 
+              className={cn(
+                "process-step",
+                process4Animation.isVisible 
+                  ? "opacity-100 transform-none" 
+                  : "opacity-0 translate-y-10"
+              )}
+              style={{
+                transitionDuration: `${process4Animation.duration}ms`,
+                transitionDelay: `${process4Animation.delay}ms`
+              }}
+            >
+              <div className="flex justify-center mb-4">
+                <div className="process-number">4</div>
+              </div>
+              <h3 className="text-xl font-semibold mb-3 text-askus-dark text-center">Delivery & Support</h3>
+              <p className="text-gray-600 text-center">
+                We deliver the final product and provide ongoing support to ensure its success.
+              </p>
             </div>
           </div>
         </div>
@@ -121,9 +214,11 @@ const Services = () => {
             <p className="text-xl mb-8">
               Contact us today to discuss how our services can help your business grow and succeed in the digital world.
             </p>
-            <Button className="bg-white text-askus-purple hover:bg-gray-100 text-lg py-6 px-8 rounded-full">
-              Contact Us
-            </Button>
+            <Link to="/contact">
+              <Button className="bg-white text-askus-purple hover:bg-gray-100 text-lg py-6 px-8 rounded-full">
+                Contact Us
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
