@@ -75,7 +75,7 @@ const Contact = () => {
                     <Mail className="text-askus-purple mt-1" size={20} />
                     <div>
                       <p className="font-medium text-askus-dark">Email</p>
-                      <p className="text-gray-600">contact@askus.com</p>
+                      <p className="text-gray-600">ask.us.technocrats@gmail.com</p>
                     </div>
                   </div>
                   
@@ -83,7 +83,7 @@ const Contact = () => {
                     <Phone className="text-askus-purple mt-1" size={20} />
                     <div>
                       <p className="font-medium text-askus-dark">Phone</p>
-                      <p className="text-gray-600">(123) 456-7890</p>
+                      <p className="text-gray-600"><a><u>9926089855</u></a> , <a><u>9039616208</u></a> </p>
                     </div>
                   </div>
                   
@@ -91,7 +91,7 @@ const Contact = () => {
                     <MapPin className="text-askus-purple mt-1" size={20} />
                     <div>
                       <p className="font-medium text-askus-dark">Address</p>
-                      <p className="text-gray-600">123 AskUS Lane, Knowledge City, Knowland</p>
+                      <p className="text-gray-600">Indore , Madhya Pradesh</p>
                     </div>
                   </div>
                 </div>
