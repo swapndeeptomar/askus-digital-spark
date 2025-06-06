@@ -101,7 +101,7 @@ const About = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <img 
-                src="https://media-hosting.imagekit.io/ed620acfeec14105/_421dcb59-fed4-4e7d-a602-57786bf36f2a.jfif?Expires=1838903280&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=Foi57QBTzCeJzmLXCcszSWnySbZwOqnm~G~tZwtTGnmbRcYsBLIppGulhXzyNVQ45yVBrlqWTqxiRBXow3Cb9kIT3wStiTqt5lo4-jJdyFk4PrFvYlsVKnX1WSEDfHHB3zg9k6g1X8GiBI6HuC5EGNA7YBZQWH7IF1NjR-~QoY5c~wgllXgJByvN8rna1nXrAQ0YU0y3KzCj9sWkluv-gA1~kPySDUekyZcyUW8HiSfbv9QiaOWhCj27eVHi5Xyyr3NDLSzMgIxnpQY3ryyzo-hM9i~UDgW0az-4koZ1PXtOYw4M~a3ueK1kxNzGjdP6G1QqeJRgFNt75uep4OmbKA__" 
+                src="https://ik.imagekit.io/0juszdika/images/_421dcb59-fed4-4e7d-a602-57786bf36f2a.jfif?updatedAt=1748348332151" 
                 alt="AskUS Team" 
                 className="rounded-xl shadow-xl w-full transition-all duration-500 hover:shadow-2xl hover:scale-[1.02]"
               />
@@ -342,16 +342,16 @@ const About = () => {
             >
               <div className="h-64 bg-gray-200 overflow-hidden">
                 <img
-                  src="src/images/_5ff173b6-d833-48c4-87c1-cd0e6b132cd4.jfif"
+                  src="https://files.idyllic.app/files/static/3781821?width=256&optimizer=image"
                   alt="John Smith"
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                 />
               </div>
               <div className="p-6 text-center">
-                <h3 className="text-xl font-semibold text-askus-dark"> Kartik Raghuvanshi</h3>
+                <h3 className="text-xl font-semibold text-askus-dark"> Allen Woods</h3>
                 <p className="text-askus-purple mb-3">CEO & Founder</p>
                 <p className="text-gray-600 text-sm">
-                   Kartik leads our team with vision and expertise.
+                   Allen leads our team with vision and expertise.
                 </p>
               </div>
               <div className="team-social">
@@ -383,16 +383,16 @@ const About = () => {
             >
               <div className="h-64 bg-gray-200 overflow-hidden">
                 <img
-                  src="src/images/_e6f1ab64-aa5d-4734-ab3f-4a0e44626aa3.jfif"
+                  src="https://files.idyllic.app/files/static/3781819"
                   alt="Sarah Johnson"
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                 />
               </div>
               <div className="p-6 text-center">
-                <h3 className="text-xl font-semibold text-askus-dark">Akshat Thakkar</h3>
+                <h3 className="text-xl font-semibold text-askus-dark">Richard Mille</h3>
                 <p className="text-askus-purple mb-3">Co Founder</p>
                 <p className="text-gray-600 text-sm">
-                  Akshat oversees all technical aspects of our projects, ensuring we deliver cutting-edge solutions.
+                  Richard oversees all technical aspects of our projects, ensuring we deliver cutting-edge solutions.
                 </p>
               </div>
               <div className="team-social">
@@ -424,16 +424,16 @@ const About = () => {
             >
               <div className="h-64 bg-gray-200 overflow-hidden">
                 <img
-                  src="src/images/_ac9b5c03-2050-4ff8-9585-525284ada44e.jfif"
+                  src="https://files.idyllic.app/files/static/3781792"
                   alt="Michael Chen"
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                 />
               </div>
               <div className="p-6 text-center">
-                <h3 className="text-xl font-semibold text-askus-dark">Swapndeep Tomar</h3>
+                <h3 className="text-xl font-semibold text-askus-dark">John Doe</h3>
                 <p className="text-askus-purple mb-3">Co Founder</p>
                 <p className="text-gray-600 text-sm">
-                  Swapndeep brings creativity and innovation to all our design projects, creating stunning visual experiences.
+                  John brings creativity and innovation to all our design projects, creating stunning visual experiences.
                 </p>
               </div>
               <div className="team-social">
@@ -465,7 +465,7 @@ const About = () => {
             >
               <div className="h-64 bg-gray-200 overflow-hidden">
                 <img
-                  src="src/images/_421dcb59-fed4-4e7d-a602-57786bf36f2a.jfif"
+                  src="https://files.idyllic.app/files/static/3782375"
                   alt="Emily Davis"
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                 />
