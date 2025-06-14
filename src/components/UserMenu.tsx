@@ -1,13 +1,18 @@
 
 import React from "react";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/use-toast";
 import { LogOut, User } from "lucide-react";
 
 type UserMenuProps = {
-  user: { email: string | null; };
+  user: { email: string | null };
   onSignOut?: () => void;
 };
 
@@ -41,17 +46,23 @@ const UserMenu: React.FC<UserMenuProps> = ({ user, onSignOut }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 rounded transition">
+        <button
+          className="flex items-center gap-2 focus:outline-none rounded-full p-1 hover:bg-gray-100 transition"
+          aria-label="Open user menu"
+        >
           <Avatar className="w-8 h-8 text-sm">
             <AvatarFallback>
               <User className="w-5 h-5 text-gray-400" />
               {getInitialFromEmail(user.email)}
             </AvatarFallback>
           </Avatar>
-          <span className="font-semibold text-gray-700 text-sm">{user.email || "User"}</span>
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="z-[105] bg-white min-w-[160px] shadow-lg border border-gray-100">
+      <DropdownMenuContent align="end" className="z-[105] bg-white w-56 min-w-[180px] shadow-lg border border-gray-100 py-2">
+        <div className="px-3 py-2 border-b border-gray-50 mb-1">
+          <div className="text-xs text-gray-500 mb-1">Signed in as</div>
+          <div className="font-medium text-gray-800 break-words">{user.email || "User"}</div>
+        </div>
         <DropdownMenuItem onClick={handleSignOut} className="gap-2 text-red-600">
           <LogOut size={18} className="text-red-600" />
           Sign Out
