@@ -16,6 +16,7 @@ import Privacy from "./pages/Privacy";
 import ChatbotWidget from "@/components/ChatbotWidget";
 import ScrollToTop from "@/components/ScrollToTop";
 import GetQuote from "./pages/GetQuote";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 const queryClient = new QueryClient();
 
@@ -39,8 +40,10 @@ const App = () => (
           <Route path="/get-quote" element={<GetQuote />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <ErrorBoundary>
+          <ChatbotWidget />
+        </ErrorBoundary>
       </BrowserRouter>
-      <ChatbotWidget />
     </TooltipProvider>
   </QueryClientProvider>
 );
