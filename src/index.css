@@ -352,8 +352,8 @@
     }
   }
 
-  /* Move the animation speed to 3.3s for 3x speed */
+  /* Move the animation speed to 2s for 5x speed */
   .moving-lines-svg g {
-    animation: move-lines 3.3s linear infinite;
+    animation: move-lines 2s linear infinite;
   }
 }
