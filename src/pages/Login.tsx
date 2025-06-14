@@ -1,14 +1,15 @@
-
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
-import { FaGithub, FaMicrosoft } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
+import { Slack } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/use-toast";
 
+// Replacing Outlook (azure) with Slack
 const oauthProviders = [
   {
     id: "google",
@@ -23,10 +24,10 @@ const oauthProviders = [
     color: "bg-black border text-white",
   },
   {
-    id: "azure",
-    label: "Outlook",
-    icon: <FaMicrosoft size={22} className="text-blue-500" />,
-    color: "bg-white border text-blue-800",
+    id: "slack",
+    label: "Slack",
+    icon: <Slack size={22} className="text-[#611f69]" />,
+    color: "bg-white border text-[#611f69]",
   },
 ];
 
@@ -56,14 +57,12 @@ const Login = () => {
       mounted = false;
       subscription.unsubscribe();
     };
-    // Only run once on mount
     // eslint-disable-next-line
   }, []);
 
   const handleOAuthLogin = async (provider: string) => {
     setLoggingIn(provider);
     try {
-      // CHANGED: now redirect to "/" (home) after OAuth login, not "/login"
       const redirectTo = `${window.location.origin}/`;
       const { error } = await supabase.auth.signInWithOAuth({
         provider: provider as any,
@@ -134,4 +133,3 @@ const Login = () => {
 };
 
 export default Login;
-
