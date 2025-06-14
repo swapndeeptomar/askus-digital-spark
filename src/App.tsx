@@ -17,7 +17,6 @@ import ChatbotWidget from "@/components/ChatbotWidget";
 import ScrollToTop from "@/components/ScrollToTop";
 import GetQuote from "./pages/GetQuote";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import DarkModeToggle from "@/components/DarkModeToggle";
 
 const queryClient = new QueryClient();
 
@@ -44,7 +43,6 @@ const App = () => (
         <ErrorBoundary>
           <ChatbotWidget />
         </ErrorBoundary>
-        <DarkModeToggle />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
