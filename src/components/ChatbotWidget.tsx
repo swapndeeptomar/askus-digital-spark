@@ -1,6 +1,5 @@
-
 import React, { useState, useRef } from "react";
-import { Bot, Send } from "lucide-react";
+import { Bot, Send, MessageCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -11,9 +10,6 @@ interface Message {
 
 const WHATSAPP_LINK = "https://wa.me/911234567890"; // Replace with actual number
 const GMAIL_LINK = "mailto:info@example.com"; // Replace with your email
-
-const whatsappImg = "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"; // Public WhatsApp SVG
-const gmailImg = "https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png"; // Public Gmail PNG
 
 const ChatbotWidget: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -82,7 +78,7 @@ const ChatbotWidget: React.FC = () => {
 
   return (
     <>
-      {/* Floating Chatbot Button (no animation, bot icon) */}
+      {/* Floating Chatbot Button */}
       {!open && (
         <button
           aria-label="Open Chatbot"
@@ -92,7 +88,7 @@ const ChatbotWidget: React.FC = () => {
           <Bot className="w-7 h-7" />
         </button>
       )}
-      {/* BOTTOM LEFT floating WhatsApp + Gmail buttons */}
+      {/* Bottom-left WhatsApp + Gmail Lucide icon buttons */}
       {!open && (
         <div className="fixed z-50 bottom-6 left-6 flex flex-col gap-3">
           <a
@@ -100,28 +96,20 @@ const ChatbotWidget: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="WhatsApp"
-            className="bg-white rounded-full flex items-center justify-center w-14 h-14 shadow-xl hover:scale-105 transition hover:ring-2 hover:ring-green-500 border border-gray-200"
+            className="group relative bg-purple-50 rounded-full flex items-center justify-center w-10 h-10 shadow-md border border-askus-purple/15 transition hover:ring-2 hover:ring-green-400 hover:bg-green-50"
           >
-            <img
-              src={whatsappImg}
-              alt="WhatsApp"
-              className="w-8 h-8"
-              draggable={false}
-            />
+            <MessageCircle className="w-6 h-6 text-green-600 group-hover:scale-110 transition" />
+            <span className="absolute -right-2 -top-2 text-xs px-2 py-1 rounded bg-white shadow pointer-events-none opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-90 transition-opacity transition-transform duration-150 text-gray-600 border border-gray-100">WhatsApp</span>
           </a>
           <a
             href={GMAIL_LINK}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Gmail"
-            className="bg-white rounded-full flex items-center justify-center w-14 h-14 shadow-xl hover:scale-105 transition hover:ring-2 hover:ring-red-500 border border-gray-200"
+            className="group relative bg-purple-50 rounded-full flex items-center justify-center w-10 h-10 shadow-md border border-askus-purple/15 transition hover:ring-2 hover:ring-red-400 hover:bg-red-50"
           >
-            <img
-              src={gmailImg}
-              alt="Gmail"
-              className="w-8 h-8"
-              draggable={false}
-            />
+            <Mail className="w-6 h-6 text-red-500 group-hover:scale-110 transition" />
+            <span className="absolute -right-2 -top-2 text-xs px-2 py-1 rounded bg-white shadow pointer-events-none opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-90 transition-opacity transition-transform duration-150 text-gray-600 border border-gray-100">Gmail</span>
           </a>
         </div>
       )}
