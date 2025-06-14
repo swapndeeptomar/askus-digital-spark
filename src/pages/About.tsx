@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Trophy, Users, Clock, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -82,10 +83,28 @@ const About = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-    
+
       {/* Header */}
-      <section className="pt-32 pb-16 gradient-bg text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="pt-32 pb-16 gradient-bg text-white relative overflow-hidden">
+        {/* Animated moving lines SVG background */}
+        <svg
+          className="moving-lines-bg moving-lines-svg"
+          width="100%"
+          height="100%"
+          viewBox="0 0 1440 220"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <g>
+            <line x1="30" y1="20" x2="1410" y2="40" stroke="#a78bfa" strokeWidth="2" strokeLinecap="round" opacity="0.7"/>
+            <line x1="0" y1="80" x2="1440" y2="100" stroke="#8b5cf6" strokeWidth="3" strokeDasharray="70 10" opacity="0.5"/>
+            <line x1="10" y1="180" x2="1430" y2="150" stroke="#fff" strokeWidth="1.5" strokeDasharray="30 17" opacity="0.22"/>
+            <line x1="80" y1="110" x2="1400" y2="112" stroke="#8b5cf6" strokeWidth="1.5" strokeDasharray="33 15" opacity="0.19"/>
+            <line x1="0" y1="210" x2="1440" y2="160" stroke="#8b5cf6" strokeWidth="2" strokeDasharray="60 25" opacity="0.11"/>
+          </g>
+        </svg>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">About Us</h1>
             <p className="text-lg md:text-xl text-gray-100">
@@ -507,3 +526,4 @@ const About = () => {
 };
 
 export default About;
+
