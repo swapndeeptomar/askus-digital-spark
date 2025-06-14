@@ -1,15 +1,32 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
 
+// Helper to sync theme class with <body>
+const syncBodyClass = (theme: string) => {
+  document.body.classList.remove("black", "dark");
+  if (theme === "black") {
+    document.body.classList.add("black");
+  } else if (theme === "dark") {
+    document.body.classList.add("dark");
+  }
+};
+
 const DarkModeToggle: React.FC = () => {
   const { theme, setTheme } = useTheme();
 
-  // If theme is "black" set to "light", otherwise set to "black"
+  // Sync current theme to body class on every theme change
+  useEffect(() => {
+    if (theme) syncBodyClass(theme);
+  }, [theme]);
+
+  // Toggle between "light" and "black"
   const toggleTheme = () => {
-    setTheme(theme === "black" ? "light" : "black");
+    const target = theme === "black" ? "light" : "black";
+    setTheme(target);
+    syncBodyClass(target); // Immediate effect
   };
 
   const isBlack = theme === "black";
