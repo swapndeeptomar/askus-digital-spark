@@ -11,34 +11,45 @@ const Navbar = () => {
     <header className="fixed w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
+          {/* Brand Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-full bg-askus-purple text-white flex items-center justify-center font-bold">D</div>
+              <div className="w-9 h-9 rounded-full bg-askus-purple text-white flex items-center justify-center font-bold">
+                D
+              </div>
               <span className="text-xl font-bold text-askus-dark">DigiSphere</span>
             </Link>
           </div>
 
           {/* Desktop menu */}
-          <nav className="hidden md:flex space-x-8">
-            <Link to="/" className="text-gray-700 hover:text-askus-purple font-medium">Home</Link>
-            <Link to="/services" className="text-gray-700 hover:text-askus-purple font-medium">Services</Link>
-            <Link to="/portfolio" className="text-gray-700 hover:text-askus-purple font-medium">Portfolio</Link>
-            <Link to="/about" className="text-gray-700 hover:text-askus-purple font-medium">About Us</Link>
-            <Link to="/contact" className="text-gray-700 hover:text-askus-purple font-medium">Contact</Link>
-            <Link to="/login" className="text-gray-700 hover:text-askus-purple font-medium">Login</Link>
+          <nav className="hidden md:flex items-center space-x-7 xl:space-x-10">
+            <Link to="/" className="text-gray-700 hover:text-askus-purple font-medium px-2">Home</Link>
+            <Link to="/services" className="text-gray-700 hover:text-askus-purple font-medium px-2">Services</Link>
+            <Link to="/portfolio" className="text-gray-700 hover:text-askus-purple font-medium px-2">Portfolio</Link>
+            <Link to="/about" className="text-gray-700 hover:text-askus-purple font-medium px-2">About Us</Link>
+            <Link to="/contact" className="text-gray-700 hover:text-askus-purple font-medium px-2">Contact</Link>
+            <Link to="/login" className="text-gray-700 hover:text-askus-purple font-medium px-2">Login</Link>
           </nav>
 
-          <div className="hidden md:flex items-center gap-2">
-            <Link to="/contact">
-              <Button className="bg-askus-purple hover:bg-askus-purple/90">
-                Get Started
-              </Button>
-            </Link>
-            <Link to="/contact">
-              <Button variant="outline" className="border-askus-purple text-askus-purple hover:bg-askus-purple/10">
-                Get Quote
-              </Button>
-            </Link>
+          {/* Divider and Actions for desktop */}
+          <div className="hidden md:flex items-center gap-6 xl:gap-8">
+            <div className="h-8 border-l border-gray-200 mx-2" />
+            <div className="flex gap-2">
+              <Link to="/contact">
+                <Button size="sm" className="bg-askus-purple hover:bg-askus-purple/90 px-5 rounded-full shadow-lg">
+                  Get Started
+                </Button>
+              </Link>
+              <Link to="/contact">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-askus-purple text-askus-purple hover:bg-askus-purple/10 px-5 rounded-full shadow"
+                >
+                  Get Quote
+                </Button>
+              </Link>
+            </div>
           </div>
 
           {/* Mobile menu button */}
@@ -46,8 +57,9 @@ const Navbar = () => {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="p-2 rounded-md text-gray-700 hover:text-askus-purple focus:outline-none"
+              aria-label="Toggle Menu"
             >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
           </div>
         </div>
@@ -55,58 +67,67 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-t">
+        <div className="md:hidden bg-white border-t animate-fade-in">
           <div className="container mx-auto px-4 pt-2 pb-4 space-y-1">
             <Link 
               to="/" 
-              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-purple-50 hover:text-askus-purple"
+              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-purple-50 hover:text-askus-purple transition"
               onClick={() => setIsMenuOpen(false)}
             >
               Home
             </Link>
             <Link 
               to="/services" 
-              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-purple-50 hover:text-askus-purple"
+              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-purple-50 hover:text-askus-purple transition"
               onClick={() => setIsMenuOpen(false)}
             >
               Services
             </Link>
             <Link 
               to="/portfolio" 
-              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-purple-50 hover:text-askus-purple"
+              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-purple-50 hover:text-askus-purple transition"
               onClick={() => setIsMenuOpen(false)}
             >
               Portfolio
             </Link>
             <Link 
               to="/about" 
-              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-purple-50 hover:text-askus-purple"
+              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-purple-50 hover:text-askus-purple transition"
               onClick={() => setIsMenuOpen(false)}
             >
               About Us
             </Link>
             <Link 
               to="/contact" 
-              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-purple-50 hover:text-askus-purple"
+              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-purple-50 hover:text-askus-purple transition"
               onClick={() => setIsMenuOpen(false)}
             >
               Contact
             </Link>
             <Link 
               to="/login"
-              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-purple-50 hover:text-askus-purple"
+              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-purple-50 hover:text-askus-purple transition"
               onClick={() => setIsMenuOpen(false)}
             >
               Login
             </Link>
-            <div className="pt-2 flex gap-2">
+            <div className="pt-3 flex gap-3">
               <Link to="/contact" className="w-1/2">
-                <Button className="w-full bg-askus-purple hover:bg-askus-purple/90">
+                <Button
+                  size="sm"
+                  className="w-full bg-askus-purple hover:bg-askus-purple/90 rounded-full"
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   Get Started
                 </Button>
               </Link>
               <Link to="/contact" className="w-1/2">
-                <Button variant="outline" className="w-full border-askus-purple text-askus-purple hover:bg-askus-purple/10">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full border-askus-purple text-askus-purple hover:bg-askus-purple/10 rounded-full"
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   Get Quote
                 </Button>
               </Link>
