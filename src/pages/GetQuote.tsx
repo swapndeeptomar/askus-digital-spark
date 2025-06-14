@@ -185,16 +185,15 @@ const GetQuote = () => {
         .getPublicUrl(filename);
       const pdfUrl = urlData?.publicUrl;
 
-      // 5. Insert into quotes table (temporary type override)
-      const { error: insertError } = await (supabase as any)
-        .from("quotes")
+      // 5. Insert into contact_messages table
+      const { error: insertError } = await supabase
+        .from("contact_messages")
         .insert({
           name: form.name,
           email: form.email,
           mobile: form.mobile,
-          project: form.project,
-          selected_service_ids: selectedServices,
-          pdf_url: pdfUrl,
+          subject: "Quote Request",
+          message: `Project Details: ${form.project}\nSelected Services: ${selectedServices.join(", ")}\nPDF: ${pdfUrl || "(not generated)"}`
         });
       if (insertError) throw insertError;
 
