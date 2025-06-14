@@ -1,4 +1,6 @@
-import React, { useState, useRef, useEffect, useLocation } from "react";
+
+// Remove useLocation from the react import
+import React, { useState, useRef, useEffect } from "react";
 import { Bot, Send, MessageCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
