@@ -88,8 +88,7 @@ const ChatbotWidget: React.FC = () => {
       )}
       {/* Widget Window */}
       {open && (
-        <div className="fixed z-50 bottom-6 right-6 w-[340px] max-w-[95vw] bg-white rounded-xl shadow-2xl flex flex-col border border-gray-200"
-        >
+        <div className="fixed z-50 bottom-6 right-6 w-[340px] max-w-[95vw] bg-white rounded-xl shadow-2xl flex flex-col border border-gray-200 h-[500px]">
           <div className="flex items-center justify-between p-3 border-b bg-gradient-to-r from-askus-purple via-indigo-500 to-askus-purple rounded-t-xl shadow-md">
             <span className="text-white font-bold tracking-wide drop-shadow text-lg flex items-center gap-1">
               <Bot className="w-5 h-5 text-white mr-1" />
@@ -103,32 +102,37 @@ const ChatbotWidget: React.FC = () => {
               <span className="text-lg font-bold">&times;</span>
             </button>
           </div>
-          <ScrollArea className="flex-1 h-72 px-3 py-2 space-y-3 bg-gradient-to-br from-askus-light/90 via-purple-50 to-white">
-            {messages.map((m, i) => (
-              <div
-                key={i}
-                className={`flex ${
-                  m.role === "user" ? "justify-end" : "justify-start"
-                }`}
-              >
-                <div
-                  className={`px-4 py-2 rounded-2xl text-sm max-w-[80%] shadow-md 
-                    ${
-                      m.role === "user"
-                        ? "bg-askus-purple text-white rounded-br-[2.2rem] hover:scale-105 transition transform"
-                        : "bg-white text-gray-900 rounded-bl-[2.2rem] border border-gray-100"
+          {/* Scrollable message container */}
+          <div className="flex-1 flex flex-col min-h-0 bg-gradient-to-br from-askus-light/90 via-purple-50 to-white">
+            <ScrollArea className="flex-1 px-3 py-2">
+              <div className="flex flex-col gap-3 pb-1">
+                {messages.map((m, i) => (
+                  <div
+                    key={i}
+                    className={`flex ${
+                      m.role === "user" ? "justify-end" : "justify-start"
                     }`}
-                  style={{
-                    wordBreak: "break-word",
-                    transition: "box-shadow .3s,transform .3s"
-                  }}
-                >
-                  {m.content}
-                </div>
+                  >
+                    <div
+                      className={`px-4 py-2 rounded-2xl text-sm max-w-[80%] shadow-md 
+                        ${
+                          m.role === "user"
+                            ? "bg-askus-purple text-white rounded-br-[2.2rem] hover:scale-105 transition transform"
+                            : "bg-white text-gray-900 rounded-bl-[2.2rem] border border-gray-100"
+                        }`}
+                      style={{
+                        wordBreak: "break-word",
+                        transition: "box-shadow .3s,transform .3s"
+                      }}
+                    >
+                      {m.content}
+                    </div>
+                  </div>
+                ))}
+                <div ref={bottomRef} />
               </div>
-            ))}
-            <div ref={bottomRef} />
-          </ScrollArea>
+            </ScrollArea>
+          </div>
           <div className="p-2 bg-gradient-to-l from-purple-50 via-white to-white border-t flex items-center gap-2">
             <div className="flex flex-row w-full gap-2 items-center">
               <input
@@ -162,4 +166,3 @@ const ChatbotWidget: React.FC = () => {
 };
 
 export default ChatbotWidget;
-
