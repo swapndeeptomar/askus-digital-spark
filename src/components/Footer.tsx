@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
@@ -11,7 +10,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-full bg-askus-purple text-white flex items-center justify-center font-bold">A</div>
-              <span className="text-xl font-bold">AskUs</span>
+              <span className="text-xl font-bold">DigiSphere</span>
             </div>
             <p className="text-gray-300 mb-4">Innovative digital solutions for businesses of all sizes. Transform your online presence with our expert services.</p>
             <div className="flex space-x-4">
@@ -73,7 +72,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm">© {new Date().getFullYear()} AskUs. All rights reserved.</p>
+          <p className="text-gray-400 text-sm">© {new Date().getFullYear()} DigiSphere. All rights reserved.</p>
           <div className="mt-4 md:mt-0 flex space-x-6">
             <Link to="/privacy" className="text-gray-400 hover:text-white text-sm">Privacy Policy</Link>
             <Link to="/terms" className="text-gray-400 hover:text-white text-sm">Terms of Service</Link>

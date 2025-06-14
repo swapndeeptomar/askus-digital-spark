@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Code, Smartphone, Search, PieChart, Paintbrush, Shield, Server, Settings, FileCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -45,7 +44,7 @@ const Services = () => {
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">Our Services</h1>
             <p className="text-lg md:text-xl text-gray-100">
-              Explore our range of services designed to enhance your digital presence and drive business growth.
+              Explore our range of services designed to enhance your digital presence and drive business growth for DigiSphere.
             </p>
           </div>
         </div>
@@ -110,7 +109,7 @@ const Services = () => {
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-askus-dark">Our Process</h2>
             <p className="text-lg text-gray-600">
-              We follow a structured approach to ensure the success of your digital projects.
+              We follow a structured approach at DigiSphere to ensure the success of your digital projects.
             </p>
           </div>
 
@@ -212,7 +211,7 @@ const Services = () => {
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Get Started?</h2>
             <p className="text-xl mb-8">
-              Contact us today to discuss how our services can help your business grow and succeed in the digital world.
+              Contact us today to discuss how our services can help your business grow and succeed in the digital world with DigiSphere.
             </p>
             <Link to="/contact">
               <Button className="bg-white text-askus-purple hover:bg-gray-100 text-lg py-6 px-8 rounded-full">

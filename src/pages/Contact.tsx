@@ -15,7 +15,7 @@ const Contact = () => {
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">Contact Us</h1>
             <p className="text-lg md:text-xl text-gray-100">
-              Get in touch with our team to discuss how we can help with your digital needs.
+              Get in touch with our team to discuss how we can help with your digital needs at DigiSphere.
             </p>
           </div>
         </div>

@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
@@ -26,7 +25,7 @@ const NotFound = () => {
             <h1 className="text-8xl font-bold text-askus-purple mb-4">404</h1>
             <h2 className="text-3xl font-bold mb-6 text-askus-dark">Page Not Found</h2>
             <p className="text-xl text-gray-600 mb-8">
-              Oops! The page you are looking for doesn't exist or has been moved.
+              Oops! The page you are looking for doesn't exist or has been moved on DigiSphere.
             </p>
             <Link to="/">
               <Button className="bg-askus-purple hover:bg-askus-purple/90 px-6 py-3 text-lg flex items-center gap-2">

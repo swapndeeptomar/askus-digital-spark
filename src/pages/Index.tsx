@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Code, Smartphone, Search, PieChart, Paintbrush, Shield, ChevronRight, ArrowRight, Play } from 'lucide-react';
@@ -92,7 +91,7 @@ const Index = () => {
                 <Button variant="outline" className="rounded-full w-16 h-16 flex items-center justify-center mb-4 border-white/70 bg-transparent hover:bg-white/10 mx-auto">
                   <Play className="h-8 w-8 text-white" />
                 </Button>
-                <h2 className="text-white text-2xl md:text-3xl font-bold flex items-center justify-center">Discover AskUs</h2>
+                <h2 className="text-white text-2xl md:text-3xl font-bold flex items-center justify-center">Discover DigiSphere</h2>
               </div>
             </div>
           </AspectRatio>
@@ -104,7 +103,7 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight animate-fade-in">
-              Transform Your Digital Presence with AskUs
+              Transform Your Digital Presence with DigiSphere
             </h1>
             <p className="text-lg md:text-xl text-gray-100 mb-8 animate-slide-up opacity-0" style={{
             animationDelay: '0.2s'
@@ -199,10 +198,10 @@ const Index = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-askus-dark">
-                Why Choose AskUs?
+                Why Choose DigiSphere?
               </h2>
               <p className="text-lg text-gray-600 mb-8">
-                At AskUs, we are dedicated to transforming your business through innovative digital solutions. With our expertise and commitment to excellence, we help you stay ahead in the competitive digital landscape.
+                At DigiSphere, we are dedicated to transforming your business through innovative digital solutions. With our expertise and commitment to excellence, we help you stay ahead in the competitive digital landscape.
               </p>
               
               <div className="space-y-4">

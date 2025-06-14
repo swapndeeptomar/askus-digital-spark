@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Trophy, Users, Clock, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -89,7 +88,7 @@ const About = () => {
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">About Us</h1>
             <p className="text-lg md:text-xl text-gray-100">
-              Learn more about AskUS and our mission to deliver exceptional digital solutions.
+              Learn more about DigiSphere and our mission to deliver exceptional digital solutions.
             </p>
           </div>
         </div>
@@ -123,7 +122,7 @@ const About = () => {
                 Our Story
               </h2>
               <p className="text-lg text-gray-600 mb-6">
-                Founded in 2025, AskUS began with a simple mission: to help businesses harness the power of digital technology to grow and succeed. What started as a small team of passionate digital enthusiasts has evolved into a comprehensive digital solutions provider.
+                Founded in 2025, DigiSphere began with a simple mission: to help businesses harness the power of digital technology to grow and succeed. What started as a small team of passionate digital enthusiasts has evolved into a comprehensive digital solutions provider.
               </p>
               <p className="text-lg text-gray-600 mb-8">
                 Over the years, we've worked with businesses of all sizes across various industries, helping them transform their digital presence and achieve their business goals. Our commitment to quality, innovation, and client satisfaction has been the cornerstone of our success.
@@ -322,7 +321,7 @@ const About = () => {
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-askus-dark">Meet Our Team</h2>
             <p className="text-lg text-gray-600">
-              Our talented team of digital experts is the heart of AskUS.
+              Our talented team of digital experts is the heart of DigiSphere.
             </p>
           </div>
 
@@ -506,4 +505,3 @@ const About = () => {
 };
 
 export default About;
-

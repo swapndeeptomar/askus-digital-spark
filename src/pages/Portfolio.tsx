@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -15,7 +14,7 @@ const Portfolio = () => {
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">Our Projects</h1>
             <p className="text-lg md:text-xl text-gray-100">
-              Explore our portfolio of successful projects that showcase our expertise and capabilities.
+              Explore our portfolio of successful projects that showcase DigiSphere's expertise and capabilities.
             </p>
           </div>
         </div>
@@ -104,7 +103,7 @@ const Portfolio = () => {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                "AskUS transformed our online presence with a sleek, functional website. Their attention to detail and exceptional web design skills have significantly improved our user experience."
+                "DigiSphere transformed our online presence with a sleek, functional website. Their attention to detail and exceptional web design skills have significantly improved our user experience."
               </p>
             </div>
             
@@ -117,7 +116,7 @@ const Portfolio = () => {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                "The mobile app developed by AskUS has been a game-changer for our business. Our customers love the intuitive interface and seamless shopping experience."
+                "The mobile app developed by DigiSphere has been a game-changer for our business. Our customers love the intuitive interface and seamless shopping experience."
               </p>
             </div>
             
@@ -130,7 +129,7 @@ const Portfolio = () => {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                "The team at AskUS perfectly captured our vision for the brand. Their innovative branding approach has helped us stand out in a competitive market."
+                "The team at DigiSphere perfectly captured our vision for the brand. Their innovative branding approach has helped us stand out in a competitive market."
               </p>
             </div>
           </div>
