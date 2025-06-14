@@ -14,6 +14,7 @@ const GetQuote = () => {
   const [form, setForm] = useState({
     name: "",
     email: "",
+    mobile: "", // Added mobile field
     project: "",
   });
   const [submitted, setSubmitted] = useState(false);
@@ -75,6 +76,8 @@ const GetQuote = () => {
     doc.text(`Name: ${form.name || "-"}`, 50, y);
     y += 16;
     doc.text(`Email: ${form.email || "-"}`, 50, y);
+    y += 16;
+    doc.text(`Mobile: ${form.mobile || "-"}`, 50, y); // Added mobile number to PDF
 
     // Project details
     y += 30;
@@ -213,6 +216,20 @@ const GetQuote = () => {
                   />
                 </div>
                 <div>
+                  <label htmlFor="mobile" className="block text-sm font-medium text-gray-700 mb-1">
+                    Mobile Number
+                  </label>
+                  <Input
+                    id="mobile"
+                    type="tel"
+                    placeholder="Enter your mobile number"
+                    className="w-full p-3 border rounded-lg"
+                    value={form.mobile}
+                    onChange={handleFormChange}
+                    readOnly={submitted}
+                  />
+                </div>
+                <div>
                   <label htmlFor="project" className="block text-sm font-medium text-gray-700 mb-1">
                     Project Details
                   </label>
@@ -231,7 +248,7 @@ const GetQuote = () => {
                     type="submit"
                     className="w-full bg-askus-purple hover:bg-askus-purple/90 flex items-center justify-center gap-2"
                   >
-                    <Send size={16} /> Submit Request
+                    <Send size={16} /> Submit To View Quote
                   </Button>
                 ) : (
                   <Button
@@ -274,6 +291,8 @@ const GetQuote = () => {
                       <span className="font-semibold">Your Name: </span>{form.name || "-"}
                       <br />
                       <span className="font-semibold">Your Email: </span>{form.email || "-"}
+                      <br />
+                      <span className="font-semibold">Mobile Number: </span>{form.mobile || "-"}
                       <br />
                       <span className="font-semibold">Project: </span>
                       <span className="whitespace-pre-line">{form.project || "-"}</span>
