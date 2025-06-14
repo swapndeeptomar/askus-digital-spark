@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
+import FloatingContactButtons from "@/components/FloatingContactButtons";
 
 const About = () => {
   const storyAnimation = useScrollAnimation({
@@ -500,6 +501,7 @@ const About = () => {
       </section>
 
       <Footer />
+      <FloatingContactButtons />
     </div>
   );
 };

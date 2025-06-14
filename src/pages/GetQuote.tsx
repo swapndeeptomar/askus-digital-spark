@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Send, Download } from "lucide-react";
 import ServiceQuoteGenerator, { SERVICES } from "@/components/ServiceQuoteGenerator";
 import jsPDF from "jspdf";
+import FloatingContactButtons from "@/components/FloatingContactButtons";
 
 const GetQuote = () => {
   // Service selection and controlled form state
@@ -310,6 +311,7 @@ const GetQuote = () => {
         </div>
       </section>
       <Footer />
+      <FloatingContactButtons />
     </div>
   );
 };

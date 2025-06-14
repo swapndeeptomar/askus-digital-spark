@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ProjectCard from '@/components/ProjectCard';
+import FloatingContactButtons from "@/components/FloatingContactButtons";
 
 const Portfolio = () => {
   return (
@@ -137,6 +138,7 @@ const Portfolio = () => {
       </section>
 
       <Footer />
+      <FloatingContactButtons />
     </div>
   );
 };

@@ -7,6 +7,7 @@ import ServiceCard from '@/components/ServiceCard';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
+import FloatingContactButtons from "@/components/FloatingContactButtons";
 
 const Services = () => {
   // Create animation hooks for the process steps
@@ -223,6 +224,7 @@ const Services = () => {
       </section>
 
       <Footer />
+      <FloatingContactButtons />
     </div>
   );
 };

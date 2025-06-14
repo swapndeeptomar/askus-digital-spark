@@ -5,6 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import FloatingContactButtons from "@/components/FloatingContactButtons";
+
 const Contact = () => {
   return <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -163,6 +165,7 @@ const Contact = () => {
       </section>
 
       <Footer />
+      <FloatingContactButtons />
     </div>;
 };
 export default Contact;
