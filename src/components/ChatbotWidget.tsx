@@ -9,6 +9,12 @@ interface Message {
   content: string;
 }
 
+const WHATSAPP_LINK = "https://wa.me/911234567890"; // Replace with actual number
+const GMAIL_LINK = "mailto:info@example.com"; // Replace with your email
+
+const whatsappImg = "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"; // Public WhatsApp SVG
+const gmailImg = "https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png"; // Public Gmail PNG
+
 const ChatbotWidget: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -85,6 +91,39 @@ const ChatbotWidget: React.FC = () => {
         >
           <Bot className="w-7 h-7" />
         </button>
+      )}
+      {/* BOTTOM LEFT floating WhatsApp + Gmail buttons */}
+      {!open && (
+        <div className="fixed z-50 bottom-6 left-6 flex flex-col gap-3">
+          <a
+            href={WHATSAPP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp"
+            className="bg-white rounded-full flex items-center justify-center w-14 h-14 shadow-xl hover:scale-105 transition hover:ring-2 hover:ring-green-500 border border-gray-200"
+          >
+            <img
+              src={whatsappImg}
+              alt="WhatsApp"
+              className="w-8 h-8"
+              draggable={false}
+            />
+          </a>
+          <a
+            href={GMAIL_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Gmail"
+            className="bg-white rounded-full flex items-center justify-center w-14 h-14 shadow-xl hover:scale-105 transition hover:ring-2 hover:ring-red-500 border border-gray-200"
+          >
+            <img
+              src={gmailImg}
+              alt="Gmail"
+              className="w-8 h-8"
+              draggable={false}
+            />
+          </a>
+        </div>
       )}
       {/* Widget Window */}
       {open && (
