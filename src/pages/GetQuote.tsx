@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,8 +8,11 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import FloatingContactButtons from "@/components/FloatingContactButtons";
 import MovingHeaderLines from "@/components/MovingHeaderLines";
+import ServiceQuoteGenerator from "@/components/ServiceQuoteGenerator";
 
 const GetQuote = () => {
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -25,8 +29,20 @@ const GetQuote = () => {
         </div>
       </section>
 
+      {/* Auto Quote Generator */}
+      <section className="pt-10 pb-2 bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto">
+            <ServiceQuoteGenerator
+              selected={selectedServices}
+              onChange={setSelectedServices}
+            />
+          </div>
+        </div>
+      </section>
+
       {/* Quote Form */}
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section className="py-10 md:py-16 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
             <h2 className="text-2xl font-bold mb-6 text-askus-dark">Project Details</h2>
