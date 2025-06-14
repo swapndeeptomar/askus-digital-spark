@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useLocation } from "react";
 import { Bot, Send, MessageCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useLocation } from "react-router-dom";
 
 interface Message {
   role: "user" | "assistant";
@@ -10,6 +11,7 @@ interface Message {
 
 const WHATSAPP_LINK = "https://wa.me/911234567890"; // Replace with actual number
 const GMAIL_LINK = "mailto:info@example.com"; // Replace with your email
+const VIDEO_SCROLL_THRESHOLD = 400; // Adjust as needed to match the video height
 
 const ChatbotWidget: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -19,6 +21,32 @@ const ChatbotWidget: React.FC = () => {
   ]);
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  // To control visibility of buttons
+  const [showFloatingButtons, setShowFloatingButtons] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    // Only show buttons on home page
+    if (location.pathname !== "/") {
+      setShowFloatingButtons(false);
+      return;
+    }
+
+    // Handler for scroll
+    const handleScroll = () => {
+      const scrollY = window.scrollY || window.pageYOffset;
+      setShowFloatingButtons(scrollY > VIDEO_SCROLL_THRESHOLD);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    // Run once on mount
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [location.pathname]);
 
   React.useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -88,28 +116,34 @@ const ChatbotWidget: React.FC = () => {
           <Bot className="w-7 h-7" />
         </button>
       )}
-      {/* Bottom-left WhatsApp + Gmail Lucide icon buttons */}
-      {!open && (
-        <div className="fixed z-50 bottom-6 left-6 flex flex-col gap-3">
+      {/* Bottom-left WhatsApp + Gmail Lucide icon buttons (small, show after scroll past video, home only) */}
+      {!open && showFloatingButtons && (
+        <div className="fixed z-50 bottom-6 left-6 flex flex-col gap-2">
           <a
             href={WHATSAPP_LINK}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="WhatsApp"
-            className="group relative bg-purple-50 rounded-full flex items-center justify-center w-10 h-10 shadow-md border border-askus-purple/15 transition hover:ring-2 hover:ring-green-400 hover:bg-green-50"
+            className="group relative bg-purple-50 rounded-full flex items-center justify-center w-8 h-8 shadow-sm border border-askus-purple/15 transition hover:ring-2 hover:ring-green-400 hover:bg-green-50"
+            style={{ minWidth: 32, minHeight: 32 }}
           >
-            <MessageCircle className="w-6 h-6 text-green-600 group-hover:scale-110 transition" />
-            <span className="absolute -right-2 -top-2 text-xs px-2 py-1 rounded bg-white shadow pointer-events-none opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-90 transition-opacity transition-transform duration-150 text-gray-600 border border-gray-100">WhatsApp</span>
+            <MessageCircle className="w-4 h-4 text-green-600 group-hover:scale-110 transition" />
+            <span className="absolute -right-2 -top-2 text-[10px] px-1.5 py-0.5 rounded bg-white shadow pointer-events-none opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-90 transition-opacity transition-transform duration-150 text-gray-600 border border-gray-100">
+              WhatsApp
+            </span>
           </a>
           <a
             href={GMAIL_LINK}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Gmail"
-            className="group relative bg-purple-50 rounded-full flex items-center justify-center w-10 h-10 shadow-md border border-askus-purple/15 transition hover:ring-2 hover:ring-red-400 hover:bg-red-50"
+            className="group relative bg-purple-50 rounded-full flex items-center justify-center w-8 h-8 shadow-sm border border-askus-purple/15 transition hover:ring-2 hover:ring-red-400 hover:bg-red-50"
+            style={{ minWidth: 32, minHeight: 32 }}
           >
-            <Mail className="w-6 h-6 text-red-500 group-hover:scale-110 transition" />
-            <span className="absolute -right-2 -top-2 text-xs px-2 py-1 rounded bg-white shadow pointer-events-none opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-90 transition-opacity transition-transform duration-150 text-gray-600 border border-gray-100">Gmail</span>
+            <Mail className="w-4 h-4 text-red-500 group-hover:scale-110 transition" />
+            <span className="absolute -right-2 -top-2 text-[10px] px-1.5 py-0.5 rounded bg-white shadow pointer-events-none opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-90 transition-opacity transition-transform duration-150 text-gray-600 border border-gray-100">
+              Gmail
+            </span>
           </a>
         </div>
       )}
