@@ -1,11 +1,24 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '@/components/ui/dropdown-menu';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  // Handles dropdown navigation and closes mobile menu if open
+  const handleDropdownClick = (path: string) => {
+    navigate(path);
+    setIsMenuOpen(false);
+  };
 
   return (
     <header className="fixed w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
@@ -29,16 +42,22 @@ const Navbar = () => {
           </nav>
 
           <div className="hidden md:flex items-center gap-2">
-            <Link to="/contact">
-              <Button className="bg-askus-purple hover:bg-askus-purple/90">
-                Get Started
-              </Button>
-            </Link>
-            <Link to="/contact">
-              <Button variant="outline" className="border-askus-purple text-askus-purple hover:bg-askus-purple/10">
-                Get Quote
-              </Button>
-            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="bg-askus-purple hover:bg-askus-purple/90 flex items-center gap-1">
+                  Get Started
+                  <ChevronDown size={18} className="ml-1" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="z-[105] bg-white min-w-[160px] shadow-lg border border-gray-100">
+                <DropdownMenuItem asChild>
+                  <Link to="/contact">Get Quote</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/contact">Contact Us</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           {/* Mobile menu button */}
@@ -100,16 +119,26 @@ const Navbar = () => {
               Login
             </Link>
             <div className="pt-2 flex gap-2">
-              <Link to="/contact" className="w-1/2">
-                <Button className="w-full bg-askus-purple hover:bg-askus-purple/90">
-                  Get Started
-                </Button>
-              </Link>
-              <Link to="/contact" className="w-1/2">
-                <Button variant="outline" className="w-full border-askus-purple text-askus-purple hover:bg-askus-purple/10">
-                  Get Quote
-                </Button>
-              </Link>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="w-full bg-askus-purple hover:bg-askus-purple/90 flex items-center gap-1 justify-center">
+                    Get Started
+                    <ChevronDown size={18} className="ml-1" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="z-[105] bg-white min-w-[160px] shadow-lg border border-gray-100">
+                  <DropdownMenuItem
+                    onSelect={() => handleDropdownClick('/contact')}
+                  >
+                    Get Quote
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onSelect={() => handleDropdownClick('/contact')}
+                  >
+                    Contact Us
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
