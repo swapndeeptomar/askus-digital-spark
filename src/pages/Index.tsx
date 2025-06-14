@@ -328,9 +328,11 @@ const Index = () => {
                   Contact Us
                 </Button>
               </Link>
-              <Button variant="outline" className="border-white py-6 px-8 rounded-full text-lg text-purple-600 bg-slate-50">
-                Get a Free Quote
-              </Button>
+              <Link to="/get-quote">
+                <Button variant="outline" className="border-white py-6 px-8 rounded-full text-lg text-purple-600 bg-slate-50">
+                  Get a Free Quote
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

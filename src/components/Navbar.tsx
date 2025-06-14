@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
@@ -51,7 +50,7 @@ const Navbar = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="z-[105] bg-white min-w-[160px] shadow-lg border border-gray-100">
                 <DropdownMenuItem asChild>
-                  <Link to="/contact">Get Quote</Link>
+                  <Link to="/get-quote">Get Quote</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link to="/contact">Contact Us</Link>
@@ -128,7 +127,7 @@ const Navbar = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="z-[105] bg-white min-w-[160px] shadow-lg border border-gray-100">
                   <DropdownMenuItem
-                    onSelect={() => handleDropdownClick('/contact')}
+                    onSelect={() => handleDropdownClick('/get-quote')}
                   >
                     Get Quote
                   </DropdownMenuItem>
@@ -148,4 +147,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
