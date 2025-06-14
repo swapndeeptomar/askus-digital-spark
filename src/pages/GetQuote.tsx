@@ -185,8 +185,8 @@ const GetQuote = () => {
         .getPublicUrl(filename);
       const pdfUrl = urlData?.publicUrl;
 
-      // 5. Insert into quotes table
-      const { error: insertError } = await supabase
+      // 5. Insert into quotes table (temporary type override)
+      const { error: insertError } = await (supabase as any)
         .from("quotes")
         .insert({
           name: form.name,
