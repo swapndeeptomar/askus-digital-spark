@@ -1,7 +1,6 @@
 
-import React, { useState } from "react";
+import React from "react";
 
-// The full list of 10 services as described on the Services page
 type Service = {
   id: string;
   name: string;
@@ -76,25 +75,33 @@ const SERVICES: Service[] = [
   {
     id: "ecommerce",
     name: "E-commerce Solutions",
-    description:
-      "Online storefronts with payment integration.",
+    description: "Online storefronts with payment integration.",
     price: 1800,
   },
 ];
 
-const ServiceQuoteGenerator = () => {
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+interface ServiceQuoteGeneratorProps {
+  selected: string[];
+  onChange: (selected: string[]) => void;
+  readOnly?: boolean; // If true, disables user selection
+}
 
+const ServiceQuoteGenerator: React.FC<ServiceQuoteGeneratorProps> = ({
+  selected,
+  onChange,
+  readOnly = false,
+}) => {
   const handleToggle = (serviceId: string) => {
-    setSelectedServices((prev) =>
-      prev.includes(serviceId)
-        ? prev.filter((id) => id !== serviceId)
-        : [...prev, serviceId]
+    if (readOnly) return;
+    onChange(
+      selected.includes(serviceId)
+        ? selected.filter((id) => id !== serviceId)
+        : [...selected, serviceId]
     );
   };
 
-  const selected = SERVICES.filter((s) => selectedServices.includes(s.id));
-  const total = selected.reduce((sum, s) => sum + s.price, 0);
+  const selectedServices = SERVICES.filter((s) => selected.includes(s.id));
+  const total = selectedServices.reduce((sum, s) => sum + s.price, 0);
 
   return (
     <div className="mb-12">
@@ -108,17 +115,24 @@ const ServiceQuoteGenerator = () => {
         {SERVICES.map((service) => (
           <label
             key={service.id}
-            className={`border rounded-lg p-4 flex gap-4 cursor-pointer transition shadow hover:border-askus-purple bg-white ${selectedServices.includes(service.id) ? "border-askus-purple ring-2 ring-askus-purple" : "border-gray-200"}`}
+            className={`border rounded-lg p-4 flex gap-4 cursor-pointer transition shadow hover:border-askus-purple bg-white ${
+              selected.includes(service.id)
+                ? "border-askus-purple ring-2 ring-askus-purple"
+                : "border-gray-200"
+            } ${readOnly ? "opacity-60 cursor-not-allowed" : ""}`}
           >
             <input
               type="checkbox"
-              checked={selectedServices.includes(service.id)}
+              checked={selected.includes(service.id)}
               onChange={() => handleToggle(service.id)}
               className="accent-askus-purple w-5 h-5 mt-1"
+              disabled={readOnly}
             />
             <div>
               <div className="font-bold text-askus-dark">{service.name}</div>
-              <div className="text-gray-500 text-sm mt-1">{service.description}</div>
+              <div className="text-gray-500 text-sm mt-1">
+                {service.description}
+              </div>
               <div className="mt-2 font-semibold text-askus-purple">
                 ₹{service.price.toLocaleString()}
               </div>
@@ -126,26 +140,35 @@ const ServiceQuoteGenerator = () => {
           </label>
         ))}
       </div>
-
       <div className="bg-purple-50 border border-purple-200 rounded-lg p-6 shadow-inner">
         <h3 className="text-lg font-bold text-askus-dark mb-2">
-          <span role="img" aria-label="cart">🧾</span> Cart & Estimation
+          <span role="img" aria-label="cart">
+            🧾
+          </span>{" "}
+          Cart & Estimation
         </h3>
-        {selected.length === 0 ? (
+        {selectedServices.length === 0 ? (
           <div className="text-gray-500">No services selected.</div>
         ) : (
           <ul className="mb-2">
-            {selected.map((s) => (
-              <li key={s.id} className="flex justify-between py-1 border-b last:border-b-0">
+            {selectedServices.map((s) => (
+              <li
+                key={s.id}
+                className="flex justify-between py-1 border-b last:border-b-0"
+              >
                 <span>{s.name}</span>
-                <span className="text-askus-purple font-medium">₹{s.price.toLocaleString()}</span>
+                <span className="text-askus-purple font-medium">
+                  ₹{s.price.toLocaleString()}
+                </span>
               </li>
             ))}
           </ul>
         )}
         <div className="mt-3 pt-2 border-t font-semibold flex justify-between">
           <span>Total Estimate:</span>
-          <span className="text-askus-purple text-lg">₹{total.toLocaleString()}</span>
+          <span className="text-askus-purple text-lg">
+            ₹{total.toLocaleString()}
+          </span>
         </div>
       </div>
     </div>
@@ -153,4 +176,4 @@ const ServiceQuoteGenerator = () => {
 };
 
 export default ServiceQuoteGenerator;
-
+export { SERVICES };
