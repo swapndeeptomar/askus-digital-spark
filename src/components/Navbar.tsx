@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,9 +9,12 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
+import UserMenu from './UserMenu';
+import { supabase } from "@/integrations/supabase/client";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState<{ email: string | null } | null>(null);
   const navigate = useNavigate();
 
   // Handles dropdown navigation and closes mobile menu if open
@@ -18,6 +22,26 @@ const Navbar = () => {
     navigate(path);
     setIsMenuOpen(false);
   };
+
+  // Auth state: track current user
+  useEffect(() => {
+    let isMounted = true;
+    // Subscribe to auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!isMounted) return;
+      setUser(session?.user ? { email: session.user.email } : null);
+    });
+
+    // Check current session on mount
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (isMounted) setUser(session?.user ? { email: session.user.email } : null);
+    });
+
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
 
   return (
     <header className="fixed w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
@@ -37,7 +61,13 @@ const Navbar = () => {
             <Link to="/portfolio" className="text-gray-700 hover:text-askus-purple font-medium">Portfolio</Link>
             <Link to="/about" className="text-gray-700 hover:text-askus-purple font-medium">About Us</Link>
             <Link to="/contact" className="text-gray-700 hover:text-askus-purple font-medium">Contact</Link>
-            <Link to="/login" className="text-gray-700 hover:text-askus-purple font-medium">Login</Link>
+            {/* Show either login link or user menu */}
+            {user
+              ? <div className="flex items-center"><UserMenu user={user} /></div>
+              : (
+                <Link to="/login" className="text-gray-700 hover:text-askus-purple font-medium">Login</Link>
+              )
+            }
           </nav>
 
           <div className="hidden md:flex items-center gap-2">
@@ -110,13 +140,19 @@ const Navbar = () => {
             >
               Contact
             </Link>
-            <Link 
-              to="/login"
-              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-purple-50 hover:text-askus-purple"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Login
-            </Link>
+            {/* Show login or user in mobile menu */}
+            {user
+              ? <div className="block px-3 py-2 rounded-md text-gray-700"><UserMenu user={user} /></div>
+              : (
+                <Link 
+                  to="/login"
+                  className="block px-3 py-2 rounded-md text-gray-700 hover:bg-purple-50 hover:text-askus-purple"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Login
+                </Link>
+              )
+            }
             <div className="pt-2 flex gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
