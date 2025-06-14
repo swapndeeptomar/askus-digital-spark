@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from "react";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface Message {
@@ -17,7 +17,6 @@ const ChatbotWidget: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  // Scroll to latest message
   React.useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, open]);
@@ -46,7 +45,6 @@ const ChatbotWidget: React.FC = () => {
           }),
         }
       );
-
       const data = await resp.json();
       if (resp.ok && data.reply) {
         setMessages((msgs) => [
@@ -77,11 +75,11 @@ const ChatbotWidget: React.FC = () => {
 
   return (
     <>
-      {/* Floating Chatbot Button */}
+      {/* Floating Chatbot Button with pulse animation */}
       {!open && (
         <button
           aria-label="Open Chatbot"
-          className="fixed z-50 bottom-6 right-6 bg-askus-purple hover:bg-askus-dark shadow-lg rounded-full p-4 text-white flex items-center justify-center transition-colors duration-150"
+          className="fixed z-50 bottom-6 right-6 bg-askus-purple hover:bg-askus-dark shadow-xl rounded-full p-4 text-white flex items-center justify-center transition-colors duration-150 animate-pulse focus:ring-4 focus:ring-askus-purple/20"
           onClick={() => setOpen(true)}
         >
           <MessageCircle className="w-7 h-7" />
@@ -89,33 +87,39 @@ const ChatbotWidget: React.FC = () => {
       )}
       {/* Widget Window */}
       {open && (
-        <div className="fixed z-50 bottom-6 right-6 w-[340px] max-w-[95vw] bg-white rounded-xl shadow-2xl flex flex-col border border-gray-200">
-          <div className="flex items-center justify-between p-3 border-b bg-askus-purple rounded-t-xl">
-            <span className="text-white font-semibold">Ask DigiSphere</span>
+        <div className="fixed z-50 bottom-6 right-6 w-[340px] max-w-[95vw] bg-white rounded-xl shadow-2xl flex flex-col border border-gray-200 animate-fade-in">
+          <div className="flex items-center justify-between p-3 border-b bg-gradient-to-r from-askus-purple via-indigo-500 to-askus-purple rounded-t-xl shadow-md">
+            <span className="text-white font-bold tracking-wide drop-shadow text-lg flex items-center gap-1">
+              <MessageCircle className="w-5 h-5 text-white mr-1" />
+              Ask DigiSphere
+            </span>
             <button
               aria-label="Close chatbot"
-              className="rounded-full text-white hover:bg-white/20 p-1"
+              className="rounded-full text-white hover:bg-white/20 p-1 transition"
               onClick={() => setOpen(false)}
             >
-              <span className="text-lg">&times;</span>
+              <span className="text-lg font-bold">&times;</span>
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto px-3 py-2 space-y-2 h-72 bg-gray-50">
+          <div className="flex-1 overflow-y-auto px-3 py-2 space-y-3 h-72 bg-gradient-to-br from-askus-light/90 via-purple-50 to-white">
             {messages.map((m, i) => (
               <div
                 key={i}
                 className={`flex ${
-                  m.role === "user"
-                    ? "justify-end"
-                    : "justify-start"
+                  m.role === "user" ? "justify-end" : "justify-start"
                 }`}
               >
                 <div
-                  className={`px-3 py-2 rounded-lg text-sm max-w-[82%] ${
-                    m.role === "user"
-                      ? "bg-askus-purple text-white"
-                      : "bg-gray-200 text-gray-800"
-                  }`}
+                  className={`px-4 py-2 rounded-2xl text-sm max-w-[80%] shadow-md 
+                    ${
+                      m.role === "user"
+                        ? "bg-askus-purple text-white rounded-br-[2.2rem] hover:scale-105 transition transform"
+                        : "bg-white text-gray-900 rounded-bl-[2.2rem] border border-gray-100"
+                    }`}
+                  style={{
+                    wordBreak: "break-word",
+                    transition: "box-shadow .3s,transform .3s"
+                  }}
                 >
                   {m.content}
                 </div>
@@ -123,26 +127,31 @@ const ChatbotWidget: React.FC = () => {
             ))}
             <div ref={bottomRef} />
           </div>
-          <div className="p-2 bg-white border-t flex items-center gap-2">
-            <input
-              type="text"
-              placeholder={loading ? "AI is typing..." : "Type your message..."}
-              className="flex-1 px-3 py-2 rounded-lg border border-gray-300 focus:border-askus-purple focus:outline-none text-sm"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleInputKeyDown}
-              disabled={loading}
-              aria-label="Chat message"
-            />
-            <Button
-              size="sm"
-              type="button"
-              onClick={handleSend}
-              disabled={loading || !input.trim()}
-              className="bg-askus-purple text-white hover:bg-askus-dark"
-            >
-              Send
-            </Button>
+          <div className="p-2 bg-gradient-to-l from-purple-50 via-white to-white border-t flex items-center gap-2">
+            <div className="flex flex-row w-full gap-2 items-center">
+              <input
+                type="text"
+                placeholder={loading ? "AI is typing..." : "Type your message..."}
+                className="flex-1 px-4 py-2 rounded-2xl border-2 border-gray-200 focus:border-askus-purple focus:outline-none text-sm bg-white shadow-sm"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleInputKeyDown}
+                disabled={loading}
+                aria-label="Chat message"
+                style={{ minWidth: 0 }}
+              />
+              <Button
+                size="icon"
+                type="button"
+                onClick={handleSend}
+                disabled={loading || !input.trim()}
+                className="bg-askus-purple text-white hover:bg-askus-dark rounded-full shadow flex items-center justify-center transition h-10 w-10 p-0"
+                tabIndex={0}
+                aria-label="Send message"
+              >
+                <Send className="w-5 h-5" />
+              </Button>
+            </div>
           </div>
         </div>
       )}
