@@ -1,5 +1,6 @@
+
 import React, { useState, useRef } from "react";
-import { MessageCircle, Send } from "lucide-react";
+import { Bot, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface Message {
@@ -74,14 +75,14 @@ const ChatbotWidget: React.FC = () => {
 
   return (
     <>
-      {/* Floating Chatbot Button with pulse animation */}
+      {/* Floating Chatbot Button (no animation, bot icon) */}
       {!open && (
         <button
           aria-label="Open Chatbot"
-          className="fixed z-50 bottom-6 right-6 bg-askus-purple hover:bg-askus-dark shadow-xl rounded-full p-4 text-white flex items-center justify-center transition-colors duration-150 animate-pulse focus:ring-4 focus:ring-askus-purple/20"
+          className="fixed z-50 bottom-6 right-6 bg-askus-purple hover:bg-askus-dark shadow-xl rounded-full p-4 text-white flex items-center justify-center transition-colors duration-150 focus:ring-4 focus:ring-askus-purple/20"
           onClick={() => setOpen(true)}
         >
-          <MessageCircle className="w-7 h-7" />
+          <Bot className="w-7 h-7" />
         </button>
       )}
       {/* Widget Window */}
@@ -90,7 +91,7 @@ const ChatbotWidget: React.FC = () => {
         >
           <div className="flex items-center justify-between p-3 border-b bg-gradient-to-r from-askus-purple via-indigo-500 to-askus-purple rounded-t-xl shadow-md">
             <span className="text-white font-bold tracking-wide drop-shadow text-lg flex items-center gap-1">
-              <MessageCircle className="w-5 h-5 text-white mr-1" />
+              <Bot className="w-5 h-5 text-white mr-1" />
               Ask DigiSphere
             </span>
             <button
@@ -160,3 +161,4 @@ const ChatbotWidget: React.FC = () => {
 };
 
 export default ChatbotWidget;
+
