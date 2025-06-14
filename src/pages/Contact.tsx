@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,11 +6,55 @@ import { Textarea } from '@/components/ui/textarea';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import FloatingContactButtons from "@/components/FloatingContactButtons";
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from "@/hooks/use-toast";
+
+const initialState = {
+  name: "",
+  email: "",
+  subject: "",
+  message: "",
+};
 
 const Contact = () => {
-  return <div className="flex flex-col min-h-screen">
+  const [fields, setFields] = useState(initialState);
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFields({ ...fields, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+    // Insert into Supabase
+    const { error } = await supabase.from("contact_messages").insert([
+      {
+        name: fields.name.trim(),
+        email: fields.email.trim(),
+        subject: fields.subject.trim(),
+        message: fields.message.trim(),
+      },
+    ]);
+    if (error) {
+      toast({
+        title: "Something went wrong",
+        description: "Your message could not be sent. Please try again.",
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Message Sent!",
+        description: "Thank you for contacting us. We'll get back to you soon.",
+      });
+      setFields(initialState);
+    }
+    setSubmitting(false);
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      
       {/* Header */}
       <section className="pt-32 pb-16 gradient-bg text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,36 +74,82 @@ const Contact = () => {
             {/* Contact Form */}
             <div className="bg-white p-8 rounded-xl shadow-md border border-gray-100">
               <h2 className="text-2xl font-bold mb-6 text-askus-dark">Get in Touch</h2>
-              
-              <form className="space-y-6">
+
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
-                    <Input id="name" placeholder="Enter your name" className="w-full p-3 border rounded-lg" />
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                      Your Name
+                    </label>
+                    <Input
+                      id="name"
+                      value={fields.name}
+                      onChange={handleChange}
+                      placeholder="Enter your name"
+                      className="w-full p-3 border rounded-lg"
+                      required
+                      disabled={submitting}
+                    />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Your Email</label>
-                    <Input id="email" type="email" placeholder="Enter your email" className="w-full p-3 border rounded-lg" />
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                      Your Email
+                    </label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={fields.email}
+                      onChange={handleChange}
+                      placeholder="Enter your email"
+                      className="w-full p-3 border rounded-lg"
+                      required
+                      disabled={submitting}
+                    />
                   </div>
                 </div>
-                
+
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-                  <Input id="subject" placeholder="Enter subject" className="w-full p-3 border rounded-lg" />
+                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+                    Subject
+                  </label>
+                  <Input
+                    id="subject"
+                    value={fields.subject}
+                    onChange={handleChange}
+                    placeholder="Enter subject"
+                    className="w-full p-3 border rounded-lg"
+                    required
+                    disabled={submitting}
+                  />
                 </div>
-                
+
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Your Message</label>
-                  <Textarea id="message" placeholder="Enter your message" className="w-full p-3 border rounded-lg" rows={6} />
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                    Your Message
+                  </label>
+                  <Textarea
+                    id="message"
+                    value={fields.message}
+                    onChange={handleChange}
+                    placeholder="Enter your message"
+                    className="w-full p-3 border rounded-lg"
+                    rows={6}
+                    required
+                    disabled={submitting}
+                  />
                 </div>
-                
-                <Button type="submit" className="w-full bg-askus-purple hover:bg-askus-purple/90 flex items-center justify-center gap-2">
+
+                <Button
+                  type="submit"
+                  className="w-full bg-askus-purple hover:bg-askus-purple/90 flex items-center justify-center gap-2"
+                  disabled={submitting}
+                >
                   <Send size={16} />
-                  Send Message
+                  {submitting ? "Sending..." : "Send Message"}
                 </Button>
               </form>
             </div>
-            
+
             {/* Contact Information */}
             <div>
               <h2 className="text-2xl font-bold mb-6 text-askus-dark">Our Location</h2>
@@ -166,6 +256,8 @@ const Contact = () => {
 
       <Footer />
       <FloatingContactButtons />
-    </div>;
+    </div>
+  );
 };
+
 export default Contact;
