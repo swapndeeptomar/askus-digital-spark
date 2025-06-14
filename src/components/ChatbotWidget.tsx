@@ -2,6 +2,7 @@
 import React, { useState, useRef } from "react";
 import { Bot, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface Message {
   role: "user" | "assistant";
@@ -102,7 +103,7 @@ const ChatbotWidget: React.FC = () => {
               <span className="text-lg font-bold">&times;</span>
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto px-3 py-2 space-y-3 h-72 bg-gradient-to-br from-askus-light/90 via-purple-50 to-white">
+          <ScrollArea className="flex-1 h-72 px-3 py-2 space-y-3 bg-gradient-to-br from-askus-light/90 via-purple-50 to-white">
             {messages.map((m, i) => (
               <div
                 key={i}
@@ -127,7 +128,7 @@ const ChatbotWidget: React.FC = () => {
               </div>
             ))}
             <div ref={bottomRef} />
-          </div>
+          </ScrollArea>
           <div className="p-2 bg-gradient-to-l from-purple-50 via-white to-white border-t flex items-center gap-2">
             <div className="flex flex-row w-full gap-2 items-center">
               <input

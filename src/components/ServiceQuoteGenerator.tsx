@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
 
+// The full list of 10 services as described on the Services page
 type Service = {
   id: string;
   name: string;
@@ -12,44 +13,72 @@ const SERVICES: Service[] = [
   {
     id: "web-development",
     name: "Web Development",
-    description: "Professional websites tailored to your business.",
+    description:
+      "Custom web development solutions tailored to meet your business needs, ensuring seamless user experience and robust functionality.",
     price: 1500,
   },
   {
     id: "mobile-app",
     name: "Mobile App Development",
-    description: "iOS & Android apps for brand presence anywhere.",
+    description:
+      "Innovative mobile app solutions that enhance user engagement and streamline business operations on both iOS and Android platforms.",
     price: 2500,
+  },
+  {
+    id: "seo-optimization",
+    name: "SEO Optimization",
+    description:
+      "Boost your online presence with our expert SEO services, designed to improve search rankings and drive organic traffic to your website.",
+    price: 600,
+  },
+  {
+    id: "digital-marketing",
+    name: "Digital Marketing",
+    description:
+      "Comprehensive digital marketing strategies that increase brand visibility and customer engagement across various online platforms.",
+    price: 1200,
+  },
+  {
+    id: "graphic-design",
+    name: "Graphic Design",
+    description:
+      "Creative design services that capture your brand's essence and communicate your message clearly and effectively.",
+    price: 700,
+  },
+  {
+    id: "cybersecurity",
+    name: "Cybersecurity",
+    description:
+      "Protect your business and customer data with our advanced cybersecurity solutions, ensuring peace of mind and operational integrity.",
+    price: 900,
+  },
+  {
+    id: "custom-software",
+    name: "Custom Software Development",
+    description:
+      "Tailored software solutions designed to address your specific business challenges and streamline your operations.",
+    price: 2000,
   },
   {
     id: "ui-ux",
     name: "UI/UX Design",
-    description: "Modern, user-friendly interfaces for digital products.",
+    description:
+      "User-centered design services that create intuitive, engaging interfaces to enhance user satisfaction and drive conversions.",
     price: 800,
+  },
+  {
+    id: "software-testing",
+    name: "Software & App Testing",
+    description:
+      "Comprehensive testing services to ensure your software and applications are bug-free, secure, and perform optimally across all platforms.",
+    price: 600,
   },
   {
     id: "ecommerce",
     name: "E-commerce Solutions",
-    description: "Online storefronts with payment integration.",
+    description:
+      "Online storefronts with payment integration.",
     price: 1800,
-  },
-  {
-    id: "seo",
-    name: "SEO Optimization",
-    description: "Boost your Google ranking and visibility.",
-    price: 600,
-  },
-  {
-    id: "branding",
-    name: "Branding & Logo",
-    description: "Professional logos & cohesive brand assets.",
-    price: 400,
-  },
-  {
-    id: "maintenance",
-    name: "Website Maintenance",
-    description: "Ongoing updates, backups & support.",
-    price: 250,
   },
 ];
 
@@ -124,3 +153,4 @@ const ServiceQuoteGenerator = () => {
 };
 
 export default ServiceQuoteGenerator;
+
