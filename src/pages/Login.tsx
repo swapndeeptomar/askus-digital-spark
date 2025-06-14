@@ -63,7 +63,8 @@ const Login = () => {
   const handleOAuthLogin = async (provider: string) => {
     setLoggingIn(provider);
     try {
-      const redirectTo = `${window.location.origin}/login`;
+      // CHANGED: now redirect to "/" (home) after OAuth login, not "/login"
+      const redirectTo = `${window.location.origin}/`;
       const { error } = await supabase.auth.signInWithOAuth({
         provider: provider as any,
         options: {
@@ -133,3 +134,4 @@ const Login = () => {
 };
 
 export default Login;
+
