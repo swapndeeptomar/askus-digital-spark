@@ -39,6 +39,36 @@ export type Database = {
         }
         Relationships: []
       }
+      testimonials: {
+        Row: {
+          avatar_initial: string | null
+          company: string | null
+          created_at: string
+          id: string
+          message: string
+          name: string
+          role: string | null
+        }
+        Insert: {
+          avatar_initial?: string | null
+          company?: string | null
+          created_at?: string
+          id?: string
+          message: string
+          name: string
+          role?: string | null
+        }
+        Update: {
+          avatar_initial?: string | null
+          company?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+          name?: string
+          role?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

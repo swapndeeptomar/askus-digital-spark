@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ProjectCard from '@/components/ProjectCard';
 import FloatingContactButtons from "@/components/FloatingContactButtons";
+import TestimonialsSection from "@/components/TestimonialsSection";
 
 const Portfolio = () => {
   return (
@@ -85,57 +86,7 @@ const Portfolio = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-askus-dark">Client Testimonials</h2>
-            <p className="text-lg text-gray-600">
-              Here's what our clients have to say about working with us.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-              <div className="flex items-center mb-4">
-                <div className="w-11 h-11 rounded-full bg-askus-purple text-white flex items-center justify-center font-bold">A</div>&nbsp;&nbsp;
-                <div>
-                  <h4 className="font-semibold text-askus-dark">Emily Richards</h4>
-                  <p className="text-gray-500 text-sm">TechCorp CEO</p>
-                </div>
-              </div>
-              <p className="text-gray-600 italic">
-                "DigiSphere transformed our online presence with a sleek, functional website. Their attention to detail and exceptional web design skills have significantly improved our user experience."
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-              <div className="flex items-center mb-4">
-                <div className="w-11 h-11 rounded-full bg-askus-purple text-white flex items-center justify-center font-bold">A</div>&nbsp;&nbsp;
-                <div>
-                  <h4 className="font-semibold text-askus-dark">Mark Johnson</h4>
-                  <p className="text-gray-500 text-sm">ShopEase Founder</p>
-                </div>
-              </div>
-              <p className="text-gray-600 italic">
-                "The mobile app developed by DigiSphere has been a game-changer for our business. Our customers love the intuitive interface and seamless shopping experience."
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-              <div className="flex items-center mb-4">
-                <div className="w-11 h-11 rounded-full bg-askus-purple text-white flex items-center justify-center font-bold">A</div>&nbsp;&nbsp;
-                <div>
-                  <h4 className="font-semibold text-askus-dark">Sarah Chen</h4>
-                  <p className="text-gray-500 text-sm">GreenLeaf CMO</p>
-                </div>
-              </div>
-              <p className="text-gray-600 italic">
-                "The team at DigiSphere perfectly captured our vision for the brand. Their innovative branding approach has helped us stand out in a competitive market."
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <TestimonialsSection />
 
       <Footer />
       <FloatingContactButtons />
