@@ -28,10 +28,15 @@ const Navbar = () => {
             <Link to="/login" className="text-gray-700 hover:text-askus-purple font-medium">Login</Link>
           </nav>
 
-          <div className="hidden md:block">
+          <div className="hidden md:flex items-center gap-2">
             <Link to="/contact">
               <Button className="bg-askus-purple hover:bg-askus-purple/90">
                 Get Started
+              </Button>
+            </Link>
+            <Link to="/contact">
+              <Button variant="outline" className="border-askus-purple text-askus-purple hover:bg-askus-purple/10">
+                Get Quote
               </Button>
             </Link>
           </div>
@@ -94,10 +99,17 @@ const Navbar = () => {
             >
               Login
             </Link>
-            <div className="pt-2">
-              <Button className="w-full bg-askus-purple hover:bg-askus-purple/90">
-                Get Started
-              </Button>
+            <div className="pt-2 flex gap-2">
+              <Link to="/contact" className="w-1/2">
+                <Button className="w-full bg-askus-purple hover:bg-askus-purple/90">
+                  Get Started
+                </Button>
+              </Link>
+              <Link to="/contact" className="w-1/2">
+                <Button variant="outline" className="w-full border-askus-purple text-askus-purple hover:bg-askus-purple/10">
+                  Get Quote
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -107,3 +119,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
