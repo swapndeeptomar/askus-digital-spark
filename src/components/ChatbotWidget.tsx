@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from "react";
 import { MessageCircle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -87,7 +86,8 @@ const ChatbotWidget: React.FC = () => {
       )}
       {/* Widget Window */}
       {open && (
-        <div className="fixed z-50 bottom-6 right-6 w-[340px] max-w-[95vw] bg-white rounded-xl shadow-2xl flex flex-col border border-gray-200 animate-fade-in">
+        <div className="fixed z-50 bottom-6 right-6 w-[340px] max-w-[95vw] bg-white rounded-xl shadow-2xl flex flex-col border border-gray-200"
+        >
           <div className="flex items-center justify-between p-3 border-b bg-gradient-to-r from-askus-purple via-indigo-500 to-askus-purple rounded-t-xl shadow-md">
             <span className="text-white font-bold tracking-wide drop-shadow text-lg flex items-center gap-1">
               <MessageCircle className="w-5 h-5 text-white mr-1" />
