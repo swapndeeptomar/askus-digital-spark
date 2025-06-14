@@ -25,13 +25,14 @@ const Navbar = () => {
             <Link to="/portfolio" className="text-gray-700 hover:text-askus-purple font-medium">Portfolio</Link>
             <Link to="/about" className="text-gray-700 hover:text-askus-purple font-medium">About Us</Link>
             <Link to="/contact" className="text-gray-700 hover:text-askus-purple font-medium">Contact</Link>
+            <Link to="/login" className="text-gray-700 hover:text-askus-purple font-medium">Login</Link>
           </nav>
 
           <div className="hidden md:block">
-          <Link to="/contact">
-            <Button className="bg-askus-purple hover:bg-askus-purple/90">
-              Get Started
-            </Button>
+            <Link to="/contact">
+              <Button className="bg-askus-purple hover:bg-askus-purple/90">
+                Get Started
+              </Button>
             </Link>
           </div>
 
@@ -85,6 +86,13 @@ const Navbar = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               Contact
+            </Link>
+            <Link 
+              to="/login"
+              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-purple-50 hover:text-askus-purple"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Login
             </Link>
             <div className="pt-2">
               <Button className="w-full bg-askus-purple hover:bg-askus-purple/90">
