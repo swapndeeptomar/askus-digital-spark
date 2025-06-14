@@ -334,6 +334,7 @@
     z-index: 1;
     opacity: 0.22;
     /* Responsive: fade out lines on mobile for clarity */
+    animation: none;
   }
 
   @media (max-width: 640px) {
@@ -351,8 +352,8 @@
     }
   }
 
-  /* SVG lines group animation */
+  /* Move the animation speed to 3.3s for 3x speed */
   .moving-lines-svg g {
-    animation: move-lines 10s linear infinite;
+    animation: move-lines 3.3s linear infinite;
   }
 }

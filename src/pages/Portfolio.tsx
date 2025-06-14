@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import ProjectCard from '@/components/ProjectCard';
 import FloatingContactButtons from "@/components/FloatingContactButtons";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import MovingHeaderLines from "@/components/MovingHeaderLines";
 
 const Portfolio = () => {
   return (
@@ -11,7 +12,8 @@ const Portfolio = () => {
       <Navbar />
       
       {/* Header */}
-      <section className="pt-32 pb-16 gradient-bg text-white">
+      <section className="pt-32 pb-16 gradient-bg text-white relative overflow-hidden">
+        <MovingHeaderLines />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">Our Projects</h1>

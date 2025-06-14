@@ -11,6 +11,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import MovingHeaderLines from "@/components/MovingHeaderLines";
 
 const Index = () => {
   const isMobile = useIsMobile();
@@ -91,7 +92,8 @@ const Index = () => {
     { name: "After Effects", icon: "https://cdn.worldvectorlogo.com/logos/after-effects-2019.svg" },
   ];
 
-  return <div className="flex flex-col min-h-screen">
+  return (
+    <div className="flex flex-col min-h-screen">
       <Navbar />
       
       {/* Video Banner - Modified for play/pause functionality */}
@@ -127,7 +129,8 @@ const Index = () => {
       </section>
       
       {/* Hero Section */}
-      <section className="pt-24 pb-20 md:pb-28 gradient-bg text-white">
+      <section className="pt-32 pb-16 gradient-bg text-white relative overflow-hidden">
+        <MovingHeaderLines />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight animate-fade-in">
@@ -155,7 +158,7 @@ const Index = () => {
           </div>
         </div>
       </section>
-
+      
       {/* Services Section */}
       <section className="section-padding bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -339,6 +342,8 @@ const Index = () => {
       </section>
 
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default Index;

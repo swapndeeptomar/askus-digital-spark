@@ -1,389 +1,92 @@
-import React, { useState, useRef } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import React from 'react';
+import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Send, Download } from "lucide-react";
-import ServiceQuoteGenerator, { SERVICES } from "@/components/ServiceQuoteGenerator";
-import jsPDF from "jspdf";
+import { Label } from "@/components/ui/label";
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import FloatingContactButtons from "@/components/FloatingContactButtons";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/components/ui/use-toast";
+import MovingHeaderLines from "@/components/MovingHeaderLines";
 
 const GetQuote = () => {
-  // Service selection and controlled form state
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    mobile: "", // Added mobile field
-    project: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
-
-  // For PDF generation
-  const summaryRef = useRef<HTMLDivElement>(null);
-
-  const handleFormChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setForm((f) => ({
-      ...f,
-      [e.target.id]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    // No auto PDF download on submit, let user trigger Download PDF after reviewing
-  };
-
-  // Format service summary for PDF
-  const getServiceSummary = () => {
-    const selected = SERVICES.filter((s) => selectedServices.includes(s.id));
-    const total = selected.reduce((sum, s) => sum + s.price, 0);
-    return {
-      selected,
-      total,
-    };
-  };
-
-  // Helper to create a Blob from jsPDF data
-  const generatePDFBlob = () => {
-    const { selected, total } = getServiceSummary();
-    const doc = new jsPDF({
-      orientation: "portrait",
-      unit: "pt",
-      format: "a4"
-    });
-
-    // Branding header
-    doc.setFillColor(139, 92, 246); // digisphere-purple
-    doc.rect(0, 0, 595.28, 80, "F");
-    doc.setFontSize(26);
-    doc.setTextColor(255, 255, 255);
-    doc.setFont("helvetica", "bold");
-    doc.text("DigiSphere - Service Quote", 40, 50);
-
-    // User info
-    let y = 110;
-    doc.setFontSize(14);
-    doc.setTextColor(32, 32, 32);
-    doc.setFont("helvetica", "bold");
-    doc.text("Prepared For:", 40, y);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(12);
-    y += 18;
-    doc.text(`Name: ${form.name || "-"}`, 50, y);
-    y += 16;
-    doc.text(`Email: ${form.email || "-"}`, 50, y);
-    y += 16;
-    doc.text(`Mobile: ${form.mobile || "-"}`, 50, y); // Added mobile number to PDF
-
-    // Project details
-    y += 30;
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text("Project Details", 40, y);
-    y += 16;
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(12);
-    doc.setTextColor(80, 80, 80);
-    // Handle long text wrap
-    const projectLines = doc.splitTextToSize(form.project || "-", 500);
-    doc.text(projectLines, 50, y);
-    y += projectLines.length * 14 + 14;
-
-    // Services summary table
-    doc.setTextColor(32, 32, 32);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(14);
-    doc.text("Selected Services", 40, y);
-    y += 16;
-    if (selected.length === 0) {
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(12);
-      doc.setTextColor(150, 150, 150);
-      doc.text("No services selected.", 50, y);
-      y += 20;
-    } else {
-      // Table headers
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(12);
-      doc.text("Service", 50, y);
-      doc.text("Description", 170, y);
-      doc.text("Price (₹)", 460, y, { align: "right" });
-      y += 9;
-      doc.setDrawColor(139, 92, 246);
-      doc.setLineWidth(0.6);
-      doc.line(40, y + 2, 555, y + 2);
-      y += 14;
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(11);
-
-      selected.forEach((s) => {
-        doc.text(s.name, 50, y);
-        const descLines = doc.splitTextToSize(s.description, 265);
-        doc.text(descLines, 170, y);
-        // If service description has multiple lines, align price with first line and increment y accordingly
-        doc.text(`₹${s.price.toLocaleString()}`, 540, y, { align: "right" });
-        y += Math.max(descLines.length * 13, 13) + 2;
-      });
-      // Total estimate
-      y += 4;
-      doc.setDrawColor(210, 210, 210);
-      doc.setLineWidth(0.3);
-      doc.line(40, y, 555, y);
-      y += 18;
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(13);
-      doc.setTextColor(139, 92, 246);
-      doc.text("Total Estimate:", 50, y);
-      doc.text(`₹${total.toLocaleString()}`, 540, y, { align: "right" });
-      y += 16;
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(10);
-      doc.setTextColor(120, 120, 120);
-      doc.text("This quote is valid for 15 days. Contact us if you have any questions.", 50, y);
-    }
-
-    // Footer
-    doc.setTextColor(120, 120, 120);
-    doc.setFont("helvetica", "italic");
-    doc.setFontSize(9);
-    doc.text("Generated by DigiSphere", 40, 800);
-
-    // Return as Blob
-    return doc.output("blob");
-  };
-
-  // UPLOAD PDF, INSERT RECORD, THEN DOWNLOAD
-  const handleDownloadAndSavePDF = async () => {
-    setIsUploading(true);
-    try {
-      // 1. Generate the PDF Blob
-      const pdfBlob: Blob = generatePDFBlob();
-      // 2. Generate a unique filename
-      const timestamp = Date.now();
-      const safeName = form.name.replace(/[^a-zA-Z0-9]/g, "_").slice(0, 20) || "anon";
-      const filename = `${safeName}_${timestamp}.pdf`;
-      // 3. Upload to Supabase Storage
-      const { data: uploadData, error: uploadErr } = await supabase.storage
-        .from("quotes-pdfs")
-        .upload(filename, pdfBlob, {
-          contentType: "application/pdf",
-          upsert: false,
-        });
-      if (uploadErr) throw uploadErr;
-
-      // 4. Get public URL
-      const { data: urlData } = supabase.storage
-        .from("quotes-pdfs")
-        .getPublicUrl(filename);
-      const pdfUrl = urlData?.publicUrl;
-
-      // 5. Insert into contact_messages table
-      const { error: insertError } = await supabase
-        .from("contact_messages")
-        .insert({
-          name: form.name,
-          email: form.email,
-          mobile: form.mobile,
-          subject: "Quote Request",
-          message: `Project Details: ${form.project}\nSelected Services: ${selectedServices.join(", ")}\nPDF: ${pdfUrl || "(not generated)"}`
-        });
-      if (insertError) throw insertError;
-
-      // 6. Show toast
-      toast({
-        title: "Quote saved!",
-        description: "Your quote has been saved to our system.",
-      });
-
-      // 7. Download the PDF for the user (same as before)
-      const blobUrl = window.URL.createObjectURL(pdfBlob);
-      const link = document.createElement("a");
-      link.href = blobUrl;
-      link.download = "digisphere-quote.pdf";
-      document.body.appendChild(link);
-      link.click();
-      setTimeout(() => {
-        window.URL.revokeObjectURL(blobUrl);
-        document.body.removeChild(link);
-      }, 150);
-
-    } catch (err: any) {
-      toast({
-        title: "Save failed",
-        description: err.message || "Failed to upload PDF & save quote.",
-        variant: "destructive",
-      });
-    }
-    setIsUploading(false);
-  };
-
-  const { selected, total } = getServiceSummary();
-
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <section className="pt-32 pb-16 gradient-bg text-white">
+      {/* Header */}
+      <section className="pt-32 pb-16 gradient-bg text-white relative overflow-hidden">
+        <MovingHeaderLines />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-              Request a Free Quote
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">Get a Quote</h1>
             <p className="text-lg md:text-xl text-gray-100">
-              Tell us about your project, and we’ll get back to you with a tailored quote as soon as possible.
+              Fill out the form below to receive a custom quote for your project.
             </p>
           </div>
         </div>
       </section>
-      <section className="py-16 md:py-24">
+
+      {/* Quote Form */}
+      <section className="py-16 md:py-24 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-xl mx-auto">
-            <ServiceQuoteGenerator
-              selected={selectedServices}
-              onChange={setSelectedServices}
-              readOnly={submitted}
-            />
-            <div
-              ref={summaryRef}
-              className="bg-white p-8 rounded-xl shadow-md border border-gray-100 print:bg-white"
-            >
-              <h2 className="text-2xl font-bold mb-6 text-askus-dark">
-                Get a Free Quote
-              </h2>
-              <form className="space-y-6" onSubmit={handleSubmit} autoComplete="off">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                    Your Name
-                  </label>
-                  <Input
-                    id="name"
-                    placeholder="Enter your name"
-                    className="w-full p-3 border rounded-lg"
-                    value={form.name}
-                    onChange={handleFormChange}
-                    readOnly={submitted}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                    Your Email
-                  </label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    className="w-full p-3 border rounded-lg"
-                    value={form.email}
-                    onChange={handleFormChange}
-                    readOnly={submitted}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="mobile" className="block text-sm font-medium text-gray-700 mb-1">
-                    Mobile Number
-                  </label>
-                  <Input
-                    id="mobile"
-                    type="tel"
-                    placeholder="Enter your mobile number"
-                    className="w-full p-3 border rounded-lg"
-                    value={form.mobile}
-                    onChange={handleFormChange}
-                    readOnly={submitted}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="project" className="block text-sm font-medium text-gray-700 mb-1">
-                    Project Details
-                  </label>
-                  <Textarea
-                    id="project"
-                    placeholder="Tell us a bit about your project..."
-                    className="w-full p-3 border rounded-lg"
-                    rows={6}
-                    value={form.project}
-                    onChange={handleFormChange}
-                    readOnly={submitted}
-                  />
-                </div>
-                {!submitted ? (
-                  <Button
-                    type="submit"
-                    className="w-full bg-askus-purple hover:bg-askus-purple/90 flex items-center justify-center gap-2"
-                  >
-                    <Send size={16} /> Submit To View Quote
-                  </Button>
-                ) : (
-                  <Button
-                    type="button"
-                    className="w-full bg-green-600 hover:bg-green-700 flex items-center justify-center gap-2"
-                    onClick={handleDownloadAndSavePDF}
-                    disabled={isUploading}
-                  >
-                    <Download size={16} />{" "}
-                    {isUploading ? "Saving & Downloading..." : "Download Professional PDF Quote"}
-                  </Button>
-                )}
-              </form>
-              {/* Show summary inside form after submit for PDF */}
-              {submitted && (
-                <div className="mt-8">
-                  <h3 className="text-xl font-semibold text-askus-purple mb-2 flex items-center gap-2">
-                    Your Selected Services
-                  </h3>
-                  {selected.length === 0 ? (
-                    <div className="text-gray-400">No services selected.</div>
-                  ) : (
-                    <ul>
-                      {selected.map((s) => (
-                        <li key={s.id} className="flex justify-between py-1 border-b last:border-b-0">
-                          <span>{s.name}</span>
-                          <span className="text-askus-purple font-medium">
-                            ₹{s.price.toLocaleString()}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  <div className="flex justify-between mt-4 border-t pt-3 font-bold">
-                    <span>Total Estimate:</span>
-                    <span className="text-askus-purple text-lg">
-                      ₹{total.toLocaleString()}
-                    </span>
-                  </div>
-                  <div className="mt-6">
-                    <div className="text-sm text-gray-500">
-                      <span className="font-semibold">Your Name: </span>{form.name || "-"}
-                      <br />
-                      <span className="font-semibold">Your Email: </span>{form.email || "-"}
-                      <br />
-                      <span className="font-semibold">Mobile Number: </span>{form.mobile || "-"}
-                      <br />
-                      <span className="font-semibold">Project: </span>
-                      <span className="whitespace-pre-line">{form.project || "-"}</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-            {!!submitted && (
-              <p className="text-center mt-3 text-green-700">
-                Thank you for your request! You may now download your professional PDF quote.
-              </p>
-            )}
+          <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
+            <h2 className="text-2xl font-bold mb-6 text-askus-dark">Project Details</h2>
+            <form className="space-y-6">
+              <div>
+                <Label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
+                  Your Name
+                </Label>
+                <Input 
+                  type="text" 
+                  id="name" 
+                  placeholder="Enter your name" 
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                />
+              </div>
+              <div>
+                <Label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
+                  Your Email
+                </Label>
+                <Input 
+                  type="email" 
+                  id="email" 
+                  placeholder="Enter your email" 
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                />
+              </div>
+              <div>
+                <Label htmlFor="phone" className="block text-gray-700 text-sm font-bold mb-2">
+                  Phone Number
+                </Label>
+                <Input 
+                  type="tel" 
+                  id="phone" 
+                  placeholder="Enter your phone number" 
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                />
+              </div>
+              <div>
+                <Label htmlFor="projectDetails" className="block text-gray-700 text-sm font-bold mb-2">
+                  Project Details
+                </Label>
+                <Textarea 
+                  id="projectDetails" 
+                  rows={5}
+                  placeholder="Describe your project" 
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                />
+              </div>
+              <Button className="bg-askus-purple hover:bg-askus-purple/90 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline">
+                Get Your Quote
+              </Button>
+            </form>
           </div>
         </div>
       </section>
+
       <Footer />
       <FloatingContactButtons />
     </div>
   );
 };
+
 export default GetQuote;

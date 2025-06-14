@@ -8,6 +8,7 @@ import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
 import FloatingContactButtons from "@/components/FloatingContactButtons";
+import MovingHeaderLines from "@/components/MovingHeaderLines";
 
 const Services = () => {
   // Create animation hooks for the process steps
@@ -40,7 +41,8 @@ const Services = () => {
       <Navbar />
       
       {/* Header */}
-      <section className="pt-32 pb-16 gradient-bg text-white">
+      <section className="pt-32 pb-16 gradient-bg text-white relative overflow-hidden">
+        <MovingHeaderLines />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">Our Services</h1>
