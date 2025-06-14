@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
@@ -12,7 +13,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-full bg-askus-purple text-white flex items-center justify-center font-bold">A</div>
+              <div className="w-9 h-9 rounded-full bg-askus-purple text-white flex items-center justify-center font-bold">D</div>
               <span className="text-xl font-bold text-askus-dark">DigiSphere</span>
             </Link>
           </div>
