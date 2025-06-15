@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
@@ -91,16 +92,22 @@ const Login = () => {
 
   return (
     <div className="flex flex-col min-h-screen relative overflow-x-hidden">
-      {/* Sleek bubbly, layered background */}
+      {/* Modern, premium multi-gradient and blur background */}
       <div className="fixed inset-0 -z-10 pointer-events-none">
-        <div className="absolute top-[-80px] left-[-100px] w-[380px] h-[320px] bg-askus-purple/30 rounded-full blur-2xl opacity-50" />
-        <div className="absolute -top-40 right-0 w-[320px] h-[230px] bg-white/50 rounded-full blur-3xl opacity-40" />
-        <div className="absolute bottom-[-120px] left-1/2 -translate-x-1/2 w-[425px] h-[190px] bg-askus-purple/20 rounded-full blur-3xl opacity-30" />
-        <div className="absolute top-1/6 left-[68%] w-[210px] h-[120px] bg-gradient-to-tr from-askus-purple/25 to-askus-purple/0 blur-2xl opacity-30 rotate-12" />
+        {/* Main gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-askus-purple/70 via-askus-light/90 to-white/95 dark:from-[#201C3E]/90 dark:via-[#15001E]/80 dark:to-[#2b2550]/70 transition-colors" />
+        {/* Blurred violets and accents */}
+        <div className="absolute -top-24 -left-24 md:left-[-120px] w-[340px] h-[340px] md:w-[460px] md:h-[440px] bg-askus-purple/30 blur-[120px] rounded-full opacity-50 pointer-events-none" />
+        <div className="absolute bottom-[-120px] left-1/2 -translate-x-1/2 w-[550px] h-[160px] bg-askus-purple/15 blur-[100px] rounded-full opacity-25" />
+        <div className="absolute top-[30%] right-[-100px] w-[260px] h-[280px] bg-pink-300/10 blur-[80px] rounded-full opacity-40" />
+        <div className="absolute top-7 left-[60%] w-[160px] h-[140px] bg-emerald-300/10 blur-3xl rounded-full opacity-30" />
+        <div className="absolute top-[60%] left-[5%] w-[140px] h-[90px] bg-sky-300/10 blur-2xl rounded-full opacity-20" />
+        {/* Subtle grid or tech pattern */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none [mask-image:linear-gradient(to_bottom,rgba(0,0,0,0.48),rgba(0,0,0,0.18)50%,transparent)] bg-[radial-gradient(circle at 1px 1px,rgba(70,33,150,.15)1px,transparent_0)] bg-[size:36px_36px]" />
       </div>
       <Navbar />
       <main className="flex flex-1 items-center justify-center py-10 px-2 sm:px-4">
-        <div className="w-full max-w-md bg-white/90 backdrop-blur-lg rounded-2xl shadow-2xl p-6 sm:p-8 space-y-8 mx-auto transition-all border border-white/50" style={{ boxShadow: "0 4px 40px 0 rgba(139,92,246,0.06),0 2px 8px rgba(70,33,150,0.09)" }}>
+        <div className="w-full max-w-md bg-white/90 backdrop-blur-lg rounded-2xl shadow-2xl p-6 sm:p-8 space-y-8 mx-auto transition-all border border-white/50">
           <div className="text-center space-y-4">
             <div className="flex items-center justify-center gap-2">
               <div className="w-10 h-10 bg-askus-purple rounded-full text-white flex items-center justify-center font-extrabold text-2xl shadow-md">D</div>
@@ -140,3 +147,4 @@ const Login = () => {
 };
 
 export default Login;
+
