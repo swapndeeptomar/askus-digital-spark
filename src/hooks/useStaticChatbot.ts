@@ -203,7 +203,12 @@ export type ChatMessage = {
   options?: ChatbotStep["options"];
 };
 
-export function useStaticChatbot() {
+// Props: Optionally handle external navigation
+type UseStaticChatbotParams = {
+  onExternalNavigate?: (route: string) => void;
+};
+
+export function useStaticChatbot(params?: UseStaticChatbotParams) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       role: "assistant",
@@ -213,9 +218,18 @@ export function useStaticChatbot() {
   ]);
   const [currentStepId, setCurrentStepId] = useState<string>("start");
 
+  // Helper: special case for "visit_quote" triggers direct navigation
   function sendOption(optionValue: string) {
-    // If Back to Main Menu is selected anywhere, always reset
+    // Always handle "back"
     if (optionValue === "back") {
+      resetChat();
+      return;
+    }
+
+    // Special: if user selects "Visit Quote Page", navigate to /get-quote and close chatbot
+    if (optionValue === "visit_quote" && params?.onExternalNavigate) {
+      params.onExternalNavigate("/get-quote");
+      // Also reset the chat so it's fresh next open
       resetChat();
       return;
     }

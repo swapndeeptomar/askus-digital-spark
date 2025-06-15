@@ -1,8 +1,9 @@
+
 import React, { useRef, useEffect } from "react";
 import { Bot, X, MessageCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useStaticChatbot } from "@/hooks/useStaticChatbot";
 
 const WHATSAPP_LINK = "https://wa.me/911234567890";
@@ -13,11 +14,18 @@ const ChatbotWidget: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   const [showFloatingButtons, setShowFloatingButtons] = React.useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  // Handler to switch to quote page and close chatbot
+  const handleExternalNavigate = (page: string) => {
+    setOpen(false);
+    navigate(page);
+  };
 
   // Custom static bot logic
   const { messages, sendOption, availableOptions, resetChat } =
-    useStaticChatbot();
+    useStaticChatbot({ onExternalNavigate: handleExternalNavigate });
 
   useEffect(() => {
     if (location.pathname !== "/") {
@@ -156,3 +164,4 @@ const ChatbotWidget: React.FC = () => {
 };
 
 export default ChatbotWidget;
+
