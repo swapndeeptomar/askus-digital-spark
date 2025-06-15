@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 // Main menu/FAQ pool setup (with formal, clear answers)
@@ -154,16 +153,14 @@ export function useStaticChatbot() {
     if (!selectedOption) return;
 
     // 1. Add user message
-    setMessages((prev) => [
-      ...prev,
-      { role: "user", content: selectedOption.label },
-    ]);
+    // We'll hold the user message for this function
+    const userMessage: ChatMessage = { role: "user", content: selectedOption.label };
 
     // 2. Terminal reply if available
     if (selectedOption.reply) {
       setMessages((prev) => [
         ...prev,
-        { role: "user", content: selectedOption.label },
+        userMessage,
         { role: "assistant", content: selectedOption.reply },
         {
           role: "assistant",
@@ -186,7 +183,7 @@ export function useStaticChatbot() {
       const nextStep = chatbotSteps[selectedOption.nextStepId];
       setMessages((prev) => [
         ...prev,
-        { role: "user", content: selectedOption.label },
+        userMessage,
         {
           role: "assistant",
           content: nextStep.message,
