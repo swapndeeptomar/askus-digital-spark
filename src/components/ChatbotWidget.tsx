@@ -4,7 +4,7 @@ import { Bot, MessageCircle, Mail, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLocation } from "react-router-dom";
-import { useStaticChatbot, chatOptions } from "@/hooks/useStaticChatbot";
+import { useStaticChatbot, chatOptions, ChatMessage } from "@/hooks/useStaticChatbot";
 
 const WHATSAPP_LINK = "https://wa.me/911234567890";
 const GMAIL_LINK = "mailto:info@example.com";

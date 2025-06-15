@@ -36,9 +36,12 @@ export const chatOptions: ChatOption[] = [
   },
 ];
 
+// Fixed: allow both roles in messages array
+export type ChatMessage = { role: "assistant" | "user"; content: string };
+
 export function useStaticChatbot() {
-  const [messages, setMessages] = useState([
-    { role: "assistant" as const, content: "Hi! How can I help you today? Please pick an option below." },
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    { role: "assistant", content: "Hi! How can I help you today? Please pick an option below." },
   ]);
 
   // "value" of last selected, empty if none
@@ -49,8 +52,8 @@ export function useStaticChatbot() {
     if (!option) return;
     setMessages(prev => [
       ...prev,
-      { role: "user" as const, content: option.label },
-      { role: "assistant" as const, content: option.reply },
+      { role: "user", content: option.label },
+      { role: "assistant", content: option.reply },
     ]);
     setSelectedValue(""); // reset select for reuse
   }
