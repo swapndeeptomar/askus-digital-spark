@@ -1,5 +1,6 @@
+
 import React, { useEffect, useState } from 'react';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Code, Smartphone, Search, PieChart, Paintbrush, Shield, Server, Settings, FileCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -10,6 +11,19 @@ import { Link } from 'react-router-dom';
 import FloatingContactButtons from "@/components/FloatingContactButtons";
 import MovingHeaderLines from "@/components/MovingHeaderLines";
 import { supabase } from '@/integrations/supabase/client';
+
+// Icon mapping from string names to Lucide icon components
+const serviceIconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+  'code': Code,
+  'smartphone': Smartphone,
+  'search': Search,
+  'pie-chart': PieChart,
+  'paintbrush': Paintbrush,
+  'shield': Shield,
+  'server': Server,
+  'settings': Settings,
+  'file-check': FileCheck,
+};
 
 type Service = {
   id: string;
@@ -92,14 +106,18 @@ const Services = () => {
             <div className="py-8 text-gray-500 text-center">No services found.</div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {services.map((service) => (
-                <ServiceCard
-                  key={service.id}
-                  title={service.name}
-                  description={service.description}
-                  icon={undefined} // You may want to enhance this to display the right icon!
-                />
-              ))}
+              {services.map((service) => {
+                // Get icon component from icon map or default to Code
+                const IconComponent = service.icon && serviceIconMap[service.icon] ? serviceIconMap[service.icon] : Code;
+                return (
+                  <ServiceCard
+                    key={service.id}
+                    title={service.name}
+                    description={service.description}
+                    icon={IconComponent}
+                  />
+                );
+              })}
             </div>
           )}
         </div>
@@ -231,3 +249,4 @@ const Services = () => {
 };
 
 export default Services;
+
