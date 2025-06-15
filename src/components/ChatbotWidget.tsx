@@ -1,10 +1,9 @@
-
 import React, { useRef, useEffect } from "react";
-import { Bot, MessageCircle, Mail, X } from "lucide-react";
+import { Bot, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLocation } from "react-router-dom";
-import { useStaticChatbot, chatOptions, ChatMessage } from "@/hooks/useStaticChatbot";
+import { useStaticChatbot } from "@/hooks/useStaticChatbot";
 
 const WHATSAPP_LINK = "https://wa.me/911234567890";
 const GMAIL_LINK = "mailto:info@example.com";
@@ -19,12 +18,7 @@ const ChatbotWidget: React.FC = () => {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   // Static chatbot logic
-  const {
-    messages,
-    sendOption,
-    selectedValue,
-    setSelectedValue,
-  } = useStaticChatbot();
+  const { messages, sendOption, availableOptions } = useStaticChatbot();
 
   useEffect(() => {
     if (location.pathname !== "/") {
@@ -58,7 +52,7 @@ const ChatbotWidget: React.FC = () => {
           <Bot className="w-7 h-7" />
         </button>
       )}
-      {/* Bottom-left WhatsApp + Gmail Lucide icon buttons */}
+      {/* Bottom-left WhatsApp + Gmail buttons (unchanged) */}
       {!open && showFloatingButtons && (
         <div className="fixed z-50 bottom-6 left-6 flex flex-col gap-2">
           <a
@@ -136,37 +130,22 @@ const ChatbotWidget: React.FC = () => {
               </div>
             </ScrollArea>
           </div>
-          {/* Option select input instead of free text input */}
+          {/* Option Buttons instead of select */}
           <div className="p-2 bg-gradient-to-l from-purple-50 via-white to-white border-t flex flex-col gap-2">
-            <label htmlFor="static-chatbot-select" className="sr-only">Choose a question</label>
-            <div className="flex w-full gap-2 items-center">
-              <select
-                id="static-chatbot-select"
-                value={selectedValue}
-                disabled={false}
-                className="flex-1 px-4 py-2 rounded-2xl border-2 border-gray-200 focus:border-askus-purple focus:outline-none text-sm bg-white shadow-sm cursor-pointer"
-                onChange={e => setSelectedValue(e.target.value)}
-                aria-label="Choose a question to ask"
-              >
-                <option value="">-- Choose a question --</option>
-                {chatOptions.map(option => (
-                  <option key={option.value} value={option.value}>{option.label}</option>
+            {availableOptions.length > 0 && (
+              <div className="flex flex-col gap-2 w-full">
+                {availableOptions.map(option => (
+                  <Button
+                    key={option.value}
+                    variant="outline"
+                    className="justify-center w-full text-askus-purple font-semibold border-askus-purple/60 hover:bg-askus-purple/10 transition"
+                    onClick={() => sendOption(option.value)}
+                  >
+                    {option.label}
+                  </Button>
                 ))}
-              </select>
-              <Button
-                size="icon"
-                type="button"
-                onClick={() => {
-                  if (selectedValue) sendOption(selectedValue);
-                }}
-                disabled={!selectedValue}
-                className="bg-askus-purple text-white hover:bg-askus-dark rounded-full shadow flex items-center justify-center transition h-10 w-10 p-0"
-                tabIndex={0}
-                aria-label="Submit question"
-              >
-                <span className="font-bold text-lg">→</span>
-              </Button>
-            </div>
+              </div>
+            )}
           </div>
         </div>
       )}
