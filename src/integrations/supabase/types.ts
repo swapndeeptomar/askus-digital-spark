@@ -174,6 +174,33 @@ export type Database = {
         }
         Relationships: []
       }
+      services: {
+        Row: {
+          created_at: string
+          description: string
+          icon: string | null
+          id: string
+          name: string
+          price: number
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          icon?: string | null
+          id?: string
+          name: string
+          price: number
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          icon?: string | null
+          id?: string
+          name?: string
+          price?: number
+        }
+        Relationships: []
+      }
       testimonials: {
         Row: {
           avatar_initial: string | null

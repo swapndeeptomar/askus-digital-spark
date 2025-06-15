@@ -1,5 +1,5 @@
-import React from 'react';
-import { Code, Smartphone, Search, PieChart, Paintbrush, Shield, Server, Settings, FileCheck } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -9,8 +9,36 @@ import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
 import FloatingContactButtons from "@/components/FloatingContactButtons";
 import MovingHeaderLines from "@/components/MovingHeaderLines";
+import { supabase } from '@/integrations/supabase/client';
+
+type Service = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  icon?: string | null;
+};
 
 const Services = () => {
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchServices() {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("services")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(20);
+      if (!error && data) {
+        setServices(data as Service[]);
+      }
+      setLoading(false);
+    }
+    fetchServices();
+  }, []);
+
   // Create animation hooks for the process steps
   const process1Animation = useScrollAnimation({
     threshold: 0.2,
@@ -56,53 +84,24 @@ const Services = () => {
       {/* Services Section */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <ServiceCard 
-              title="Web Development" 
-              description="Custom web development solutions tailored to meet your business needs, ensuring seamless user experience and robust functionality."
-              icon={Code}
-            />
-            <ServiceCard 
-              title="Mobile App Development" 
-              description="Innovative mobile app solutions that enhance user engagement and streamline business operations on both iOS and Android platforms."
-              icon={Smartphone}
-            />
-            <ServiceCard 
-              title="SEO Optimization" 
-              description="Boost your online presence with our expert SEO services, designed to improve search rankings and drive organic traffic to your website."
-              icon={Search}
-            />
-            <ServiceCard 
-              title="Digital Marketing" 
-              description="Comprehensive digital marketing strategies that increase brand visibility and customer engagement across various online platforms."
-              icon={PieChart}
-            />
-            <ServiceCard 
-              title="Graphic Design" 
-              description="Creative design services that capture your brand's essence and communicate your message clearly and effectively."
-              icon={Paintbrush}
-            />
-            <ServiceCard 
-              title="Cybersecurity" 
-              description="Protect your business and customer data with our advanced cybersecurity solutions, ensuring peace of mind and operational integrity."
-              icon={Shield}
-            />
-            <ServiceCard 
-              title="Custom Software Development" 
-              description="Tailored software solutions designed to address your specific business challenges and streamline your operations."
-              icon={Server}
-            />
-            <ServiceCard 
-              title="UI/UX Design" 
-              description="User-centered design services that create intuitive, engaging interfaces to enhance user satisfaction and drive conversions."
-              icon={Settings}
-            />
-            <ServiceCard 
-              title="Software & App Testing" 
-              description="Comprehensive testing services to ensure your software and applications are bug-free, secure, and perform optimally across all platforms."
-              icon={FileCheck}
-            />
-          </div>
+          {loading ? (
+            <div className="flex justify-center py-12 text-askus-purple">
+              <Loader2 className="animate-spin mr-2" /> Loading services...
+            </div>
+          ) : services.length === 0 ? (
+            <div className="py-8 text-gray-500 text-center">No services found.</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {services.map((service) => (
+                <ServiceCard
+                  key={service.id}
+                  title={service.name}
+                  description={service.description}
+                  icon={undefined} // You may want to enhance this to display the right icon!
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
