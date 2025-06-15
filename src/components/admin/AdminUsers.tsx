@@ -8,12 +8,26 @@ const EDGE_FUNCTION_URL = "/functions/v1/admin_list_users";
 
 const fetchUsers = async (page: number) => {
   const response = await fetch(`${EDGE_FUNCTION_URL}?page=${page}&pageSize=${PAGE_SIZE}`);
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || "Failed to fetch users");
+  let data;
+  let isHTML = false;
+  const contentType = response.headers.get("content-type") || "";
+  if (contentType.includes("application/json")) {
+    data = await response.json();
+  } else {
+    // fallback for error pages
+    isHTML = true;
+    data = await response.text();
   }
-  const { users } = await response.json();
-  return users;
+  if (!response.ok) {
+    if (isHTML) {
+      throw new Error("Server error (HTML): " + data.slice(0, 120));
+    }
+    throw new Error(data?.error || "Failed to fetch users");
+  }
+  if (isHTML) {
+    throw new Error("Unexpected HTML (not JSON): " + data.slice(0, 120));
+  }
+  return data.users;
 };
 
 const AdminUsers: React.FC = () => {
@@ -30,7 +44,11 @@ const AdminUsers: React.FC = () => {
       {isLoading ? (
         <div className="py-10 text-center">Loading...</div>
       ) : error ? (
-        <div className="text-red-500">{String(error)}</div>
+        <div className="text-red-500">
+          <strong>Error loading users:</strong>
+          <br />
+          {(error as Error).message}
+        </div>
       ) : !data || data.length === 0 ? (
         <div className="py-10 text-gray-500 text-center">No users found.</div>
       ) : (
@@ -65,3 +83,4 @@ const AdminUsers: React.FC = () => {
 };
 
 export default AdminUsers;
+
