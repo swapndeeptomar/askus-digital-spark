@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 
 // Main menu/FAQ pool setup (with formal, clear answers)
@@ -218,33 +219,38 @@ export function useStaticChatbot() {
     const selectedOption = step.options?.find((o) => o.value === optionValue);
     if (!selectedOption) return;
 
-    // 1. Add user message
-    // We'll hold the user message for this function
     const userMessage: ChatMessage = { role: "user", content: selectedOption.label };
 
-    // 2. Terminal reply if available
+    // If the selected option has a reply, show reply and show further assistant options (e.g., Back to Main Menu); user may click "Back"
     if (selectedOption.reply) {
       setMessages((prev) => [
         ...prev,
         userMessage,
         { role: "assistant", content: selectedOption.reply },
-        {
-          role: "assistant",
-          content: "Would you like to explore another topic?",
-          options: [
-            {
-              label: "Back to Main Menu",
-              value: "back",
-              nextStepId: "start",
+        selectedOption.nextStepId && chatbotSteps[selectedOption.nextStepId]
+          ? {
+              role: "assistant",
+              content: chatbotSteps[selectedOption.nextStepId].message,
+              options: chatbotSteps[selectedOption.nextStepId].options,
+            }
+          : {
+              role: "assistant",
+              content: "Would you like to explore another topic?",
+              options: [
+                {
+                  label: "Back to Main Menu",
+                  value: "back",
+                  nextStepId: "start",
+                },
+              ],
             },
-          ],
-        },
       ]);
-      setCurrentStepId("start");
+      // If the reply offers a nextStepId (like "back"), update currentStepId accordingly, or else reset to main menu for consistency
+      setCurrentStepId(selectedOption.nextStepId ?? "start");
       return;
     }
 
-    // 3. Next step
+    // If user clicks back or regular option with nextStepId
     if (selectedOption.nextStepId && chatbotSteps[selectedOption.nextStepId]) {
       const nextStep = chatbotSteps[selectedOption.nextStepId];
       setMessages((prev) => [
