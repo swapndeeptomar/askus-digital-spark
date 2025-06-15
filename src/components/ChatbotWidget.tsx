@@ -4,7 +4,10 @@ import { Bot, X, MessageCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { useStaticChatbot } from "@/hooks/useStaticChatbot";
+import { supabase } from "@/integrations/supabase/client";
 
 const WHATSAPP_LINK = "https://wa.me/911234567890";
 const GMAIL_LINK = "mailto:info@example.com";
@@ -16,6 +19,13 @@ const ChatbotWidget: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  // For general inquiry freeform input
+  const [freeformIssue, setFreeformIssue] = useState("");
+  const [freeformEmail, setFreeformEmail] = useState("");
+  const [freeformLoading, setFreeformLoading] = useState(false);
+  const [freeformSubmitted, setFreeformSubmitted] = useState(false);
+  const [freeformError, setFreeformError] = useState<string | null>(null);
 
   // Handler to switch to quote page and close chatbot
   const handleExternalNavigate = (page: string) => {
@@ -30,6 +40,14 @@ const ChatbotWidget: React.FC = () => {
     availableOptions,
     resetChat,
   } = useStaticChatbot({ onExternalNavigate: handleExternalNavigate });
+
+  // Detect if the last assistant message is the "other" step (general inquiry)
+  const showFreeformInput =
+    messages.length > 0 &&
+    messages[messages.length - 1].role === "assistant" &&
+    messages[messages.length - 1].content &&
+    messages[messages.length - 1].content.toLowerCase().includes("please describe your inquiry") &&
+    !freeformSubmitted;
 
   useEffect(() => {
     if (location.pathname !== "/") {
@@ -49,7 +67,46 @@ const ChatbotWidget: React.FC = () => {
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, open]);
+  }, [messages, open, showFreeformInput]);
+
+  // Reset freeform states when chat is closed or reset
+  useEffect(() => {
+    if (!open) {
+      setFreeformIssue("");
+      setFreeformEmail("");
+      setFreeformSubmitted(false);
+      setFreeformError(null);
+    }
+  }, [open]);
+
+  // Insert to Supabase chatbot table
+  const handleFreeformSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFreeformError(null);
+    if (!freeformIssue.trim()) {
+      setFreeformError("Please enter your inquiry.");
+      return;
+    }
+    setFreeformLoading(true);
+    try {
+      const { error } = await supabase.from("chatbot").insert({
+        user_input: freeformIssue,
+        source: "general_inquiry",
+        user_email: freeformEmail || null,
+        page_path: location.pathname,
+      });
+      if (error) {
+        setFreeformError("There was an error submitting your issue. Please try again.");
+      } else {
+        setFreeformSubmitted(true);
+        setFreeformIssue("");
+        setFreeformEmail("");
+      }
+    } catch (err) {
+      setFreeformError("There was an error submitting your issue. Please try again.");
+    }
+    setFreeformLoading(false);
+  };
 
   return (
     <>
@@ -157,10 +214,60 @@ const ChatbotWidget: React.FC = () => {
                     </div>
                   </div>
                 ))}
+                {/* Show freeform input after bot message for general inquiry */}
+                {showFreeformInput && (
+                  <form
+                    onSubmit={handleFreeformSubmit}
+                    className="w-full p-2 bg-white rounded-xl mt-1 border border-askus-purple/10 flex flex-col gap-2"
+                  >
+                    <label className="text-xs text-gray-700 font-medium" htmlFor="issue">
+                      Your Inquiry
+                    </label>
+                    <Textarea
+                      id="issue"
+                      value={freeformIssue}
+                      onChange={(e) => setFreeformIssue(e.target.value)}
+                      rows={3}
+                      maxLength={1000}
+                      placeholder="Type your issue or question here..."
+                      disabled={freeformLoading}
+                      className="resize-none"
+                      required
+                    />
+                    <label className="text-xs text-gray-700 font-medium" htmlFor="issue-email">
+                      Your Email (optional)
+                    </label>
+                    <Input
+                      id="issue-email"
+                      type="email"
+                      autoComplete="email"
+                      value={freeformEmail}
+                      onChange={(e) => setFreeformEmail(e.target.value)}
+                      placeholder="your@email.com"
+                      maxLength={100}
+                      disabled={freeformLoading}
+                    />
+                    {freeformError && (
+                      <div className="text-xs text-red-600">{freeformError}</div>
+                    )}
+                    <Button
+                      type="submit"
+                      className="w-full bg-askus-purple text-white mt-1"
+                      disabled={freeformLoading}
+                    >
+                      {freeformLoading ? "Submitting..." : "Submit"}
+                    </Button>
+                  </form>
+                )}
+                {/* Confirmation message after submitting inquiry */}
+                {freeformSubmitted && showFreeformInput && (
+                  <div className="w-full p-3 bg-purple-50 rounded-xl border border-askus-purple/10 text-askus-purple text-sm font-medium">
+                    Thank you for reaching out! Our team will review your inquiry and get back to you soon.
+                  </div>
+                )}
                 <div ref={bottomRef} />
               </div>
             </ScrollArea>
-            {/* The form for freeform input is REMOVED because freeformSource no longer exists */}
           </div>
         </div>
       )}
