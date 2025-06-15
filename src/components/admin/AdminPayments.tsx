@@ -1,9 +1,12 @@
+
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const PAGE_SIZE = 10;
+const STORAGE_KEY = "admin-payments-checkbox";
 
 const fetchPayments = async (page: number) => {
   const { data, error } = await supabase
@@ -15,13 +18,40 @@ const fetchPayments = async (page: number) => {
   return data;
 };
 
+const getCheckedIds = (): string[] => {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  } catch {
+    return [];
+  }
+};
+
+const setCheckedIds = (ids: string[]) => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+};
+
 const AdminPayments: React.FC = () => {
   const [page, setPage] = React.useState(0);
+  const [checkedIds, setCheckedIdsState] = React.useState<string[]>(getCheckedIds());
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["admin-payments", page],
     queryFn: () => fetchPayments(page)
   });
+
+  React.useEffect(() => {
+    setCheckedIdsState(getCheckedIds());
+  }, [page]);
+
+  const handleCheckbox = (id: string) => {
+    setCheckedIdsState((prev) => {
+      const newIds = prev.includes(id)
+        ? prev.filter((item) => item !== id)
+        : [...prev, id];
+      setCheckedIds(newIds);
+      return newIds;
+    });
+  };
 
   return (
     <div>
@@ -37,6 +67,9 @@ const AdminPayments: React.FC = () => {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>
+                  <span title="Mark done">Done</span>
+                </TableHead>
                 <TableHead>Number</TableHead>
                 <TableHead>Amount</TableHead>
                 <TableHead>Status</TableHead>
@@ -45,7 +78,13 @@ const AdminPayments: React.FC = () => {
             </TableHeader>
             <TableBody>
               {data.map((pay:any) => (
-                <TableRow key={pay.id}>
+                <TableRow key={pay.id} className={checkedIds.includes(pay.id) ? "bg-green-50" : ""}>
+                  <TableCell>
+                    <Checkbox
+                      checked={checkedIds.includes(pay.id)}
+                      onCheckedChange={() => handleCheckbox(pay.id)}
+                    />
+                  </TableCell>
                   <TableCell>{pay.number}</TableCell>
                   <TableCell>₹{pay.amount}</TableCell>
                   <TableCell>{pay.status}</TableCell>

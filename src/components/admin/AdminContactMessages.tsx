@@ -1,9 +1,12 @@
+
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const PAGE_SIZE = 10;
+const STORAGE_KEY = "admin-contact-checkbox";
 
 const fetchContactMessages = async (page: number) => {
   const { data, error } = await supabase
@@ -15,13 +18,40 @@ const fetchContactMessages = async (page: number) => {
   return data;
 };
 
+const getCheckedIds = (): string[] => {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  } catch {
+    return [];
+  }
+};
+
+const setCheckedIds = (ids: string[]) => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+};
+
 const AdminContactMessages: React.FC = () => {
   const [page, setPage] = React.useState(0);
+  const [checkedIds, setCheckedIdsState] = React.useState<string[]>(getCheckedIds());
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["admin-contact-messages", page],
     queryFn: () => fetchContactMessages(page)
   });
+
+  React.useEffect(() => {
+    setCheckedIdsState(getCheckedIds());
+  }, [page]);
+
+  const handleCheckbox = (id: string) => {
+    setCheckedIdsState((prev) => {
+      const newIds = prev.includes(id)
+        ? prev.filter((item) => item !== id)
+        : [...prev, id];
+      setCheckedIds(newIds);
+      return newIds;
+    });
+  };
 
   return (
     <div>
@@ -37,6 +67,9 @@ const AdminContactMessages: React.FC = () => {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>
+                  <span title="Mark done">Done</span>
+                </TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Mobile</TableHead>
@@ -47,7 +80,13 @@ const AdminContactMessages: React.FC = () => {
             </TableHeader>
             <TableBody>
               {data.map((msg:any) => (
-                <TableRow key={msg.id}>
+                <TableRow key={msg.id} className={checkedIds.includes(msg.id) ? "bg-green-50" : ""}>
+                  <TableCell>
+                    <Checkbox
+                      checked={checkedIds.includes(msg.id)}
+                      onCheckedChange={() => handleCheckbox(msg.id)}
+                    />
+                  </TableCell>
                   <TableCell>{msg.name}</TableCell>
                   <TableCell>{msg.email}</TableCell>
                   <TableCell>{msg.mobile || "-"}</TableCell>

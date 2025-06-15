@@ -1,9 +1,12 @@
+
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const PAGE_SIZE = 12;
+const STORAGE_KEY = "admin-testimonials-checkbox";
 
 const fetchTestimonials = async (page: number) => {
   const { data, error } = await supabase
@@ -15,13 +18,40 @@ const fetchTestimonials = async (page: number) => {
   return data;
 };
 
+const getCheckedIds = (): string[] => {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  } catch {
+    return [];
+  }
+};
+
+const setCheckedIds = (ids: string[]) => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+};
+
 const AdminTestimonials: React.FC = () => {
   const [page, setPage] = React.useState(0);
+  const [checkedIds, setCheckedIdsState] = React.useState<string[]>(getCheckedIds());
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["admin-testimonials", page],
     queryFn: () => fetchTestimonials(page)
   });
+
+  React.useEffect(() => {
+    setCheckedIdsState(getCheckedIds());
+  }, [page]);
+
+  const handleCheckbox = (id: string) => {
+    setCheckedIdsState((prev) => {
+      const newIds = prev.includes(id)
+        ? prev.filter((item) => item !== id)
+        : [...prev, id];
+      setCheckedIds(newIds);
+      return newIds;
+    });
+  };
 
   return (
     <div>
@@ -37,6 +67,9 @@ const AdminTestimonials: React.FC = () => {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>
+                  <span title="Mark done">Done</span>
+                </TableHead>
                 <TableHead>Avatar</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Role</TableHead>
@@ -47,7 +80,13 @@ const AdminTestimonials: React.FC = () => {
             </TableHeader>
             <TableBody>
               {data.map((t:any) => (
-                <TableRow key={t.id}>
+                <TableRow key={t.id} className={checkedIds.includes(t.id) ? "bg-green-50" : ""}>
+                  <TableCell>
+                    <Checkbox
+                      checked={checkedIds.includes(t.id)}
+                      onCheckedChange={() => handleCheckbox(t.id)}
+                    />
+                  </TableCell>
                   <TableCell>
                     <div className="w-8 h-8 rounded-full bg-askus-purple text-white flex items-center justify-center font-bold">
                       {t.avatar_initial || (t.name && t.name[0]) || "?"}

@@ -3,8 +3,10 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const PAGE_SIZE = 10;
+const STORAGE_KEY = "admin-quotes-checkbox";
 
 const fetchQuotes = async (page: number) => {
   const { data, error } = await supabase
@@ -19,8 +21,6 @@ const fetchQuotes = async (page: number) => {
 const renderServiceNames = (selected_services: any): React.ReactNode => {
   // If nullish or falsy
   if (!selected_services) return "-";
-
-  // If it's an array of objects (with 'name' property)
   if (Array.isArray(selected_services) && selected_services.length > 0) {
     if (typeof selected_services[0] === "object" && selected_services[0] !== null) {
       return (
@@ -41,12 +41,9 @@ const renderServiceNames = (selected_services: any): React.ReactNode => {
       );
     }
   }
-  // If it's a single object (possibly a map)
   if (typeof selected_services === "object") {
-    // Object values could be array of objects or strings
     const values = Object.values(selected_services);
     if (values.length > 0) {
-      // If first value is object with 'name'
       if (typeof values[0] === "object" && values[0] !== null && "name" in (values[0] as any)) {
         return (
           <ul className="list-disc pl-4">
@@ -54,7 +51,6 @@ const renderServiceNames = (selected_services: any): React.ReactNode => {
           </ul>
         );
       } else {
-        // Array of string/number
         return (
           <ul className="list-disc pl-4">
             {values.map((srv: any, i: number) => <li key={i}>{String(srv)}</li>)}
@@ -66,13 +62,40 @@ const renderServiceNames = (selected_services: any): React.ReactNode => {
   return "-";
 };
 
+const getCheckedIds = (): string[] => {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  } catch {
+    return [];
+  }
+};
+
+const setCheckedIds = (ids: string[]) => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+};
+
 const AdminQuotes: React.FC = () => {
   const [page, setPage] = React.useState(0);
+  const [checkedIds, setCheckedIdsState] = React.useState<string[]>(getCheckedIds());
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["admin-quotes", page],
     queryFn: () => fetchQuotes(page)
   });
+
+  React.useEffect(() => {
+    setCheckedIdsState(getCheckedIds());
+  }, [page]);
+
+  const handleCheckbox = (id: string) => {
+    setCheckedIdsState((prev) => {
+      const newIds = prev.includes(id)
+        ? prev.filter((item) => item !== id)
+        : [...prev, id];
+      setCheckedIds(newIds);
+      return newIds;
+    });
+  };
 
   return (
     <div>
@@ -88,6 +111,9 @@ const AdminQuotes: React.FC = () => {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>
+                  <span title="Mark done">Done</span>
+                </TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Phone</TableHead>
@@ -99,7 +125,13 @@ const AdminQuotes: React.FC = () => {
             </TableHeader>
             <TableBody>
               {data.map((q:any) => (
-                <TableRow key={q.id}>
+                <TableRow key={q.id} className={checkedIds.includes(q.id) ? "bg-green-50" : ""}>
+                  <TableCell>
+                    <Checkbox
+                      checked={checkedIds.includes(q.id)}
+                      onCheckedChange={() => handleCheckbox(q.id)}
+                    />
+                  </TableCell>
                   <TableCell>{q.name}</TableCell>
                   <TableCell>{q.email}</TableCell>
                   <TableCell>{q.phone || "-"}</TableCell>
