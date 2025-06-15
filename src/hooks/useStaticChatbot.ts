@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 // Main menu/FAQ pool setup (with formal, clear answers)
@@ -215,6 +214,12 @@ export function useStaticChatbot() {
   const [currentStepId, setCurrentStepId] = useState<string>("start");
 
   function sendOption(optionValue: string) {
+    // If Back to Main Menu is selected anywhere, always reset
+    if (optionValue === "back") {
+      resetChat();
+      return;
+    }
+
     const step = chatbotSteps[currentStepId];
     const selectedOption = step.options?.find((o) => o.value === optionValue);
     if (!selectedOption) return;
@@ -245,12 +250,11 @@ export function useStaticChatbot() {
               ],
             },
       ]);
-      // If the reply offers a nextStepId (like "back"), update currentStepId accordingly, or else reset to main menu for consistency
       setCurrentStepId(selectedOption.nextStepId ?? "start");
       return;
     }
 
-    // If user clicks back or regular option with nextStepId
+    // If user clicks a regular option with nextStepId
     if (selectedOption.nextStepId && chatbotSteps[selectedOption.nextStepId]) {
       const nextStep = chatbotSteps[selectedOption.nextStepId];
       setMessages((prev) => [
