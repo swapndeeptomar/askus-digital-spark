@@ -82,86 +82,165 @@ const GetQuote = () => {
 
   // PDF download handler
   const downloadPdf = () => {
-    const doc = new jsPDF();
+    const doc = new jsPDF({
+      orientation: "portrait",
+      unit: "pt",
+      format: "a4",
+    });
 
-    // Brand Header
-    doc.setFontSize(22);
-    doc.setTextColor(55, 7, 134);
-    doc.text("ASKUS - Professional Quote", 105, 20, { align: "center" });
+    // Dimensions
+    const pageWidth = doc.internal.pageSize.getWidth();
+    // DigiSphere Purple: #8F5DF0
+    const headerHeight = 80;
 
-    // Divider
-    doc.setDrawColor(124, 58, 237);
-    doc.line(20, 25, 190, 25);
+    // Header rect (purple)
+    doc.setFillColor(143, 93, 240);
+    doc.rect(0, 0, pageWidth, headerHeight, "F");
 
-    // User Info
+    // DigiSphere title
+    doc.setFontSize(28);
+    doc.setTextColor(255, 255, 255);
+    doc.setFont(undefined, 'bold');
+    doc.text("DigiSphere - Service Quote", pageWidth / 2, 52, {
+      align: "center",
+      baseline: "middle",
+    });
+
+    // Start content after header
+    let y = headerHeight + 28;
+
+    // "Prepared For" section
+    doc.setFontSize(15);
+    doc.setFont(undefined, 'bold');
+    doc.setTextColor(33, 33, 33);
+    doc.text("Prepared For:", 48, y);
+
+    y += 26;
     doc.setFontSize(12);
-    doc.setTextColor(40, 40, 40);
-    let y = 35;
-    doc.text(`Name: ${name || "-"}`, 20, y);
-    y += 8;
-    doc.text(`Email: ${email || "-"}`, 20, y);
-    y += 8;
-    if (phone) {
-      doc.text(`Phone: ${phone}`, 20, y);
-      y += 8;
-    }
+    doc.setFont(undefined, 'normal');
+    doc.text(`Name: `, 60, y);
+    doc.setFont(undefined, 'bold');
+    doc.text(name || "-", 108, y);
+
+    doc.setFont(undefined, 'normal');
+    y += 18;
+    doc.text(`Email: `, 60, y);
+    doc.setFont(undefined, 'bold');
+    doc.text(email || "-", 108, y);
+
+    doc.setFont(undefined, 'normal');
+    y += 18;
+    doc.text(`Mobile: `, 60, y);
+    doc.setFont(undefined, 'bold');
+    doc.text(phone || "-", 108, y);
 
     // Project Details
-    y += 4;
+    y += 30;
+    doc.setFont(undefined, 'bold');
     doc.setFontSize(13);
-    doc.setTextColor(124, 58, 237);
-    doc.text("Project Details", 20, y);
-    y += 7;
-    doc.setFontSize(11);
-    doc.setTextColor(60, 60, 60);
-    const detailsLines = doc.splitTextToSize(details || "-", 170);
-    doc.text(detailsLines, 20, y);
-    y += detailsLines.length * 6 + 5;
+    doc.setTextColor(33, 33, 33);
+    doc.text("Project Details", 48, y);
 
-    // Services
+    y += 16;
+    doc.setFont(undefined, 'normal');
+    doc.setFontSize(12);
+    doc.setTextColor(66, 66, 66);
+    const detLines = doc.splitTextToSize(details || "-", pageWidth - 96);
+    doc.text(detLines, 60, y);
+    y += detLines.length * 15 + 4;
+
+    // Selected Services section
+    y += 16;
+    doc.setFont(undefined, 'bold');
     doc.setFontSize(13);
-    doc.setTextColor(124, 58, 237);
-    doc.text("Selected Services", 20, y);
-    y += 7;
+    doc.setTextColor(33, 33, 33);
+    doc.text("Selected Services", 48, y);
+
+    y += 16;
+
+    // Table Header
+    doc.setFont(undefined, 'bold');
+    doc.setFontSize(12);
+    doc.setTextColor(33,33,33);
+    doc.setDrawColor(143, 93, 240); // Header underline
+
+    // Table columns start x positions
+    const colService = 60;
+    const colDesc = colService + 130;
+    const colPrice = pageWidth - 90;
+
+    doc.text("Service", colService, y);
+    doc.text("Description", colDesc, y);
+    doc.text("Price (₹)", colPrice, y, { align: "right" });
+
+    y += 3;
+    doc.setLineWidth(1);
+    doc.line(colService, y, pageWidth - 60, y);
+
+    y += 13;
+
+    // Table rows
+    doc.setFont(undefined, 'normal');
+    doc.setFontSize(11);
+
     if (selectedServicesInfo.length === 0) {
-      doc.setFontSize(11);
-      doc.setTextColor(133, 133, 133);
-      doc.text("No services selected.", 20, y);
-      y += 7;
+      doc.setTextColor(146, 146, 146);
+      doc.text("No services selected.", colService, y);
+      y += 20;
     } else {
-      doc.setFontSize(11);
-      doc.setTextColor(80, 80, 80);
-      doc.setFillColor(241, 233, 255);
-      doc.rect(20, y-5, 170, 9, "F");
-      doc.text("Service", 25, y);
-      doc.text("Price", 140, y);
-      y += 7;
-      selectedServicesInfo.forEach(s => {
-        doc.setTextColor(60, 60, 60);
-        doc.text(s.name, 25, y);
-        doc.text(`₹${s.price.toLocaleString()}`, 140, y);
-        y += 7;
+      selectedServicesInfo.forEach((serv, idx) => {
+        doc.setTextColor(33, 33, 33);
+        doc.text(serv.name, colService, y, { maxWidth: 125 });
+
+        // Service description (wrap if needed)
+        const descLines = doc.splitTextToSize(serv.description, colPrice - colDesc - 24);
+        doc.setTextColor(80, 80, 80);
+        doc.text(descLines, colDesc, y);
+
+        // The price should align right
+        doc.setTextColor(33, 33, 33);
+        doc.text(`₹${serv.price.toLocaleString()}`, colPrice, y, { align: "right" });
+
+        // Move y by the tallest cell
+        y += Math.max(18, descLines.length * 14);
       });
-      y += 2;
-      doc.setDrawColor(191, 139, 255);
-      doc.setLineWidth(0.5);
-      doc.line(25, y, 190, y);
-      y += 5;
-      doc.setFontSize(12);
-      doc.setTextColor(124, 58, 237);
-      doc.text("Total Estimate:", 25, y);
-      doc.text(`₹${totalEstimate.toLocaleString()}`, 140, y);
-      y += 8;
     }
 
-    // Footer
-    y = Math.max(y, 260);
-    doc.setFontSize(10);
-    doc.setTextColor(140, 140, 140);
-    doc.text("Thank you for getting a quote from AskUS! We'll connect with you soon.", 105, 285, { align: "center" });
+    // Total Estimate section
+    y += 18;
+    doc.setLineWidth(0.5);
+    doc.setDrawColor(200, 180, 255);
+    doc.line(colService, y, pageWidth - 60, y);
 
+    y += 24;
+    doc.setFontSize(15);
+    doc.setFont(undefined, "bold");
+    doc.setTextColor(143, 93, 240);
+    doc.text("Total Estimate:", colService, y);
+    doc.text(
+      `₹${totalEstimate.toLocaleString()}`,
+      colPrice,
+      y,
+      { align: "right" }
+    );
+
+    // Validity note
+    y += 10;
+    doc.setFont(undefined, "normal");
+    doc.setFontSize(11);
+    doc.setTextColor(176, 154, 219);
+    doc.text(
+      "This quote is valid for 15 days. Contact us if you have any questions.",
+      colService,
+      y + 20
+    );
+
+    // Save PDF
+    const safeName = name ? name.replace(/[^a-zA-Z0-9]/g, "_") : "User";
     doc.save(
-      `AskUS_Quote_${name ? name.replace(/[^a-zA-Z0-9]/g, "_") : "User"}_${new Date().toISOString().slice(0, 10)}.pdf`
+      `digisphere-quote-${safeName}-${new Date()
+        .toISOString()
+        .slice(0, 10)}.pdf`
     );
   };
 
