@@ -80,10 +80,16 @@ const Payment = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-askus-purple/10 via-white to-askus-purple/30 relative">
+      {/* Decorative blurred backgrounds for more visual interest */}
+      <div className="pointer-events-none fixed inset-0 -z-10">
+        <div className="absolute -top-24 left-2/3 w-[400px] h-[350px] rounded-full bg-askus-purple/40 blur-3xl opacity-50" />
+        <div className="absolute bottom-0 left-0 w-[250px] h-[300px] bg-askus-purple/25 rounded-full blur-2xl opacity-40" />
+        <div className="absolute top-1/3 right-1/2 w-[350px] h-[120px] bg-gradient-to-tr from-askus-purple/20 to-white/0 blur-3xl opacity-40 rotate-12" />
+      </div>
       <Navbar />
-      <main className="flex-grow py-20">
-        <div className="container mx-auto max-w-xl bg-white p-6 rounded-xl shadow-md">
+      <main className="flex-grow py-12 px-2">
+        <div className="container mx-auto max-w-xl bg-white/90 rounded-xl shadow-2xl p-6 sm:p-10 transition-all backdrop-blur-xl">
           <h1 className="text-3xl font-bold text-center text-askus-dark mb-8">
             Make a Payment
           </h1>

@@ -91,10 +91,16 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen relative bg-gradient-to-br from-askus-purple/10 via-white to-askus-purple/30">
+      {/* Decorative background circles for extra pop */}
+      <div className="pointer-events-none fixed inset-0 -z-10 flex items-center justify-center">
+        <div className="absolute -top-24 -left-32 w-96 h-96 bg-askus-purple/30 rounded-full blur-2xl opacity-50" />
+        <div className="absolute -bottom-40 right-0 w-[500px] h-[400px] bg-askus-purple/20 rounded-full blur-2xl opacity-40" />
+        <div className="absolute top-1/4 left-1/2 w-1/2 h-40 bg-gradient-to-tr from-askus-purple/20 to-white/0 blur-3xl opacity-40 -z-10 rotate-12" />
+      </div>
       <Navbar />
-      <main className="flex flex-1 items-center justify-center bg-gray-50 py-20">
-        <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8 space-y-8">
+      <main className="flex flex-1 items-center justify-center py-10 px-4">
+        <div className="w-full max-w-md bg-white/90 backdrop-blur-xl rounded-xl shadow-2xl p-8 space-y-8 mx-auto transition-all">
           <div className="text-center space-y-4">
             <div className="flex items-center justify-center gap-2">
               <div className="w-10 h-10 bg-askus-purple rounded-full text-white flex items-center justify-center font-extrabold text-2xl">D</div>
@@ -134,4 +140,3 @@ const Login = () => {
 };
 
 export default Login;
-
