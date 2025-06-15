@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 
-// A step in the conversation
+// Main menu/FAQ pool setup (with formal, clear answers)
 export type ChatbotStep = {
   id: string;
   message: string;
@@ -11,96 +11,209 @@ export type ChatbotStep = {
     nextStepId?: string;
     reply?: string;
   }[];
-  // Bot can reply instantly upon choosing this step (optional)
-  autoReply?: string;
 };
 
-// Define your chatbot tree of steps (can be expanded easily)
 export const chatbotSteps: Record<string, ChatbotStep> = {
   start: {
     id: "start",
-    message: "👋 Want to chat about DigiSphere's services? If you have a question, don't be shy.",
+    message:
+      "Welcome to DigiSphere Support! Please choose a topic below or describe your inquiry.",
     options: [
-      { label: "Info about services I'm not yet using", value: "info", nextStepId: "info" },
-      { label: "Help with my current service", value: "help", nextStepId: "help" },
-      { label: "Something else", value: "other", nextStepId: "other" },
+      {
+        label: "What services does DigiSphere offer?",
+        value: "services_offered",
+        nextStepId: "services_offered",
+      },
+      {
+        label: "How can I get a quote?",
+        value: "get_quote",
+        nextStepId: "get_quote",
+      },
+      {
+        label: "Technical Support",
+        value: "technical_support",
+        nextStepId: "technical_support",
+      },
+      {
+        label: "Billing and Payment",
+        value: "billing",
+        nextStepId: "billing",
+      },
+      {
+        label: "Other/General Inquiry",
+        value: "other",
+        nextStepId: "other",
+      },
     ],
   },
-  info: {
-    id: "info",
-    message: "Here’s info about our services! Which are you interested in?",
+  services_offered: {
+    id: "services_offered",
+    message:
+      "DigiSphere provides web development, digital marketing (including SEO/SEM), e-commerce solutions, cloud migration, and IT consulting. Do you want information on a specific service?",
     options: [
-      { label: "Web Development", value: "web", reply: "We offer bespoke web dev from idea to launch!" },
-      { label: "SEO Optimization", value: "seo", reply: "We help businesses improve rankings and visibility." },
-      { label: "Back to start", value: "back", nextStepId: "start" },
+      {
+        label: "Web Development",
+        value: "web_development",
+        reply:
+          "Our web development team specializes in creating responsive, accessible, and performant websites tailored to your business needs.",
+      },
+      {
+        label: "Digital Marketing",
+        value: "digital_marketing",
+        reply:
+          "DigiSphere's digital marketing experts can help grow your online presence through SEO, SEM, and targeted campaigns.",
+      },
+      {
+        label: "E-commerce Solutions",
+        value: "ecommerce",
+        reply:
+          "We build robust e-commerce platforms, including storefronts, payment integration, and inventory management.",
+      },
+      {
+        label: "Back to Main Menu",
+        value: "back",
+        nextStepId: "start",
+      },
     ],
   },
-  help: {
-    id: "help",
-    message: "We're here to support you! How can we help?",
+  get_quote: {
+    id: "get_quote",
+    message:
+      "To receive a personalized quote, please visit our Get Quote page or provide details about your project here, and our team will contact you within one business day.",
     options: [
-      { label: "Technical Support", value: "tech", reply: "Please describe your tech issue and we’ll connect you." },
-      { label: "Billing question", value: "billing", reply: "Our billing team will reach out shortly." },
-      { label: "Back to start", value: "back", nextStepId: "start" },
+      {
+        label: "Visit Get Quote Page",
+        value: "visit_quote",
+        reply:
+          "You can use the Get Quote page on our website to receive an instant estimate.",
+      },
+      {
+        label: "Back to Main Menu",
+        value: "back",
+        nextStepId: "start",
+      },
+    ],
+  },
+  technical_support: {
+    id: "technical_support",
+    message:
+      "For technical support, please describe your issue in detail. Our support team is available Monday-Friday, 9am-6pm IST, and will respond as soon as possible.",
+    options: [
+      {
+        label: "Back to Main Menu",
+        value: "back",
+        nextStepId: "start",
+      },
+    ],
+  },
+  billing: {
+    id: "billing",
+    message:
+      "For billing and payment questions, please specify whether you need help with invoices, payment methods, or other financial concerns.",
+    options: [
+      {
+        label: "Back to Main Menu",
+        value: "back",
+        nextStepId: "start",
+      },
     ],
   },
   other: {
     id: "other",
-    message: "Please describe your question and a human agent will get back to you soon.",
-    // No options = end
+    message:
+      "Please describe your inquiry in detail. Our customer support team will get back to you promptly.",
+    options: [
+      {
+        label: "Back to Main Menu",
+        value: "back",
+        nextStepId: "start",
+      },
+    ],
   },
 };
 
-export type ChatMessage = { role: "assistant" | "user"; content: string; options?: ChatbotStep["options"] };
+export type ChatMessage = {
+  role: "assistant" | "user";
+  content: string;
+  options?: ChatbotStep["options"];
+};
 
 export function useStaticChatbot() {
-  // Holds the full conversation
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: "assistant", content: chatbotSteps["start"].message, options: chatbotSteps["start"].options },
+    {
+      role: "assistant",
+      content: chatbotSteps["start"].message,
+      options: chatbotSteps["start"].options,
+    },
   ]);
-  // Track step
   const [currentStepId, setCurrentStepId] = useState<string>("start");
 
-  // Called when user clicks a bot option button
   function sendOption(optionValue: string) {
     const step = chatbotSteps[currentStepId];
-    const selectedOption = step.options?.find(o => o.value === optionValue);
+    const selectedOption = step.options?.find((o) => o.value === optionValue);
     if (!selectedOption) return;
 
-    // 1. Show user's message
-    setMessages(prev => [
+    // 1. Add user message
+    setMessages((prev) => [
       ...prev,
       { role: "user", content: selectedOption.label },
     ]);
 
-    // 2. If option has "reply", display reply as bot message (terminal)
+    // 2. Terminal reply if available
     if (selectedOption.reply) {
-      setMessages(prev => [
+      setMessages((prev) => [
         ...prev,
         { role: "user", content: selectedOption.label },
         { role: "assistant", content: selectedOption.reply },
+        {
+          role: "assistant",
+          content: "Would you like to explore another topic?",
+          options: [
+            {
+              label: "Back to Main Menu",
+              value: "back",
+              nextStepId: "start",
+            },
+          ],
+        },
       ]);
-      // Don't update step, as it's terminal
+      setCurrentStepId("start");
       return;
     }
 
-    // 3. Otherwise, move to next step
+    // 3. Next step
     if (selectedOption.nextStepId && chatbotSteps[selectedOption.nextStepId]) {
       const nextStep = chatbotSteps[selectedOption.nextStepId];
-      setMessages(prev => [
+      setMessages((prev) => [
         ...prev,
         { role: "user", content: selectedOption.label },
-        { role: "assistant", content: nextStep.message, options: nextStep.options },
+        {
+          role: "assistant",
+          content: nextStep.message,
+          options: nextStep.options,
+        },
       ]);
       setCurrentStepId(nextStep.id);
     }
   }
 
-  // Returns buttons for currently available options (from last assistant message)
+  // Show latest assistant options always after last assistant message
   const availableOptions =
     messages.length > 0 && messages[messages.length - 1].role === "assistant"
       ? messages[messages.length - 1].options || []
       : [];
 
-  return { messages, sendOption, availableOptions };
+  // Restart method (for external use e.g. 'reset to main menu')
+  function resetChat() {
+    setMessages([
+      {
+        role: "assistant",
+        content: chatbotSteps["start"].message,
+        options: chatbotSteps["start"].options,
+      },
+    ]);
+    setCurrentStepId("start");
+  }
+
+  return { messages, sendOption, availableOptions, resetChat };
 }

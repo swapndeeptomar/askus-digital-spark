@@ -1,6 +1,6 @@
 
 import React, { useRef, useEffect } from "react";
-import { Bot, X, MessageCircle, Mail } from "lucide-react"; // Added MessageCircle, Mail
+import { Bot, X, MessageCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLocation } from "react-router-dom";
@@ -12,14 +12,13 @@ const VIDEO_SCROLL_THRESHOLD = 400;
 
 const ChatbotWidget: React.FC = () => {
   const [open, setOpen] = React.useState(false);
-
-  // Show floating buttons control
   const [showFloatingButtons, setShowFloatingButtons] = React.useState(false);
   const location = useLocation();
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  // Static chatbot logic
-  const { messages, sendOption, availableOptions } = useStaticChatbot();
+  // Custom static bot logic
+  const { messages, sendOption, availableOptions, resetChat } =
+    useStaticChatbot();
 
   useEffect(() => {
     if (location.pathname !== "/") {
@@ -53,7 +52,8 @@ const ChatbotWidget: React.FC = () => {
           <Bot className="w-7 h-7" />
         </button>
       )}
-      {/* Bottom-left WhatsApp + Gmail buttons (unchanged) */}
+
+      {/* Bottom-left WhatsApp + Gmail buttons */}
       {!open && showFloatingButtons && (
         <div className="fixed z-50 bottom-6 left-6 flex flex-col gap-2">
           <a
@@ -84,9 +84,11 @@ const ChatbotWidget: React.FC = () => {
           </a>
         </div>
       )}
-      {/* Widget Window */}
+
+      {/* Chatbot Widget */}
       {open && (
         <div className="fixed z-50 bottom-6 right-6 w-[340px] max-w-[95vw] bg-white rounded-xl shadow-2xl flex flex-col border border-gray-200 h-[500px]">
+          {/* Header */}
           <div className="flex items-center justify-between p-3 border-b bg-gradient-to-r from-askus-purple via-indigo-500 to-askus-purple rounded-t-xl shadow-md">
             <span className="text-white font-bold tracking-wide drop-shadow text-lg flex items-center gap-1">
               <Bot className="w-5 h-5 text-white mr-1" />
@@ -100,30 +102,47 @@ const ChatbotWidget: React.FC = () => {
               <X className="w-5 h-5" />
             </button>
           </div>
-          {/* Scrollable message container */}
+          {/* Chat History */}
           <div className="flex-1 flex flex-col min-h-0 bg-gradient-to-br from-askus-light/90 via-purple-50 to-white">
-            <ScrollArea className="flex-1 px-3 py-2">
+            <ScrollArea className="flex-1 px-2 py-2 overflow-y-auto">
               <div className="flex flex-col gap-3 pb-1">
                 {messages.map((m, i) => (
                   <div
                     key={i}
                     className={`flex ${
                       m.role === "user" ? "justify-end" : "justify-start"
-                    }`}
+                    } w-full`}
                   >
                     <div
-                      className={`px-4 py-2 rounded-2xl text-sm max-w-[80%] shadow-md 
+                      className={`relative rounded-2xl text-sm max-w-[84%] px-4 py-2 shadow
                         ${
                           m.role === "user"
-                            ? "bg-askus-purple text-white rounded-br-[2.2rem] hover:scale-105 transition transform"
-                            : "bg-white text-gray-900 rounded-bl-[2.2rem] border border-gray-100"
+                            ? "ml-auto bg-askus-purple text-white rounded-br-[2.2rem] hover:scale-105 transition-transform"
+                            : "mr-auto bg-white text-gray-900 rounded-bl-[2.2rem] border border-gray-100"
                         }`}
                       style={{
                         wordBreak: "break-word",
-                        transition: "box-shadow .3s,transform .3s"
+                        transition: "box-shadow .3s,transform .3s",
                       }}
                     >
-                      {m.content}
+                      {/* Main message */}
+                      <span>{m.content}</span>
+                      {/* If this bot message has options, render them as wide buttons below (inside the bubble) */}
+                      {m.role === "assistant" && m.options && m.options.length > 0 && (
+                        <div className="flex flex-col gap-2 mt-3">
+                          {m.options.map((option) => (
+                            <Button
+                              key={option.value}
+                              variant="outline"
+                              onClick={() => sendOption(option.value)}
+                              className="w-full block py-2 border-askus-purple/60 text-askus-purple font-semibold rounded-xl whitespace-normal text-[15px] shadow-sm bg-purple-50/60 hover:bg-askus-purple hover:text-white hover:border-askus-purple transition"
+                              style={{ lineHeight: "1.3" }}
+                            >
+                              {option.label}
+                            </Button>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -131,22 +150,15 @@ const ChatbotWidget: React.FC = () => {
               </div>
             </ScrollArea>
           </div>
-          {/* Option Buttons instead of select */}
-          <div className="p-2 bg-gradient-to-l from-purple-50 via-white to-white border-t flex flex-col gap-2">
-            {availableOptions.length > 0 && (
-              <div className="flex flex-col gap-2 w-full">
-                {availableOptions.map(option => (
-                  <Button
-                    key={option.value}
-                    variant="outline"
-                    className="justify-center w-full text-askus-purple font-semibold border-askus-purple/60 hover:bg-askus-purple/10 transition"
-                    onClick={() => sendOption(option.value)}
-                  >
-                    {option.label}
-                  </Button>
-                ))}
-              </div>
-            )}
+          {/* Restart link below the message area, always visible */}
+          <div className="p-2 bg-gradient-to-l from-purple-50 via-white to-white border-t flex items-center justify-between">
+            <Button
+              variant="ghost"
+              className="w-full text-askus-purple font-medium hover:bg-askus-purple/15 py-2 rounded-xl"
+              onClick={resetChat}
+            >
+              ⟲ Back to Main Menu
+            </Button>
           </div>
         </div>
       )}
