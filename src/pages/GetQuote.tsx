@@ -41,19 +41,19 @@ const GetQuote = () => {
     });
 
     // Dimensions
-    const pageWidth = doc.internal.pageSize.getWidth();
+    const pdfPageWidth = doc.internal.pageSize.getWidth();
     // DigiSphere Purple: #8F5DF0
     const headerHeight = 80;
 
     // Header rect (purple)
     doc.setFillColor(143, 93, 240);
-    doc.rect(0, 0, pageWidth, headerHeight, "F");
+    doc.rect(0, 0, pdfPageWidth, headerHeight, "F");
 
     // DigiSphere title
     doc.setFontSize(28);
     doc.setTextColor(255, 255, 255);
     doc.setFont(undefined, 'bold');
-    doc.text("DigiSphere - Service Quote", pageWidth / 2, 52, {
+    doc.text("DigiSphere - Service Quote", pdfPageWidth / 2, 52, {
       align: "center",
       baseline: "middle",
     });
@@ -97,7 +97,7 @@ const GetQuote = () => {
     doc.setFont(undefined, 'normal');
     doc.setFontSize(12);
     doc.setTextColor(66, 66, 66);
-    const detLines = doc.splitTextToSize(details || "-", pageWidth - 96);
+    const detLines = doc.splitTextToSize(details || "-", pdfPageWidth - 96);
     doc.text(detLines, 60, y);
     y += detLines.length * 15 + 4;
 
@@ -119,7 +119,7 @@ const GetQuote = () => {
     // Table columns start x positions
     const colService = 60;
     const colDesc = colService + 130;
-    const colPrice = pageWidth - 90;
+    const colPrice = pdfPageWidth - 90;
 
     doc.text("Service", colService, y);
     doc.text("Description", colDesc, y);
@@ -127,7 +127,7 @@ const GetQuote = () => {
 
     y += 3;
     doc.setLineWidth(1);
-    doc.line(colService, y, pageWidth - 60, y);
+    doc.line(colService, y, pdfPageWidth - 60, y);
 
     y += 13;
 
@@ -162,7 +162,7 @@ const GetQuote = () => {
     y += 18;
     doc.setLineWidth(0.5);
     doc.setDrawColor(200, 180, 255);
-    doc.line(colService, y, pageWidth - 60, y);
+    doc.line(colService, y, pdfPageWidth - 60, y);
 
     y += 24;
     doc.setFontSize(15);
@@ -191,12 +191,11 @@ const GetQuote = () => {
 
     // Add sample signature image at the bottom of the PDF
     // We'll place it above the bottom margin, centered
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const pageHeight = doc.internal.pageSize.getHeight();
+    const pdfPageHeight = doc.internal.pageSize.getHeight();
     const imgWidth = 180;
     const imgHeight = 40;
-    const imgX = (pageWidth - imgWidth) / 2;
-    const imgY = pageHeight - imgHeight - 48; // 48pt from bottom
+    const imgX = (pdfPageWidth - imgWidth) / 2;
+    const imgY = pdfPageHeight - imgHeight - 48; // 48pt from bottom
 
     // Load image asynchronously and add to PDF
     const addSignatureImage = async () => {
@@ -230,19 +229,19 @@ const GetQuote = () => {
       format: "a4",
     });
     // Dimensions
-    const pageWidth = doc.internal.pageSize.getWidth();
+    const pdfPageWidth = doc.internal.pageSize.getWidth();
     // DigiSphere Purple: #8F5DF0
     const headerHeight = 80;
 
     // Header rect (purple)
     doc.setFillColor(143, 93, 240);
-    doc.rect(0, 0, pageWidth, headerHeight, "F");
+    doc.rect(0, 0, pdfPageWidth, headerHeight, "F");
 
     // DigiSphere title
     doc.setFontSize(28);
     doc.setTextColor(255, 255, 255);
     doc.setFont(undefined, 'bold');
-    doc.text("DigiSphere - Service Quote", pageWidth / 2, 52, {
+    doc.text("DigiSphere - Service Quote", pdfPageWidth / 2, 52, {
       align: "center",
       baseline: "middle",
     });
@@ -286,7 +285,7 @@ const GetQuote = () => {
     doc.setFont(undefined, 'normal');
     doc.setFontSize(12);
     doc.setTextColor(66, 66, 66);
-    const detLines = doc.splitTextToSize(details || "-", pageWidth - 96);
+    const detLines = doc.splitTextToSize(details || "-", pdfPageWidth - 96);
     doc.text(detLines, 60, y);
     y += detLines.length * 15 + 4;
 
@@ -308,7 +307,7 @@ const GetQuote = () => {
     // Table columns start x positions
     const colService = 60;
     const colDesc = colService + 130;
-    const colPrice = pageWidth - 90;
+    const colPrice = pdfPageWidth - 90;
 
     doc.text("Service", colService, y);
     doc.text("Description", colDesc, y);
@@ -316,7 +315,7 @@ const GetQuote = () => {
 
     y += 3;
     doc.setLineWidth(1);
-    doc.line(colService, y, pageWidth - 60, y);
+    doc.line(colService, y, pdfPageWidth - 60, y);
 
     y += 13;
 
@@ -351,7 +350,7 @@ const GetQuote = () => {
     y += 18;
     doc.setLineWidth(0.5);
     doc.setDrawColor(200, 180, 255);
-    doc.line(colService, y, pageWidth - 60, y);
+    doc.line(colService, y, pdfPageWidth - 60, y);
 
     y += 24;
     doc.setFontSize(15);
@@ -377,12 +376,11 @@ const GetQuote = () => {
     );
 
     // Add sample signature image to the PDF (same as above)
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const pageHeight = doc.internal.pageSize.getHeight();
+    const pdfPageHeight = doc.internal.pageSize.getHeight();
     const imgWidth = 180;
     const imgHeight = 40;
-    const imgX = (pageWidth - imgWidth) / 2;
-    const imgY = pageHeight - imgHeight - 48; // 48pt from bottom
+    const imgX = (pdfPageWidth - imgWidth) / 2;
+    const imgY = pdfPageHeight - imgHeight - 48; // 48pt from bottom
 
     const addSignatureImage = async () => {
       return new Promise<void>((resolve) => {
