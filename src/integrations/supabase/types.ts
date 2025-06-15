@@ -27,6 +27,33 @@ export type Database = {
         }
         Relationships: []
       }
+      blogs: {
+        Row: {
+          author: string | null
+          content: string
+          cover_image_url: string | null
+          created_at: string
+          id: string
+          title: string
+        }
+        Insert: {
+          author?: string | null
+          content: string
+          cover_image_url?: string | null
+          created_at?: string
+          id?: string
+          title: string
+        }
+        Update: {
+          author?: string | null
+          content?: string
+          cover_image_url?: string | null
+          created_at?: string
+          id?: string
+          title?: string
+        }
+        Relationships: []
+      }
       chatbot: {
         Row: {
           created_at: string
