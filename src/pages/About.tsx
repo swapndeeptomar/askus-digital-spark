@@ -7,6 +7,7 @@ import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 import FloatingContactButtons from "@/components/FloatingContactButtons";
 import MovingHeaderLines from "@/components/MovingHeaderLines";
+import { useAboutStats } from "@/hooks/useAboutStats";
 
 const About = () => {
   const storyAnimation = useScrollAnimation({
@@ -80,6 +81,8 @@ const About = () => {
     delay: 300
   });
 
+  const { data: stats, isLoading, error } = useAboutStats();
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -145,22 +148,43 @@ const About = () => {
                   transitionDelay: `${statsAnimation.delay}ms`
                 }}
               >
-                <div className="text-center p-4 rounded-lg hover:bg-purple-50 transition-colors duration-300">
-                  <div className="text-3xl font-bold text-askus-purple mb-2 transition-transform duration-300 hover:scale-110">20+</div>
-                  <p className="text-gray-600">Projects Completed</p>
-                </div>
-                <div className="text-center p-4 rounded-lg hover:bg-purple-50 transition-colors duration-300">
-                  <div className="text-3xl font-bold text-askus-purple mb-2 transition-transform duration-300 hover:scale-110">25+</div>
-                  <p className="text-gray-600">Happy Clients</p>
-                </div>
-                <div className="text-center p-4 rounded-lg hover:bg-purple-50 transition-colors duration-300">
-                  <div className="text-3xl font-bold text-askus-purple mb-2 transition-transform duration-300 hover:scale-110">5+</div>
-                  <p className="text-gray-600">Team Members</p>
-                </div>
-                <div className="text-center p-4 rounded-lg hover:bg-purple-50 transition-colors duration-300">
-                  <div className="text-3xl font-bold text-askus-purple mb-2 transition-transform duration-300 hover:scale-110">1+</div>
-                  <p className="text-gray-600">Years of Experience</p>
-                </div>
+                {isLoading ? (
+                  <>
+                    <div className="text-center p-4 rounded-lg bg-purple-50 animate-pulse h-24" />
+                    <div className="text-center p-4 rounded-lg bg-purple-50 animate-pulse h-24" />
+                    <div className="text-center p-4 rounded-lg bg-purple-50 animate-pulse h-24" />
+                    <div className="text-center p-4 rounded-lg bg-purple-50 animate-pulse h-24" />
+                  </>
+                ) : error ? (
+                  <div className="col-span-2 text-center text-red-500">Failed to load stats.</div>
+                ) : stats ? (
+                  <>
+                    <div className="text-center p-4 rounded-lg hover:bg-purple-50 transition-colors duration-300">
+                      <div className="text-3xl font-bold text-askus-purple mb-2 transition-transform duration-300 hover:scale-110">
+                        {stats.projects_completed}+
+                      </div>
+                      <p className="text-gray-600">Projects Completed</p>
+                    </div>
+                    <div className="text-center p-4 rounded-lg hover:bg-purple-50 transition-colors duration-300">
+                      <div className="text-3xl font-bold text-askus-purple mb-2 transition-transform duration-300 hover:scale-110">
+                        {stats.happy_clients}+
+                      </div>
+                      <p className="text-gray-600">Happy Clients</p>
+                    </div>
+                    <div className="text-center p-4 rounded-lg hover:bg-purple-50 transition-colors duration-300">
+                      <div className="text-3xl font-bold text-askus-purple mb-2 transition-transform duration-300 hover:scale-110">
+                        {stats.team_members}+
+                      </div>
+                      <p className="text-gray-600">Team Members</p>
+                    </div>
+                    <div className="text-center p-4 rounded-lg hover:bg-purple-50 transition-colors duration-300">
+                      <div className="text-3xl font-bold text-askus-purple mb-2 transition-transform duration-300 hover:scale-110">
+                        {stats.years_experience}+
+                      </div>
+                      <p className="text-gray-600">Years of Experience</p>
+                    </div>
+                  </>
+                ) : null}
               </div>
             </div>
           </div>
@@ -447,7 +471,7 @@ const About = () => {
                 </a>
                 <a href="#" className="team-social-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                    <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878 1.216 0.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
                   </svg>
                 </a>
               </div>

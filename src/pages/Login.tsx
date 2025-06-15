@@ -30,7 +30,7 @@ const oauthProviders = [
 ];
 
 const ADMIN_ID = "admin";
-const ADMIN_PASSWORD = "supersecret123"; // You may change these
+const ADMIN_PASSWORD = "ad@min@123"; // Updated password
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
