@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
@@ -10,12 +9,14 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import UserMenu from './UserMenu';
+import AdminLoginModal from './AdminLoginModal';
 import { supabase } from "@/integrations/supabase/client";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState<{ email: string | null } | null>(null);
   const navigate = useNavigate();
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
 
   // Handles dropdown navigation and closes mobile menu if open
   const handleDropdownClick = (path: string) => {
@@ -45,10 +46,17 @@ const Navbar = () => {
 
   return (
     <header className="fixed w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
+      <AdminLoginModal open={showAdminLogin} onOpenChange={setShowAdminLogin} />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center gap-2">
+            <button
+              type="button"
+              aria-label="Admin login"
+              className="flex items-center gap-2 focus:outline-none"
+              onClick={() => setShowAdminLogin(true)}
+              style={{ background: "transparent", border: "none", padding: 0, margin: 0 }}
+            >
               {/* Logo image instead of "D" */}
               <img
                 src="/lovable-uploads/95baa89b-0559-42b7-9b49-4fc9241e6ce5.png"
@@ -57,7 +65,7 @@ const Navbar = () => {
                 style={{ background: '#fff' }}
               />
               <span className="text-xl font-bold text-askus-dark">DigiSphere</span>
-            </Link>
+            </button>
           </div>
 
           {/* Desktop menu */}
