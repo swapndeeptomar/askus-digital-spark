@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
@@ -48,7 +49,13 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-full bg-askus-purple text-white flex items-center justify-center font-bold">D</div>
+              {/* Logo image instead of "D" */}
+              <img
+                src="/lovable-uploads/95baa89b-0559-42b7-9b49-4fc9241e6ce5.png"
+                alt="DigiSphere Logo"
+                className="w-10 h-10 rounded-full object-cover bg-white border-2 border-askus-purple shadow-sm"
+                style={{ background: '#fff' }}
+              />
               <span className="text-xl font-bold text-askus-dark">DigiSphere</span>
             </Link>
           </div>
