@@ -21,11 +21,11 @@ const fetchPDFs = async (page: number) => {
 
 const getPublicUrl = (path: string) => {
   // Use Supabase public URL for the file
-  const { publicUrl } = supabase
+  const { data } = supabase
     .storage
     .from("quotes-pdfs")
     .getPublicUrl(path);
-  return publicUrl;
+  return data?.publicUrl || "";
 };
 
 const AdminQuotesPDFs: React.FC = () => {
