@@ -39,6 +39,45 @@ export type Database = {
         }
         Relationships: []
       }
+      quotes: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          name: string
+          pdf_filename: string
+          pdf_url: string | null
+          phone: string | null
+          project_details: string
+          selected_services: Json
+          total_estimate: number
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+          name: string
+          pdf_filename: string
+          pdf_url?: string | null
+          phone?: string | null
+          project_details: string
+          selected_services: Json
+          total_estimate: number
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          name?: string
+          pdf_filename?: string
+          pdf_url?: string | null
+          phone?: string | null
+          project_details?: string
+          selected_services?: Json
+          total_estimate?: number
+        }
+        Relationships: []
+      }
       testimonials: {
         Row: {
           avatar_initial: string | null

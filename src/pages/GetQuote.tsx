@@ -352,7 +352,7 @@ const GetQuote = () => {
     );
   };
 
-  const uploadPdfToStorage = async (blob: Blob) => {
+  const uploadPdfToStorage = async (blob: Blob): Promise<{ filename: string; publicUrl: string | null } | null> => {
     const safeName = name ? name.replace(/[^a-zA-Z0-9]/g, "_") : "user";
     const filename = `digisphere-quote-${safeName}-${Date.now()}.pdf`;
 
@@ -370,7 +370,7 @@ const GetQuote = () => {
       return null;
     }
 
-    // Optionally: get the public URL for later usage
+    // Get the public URL
     const { data: publicData } = supabase
       .storage
       .from("quotes-pdfs")
@@ -384,7 +384,7 @@ const GetQuote = () => {
       description: "Your PDF quote is securely stored.",
     });
 
-    return filename;
+    return { filename, publicUrl: publicData?.publicUrl ?? null };
   };
 
   // Handle Save to Supabase and upload PDF file
@@ -399,29 +399,31 @@ const GetQuote = () => {
     }
     setSubmitting(true);
 
-    const serviceList = selectedServicesInfo.map(s => `- ${s.name} (₹${s.price.toLocaleString()})`).join("\n");
-    const subject = selectedServicesInfo.length
-      ? `Quote Request: ${selectedServicesInfo.map(s => s.name).join(", ")}`
-      : "Quote Request";
-    const message = `Project Details:\n${details}\n\nServices Selected:\n${serviceList || "None selected"}\n\nEstimated Total: ₹${totalEstimate.toLocaleString()}`;
-    const mobile = phone;
-
     try {
-      // Insert contact message
-      const { error: dbError } = await supabase.from("contact_messages").insert([
+      // 1. Create and upload PDF
+      const pdfBlob = createPdfBlob();
+      const upload = await uploadPdfToStorage(pdfBlob);
+      if (!upload) throw new Error("PDF upload failed");
+
+      // 2. Insert quote details into new quotes table
+      const { error: dbError } = await supabase.from("quotes").insert([
         {
           name,
           email,
-          mobile,
-          subject,
-          message,
+          phone,
+          project_details: details,
+          selected_services: selectedServicesInfo.map(s => ({
+            id: s.id,
+            name: s.name,
+            description: s.description,
+            price: s.price,
+          })),
+          total_estimate: totalEstimate,
+          pdf_filename: upload.filename,
+          pdf_url: upload.publicUrl,
         },
       ]);
       if (dbError) throw dbError;
-
-      // Create and upload PDF
-      const pdfBlob = createPdfBlob();
-      await uploadPdfToStorage(pdfBlob);
 
       toast({
         variant: "default",
