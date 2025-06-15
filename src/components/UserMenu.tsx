@@ -1,15 +1,17 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/use-toast";
-import { LogOut, User } from "lucide-react";
+import { LogOut, User, Shield } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 type UserMenuProps = {
   user: { email: string | null };
@@ -22,6 +24,39 @@ const getInitialFromEmail = (email: string | null): string => {
 };
 
 const UserMenu: React.FC<UserMenuProps> = ({ user, onSignOut }) => {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check admin role via user_roles table in Supabase.
+    const checkAdminRole = async () => {
+      if (user.email) {
+        // Get the current session to get user ID.
+        const { data: { session }, error } = await supabase.auth.getSession();
+        const userId = session?.user?.id;
+        if (userId) {
+          // Query user_roles for admin role
+          const { data, error } = await supabase
+            .from("user_roles")
+            .select("role")
+            .eq("user_id", userId)
+            .single();
+          if (data?.role === "admin") {
+            setIsAdmin(true);
+          } else {
+            setIsAdmin(false);
+          }
+        } else {
+          setIsAdmin(false);
+        }
+      } else {
+        setIsAdmin(false);
+      }
+    };
+
+    checkAdminRole();
+  }, [user.email]);
+
   const handleSignOut = async () => {
     // Clean up local/session storage for Supabase auth
     Object.keys(localStorage).forEach((key) => {
@@ -41,6 +76,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ user, onSignOut }) => {
       title: "Signed out",
       description: "You've been logged out.",
     });
+  };
+
+  const handleAdminPanel = () => {
+    navigate("/admin");
   };
 
   return (
@@ -63,6 +102,15 @@ const UserMenu: React.FC<UserMenuProps> = ({ user, onSignOut }) => {
           <div className="text-xs text-gray-500 mb-1">Signed in as</div>
           <div className="font-medium text-gray-800 break-words">{user.email || "User"}</div>
         </div>
+        {isAdmin && (
+          <>
+            <DropdownMenuItem onClick={handleAdminPanel} className="gap-2 text-askus-purple font-medium">
+              <Shield size={18} className="mr-1" />
+              Admin Panel
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+          </>
+        )}
         <DropdownMenuItem onClick={handleSignOut} className="gap-2 text-red-600">
           <LogOut size={18} className="text-red-600" />
           Sign Out
@@ -73,3 +121,4 @@ const UserMenu: React.FC<UserMenuProps> = ({ user, onSignOut }) => {
 };
 
 export default UserMenu;
+
