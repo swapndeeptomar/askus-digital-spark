@@ -2,7 +2,7 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-const openAIApiKey = Deno.env.get("OPENAI_API_KEY");
+const geminiApiKey = Deno.env.get("GEMINI_API_KEY");
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -20,33 +20,44 @@ serve(async (req) => {
       return new Response(JSON.stringify({ error: "Missing messages array" }), { status: 400, headers: corsHeaders });
     }
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    // Prepare Gemini's chat request.
+    const history = messages.map((m: { role: string; content: string }) => {
+      if (m.role === "user") {
+        return { role: "user", parts: [{ text: m.content }] };
+      } else {
+        return { role: "model", parts: [{ text: m.content }] };
+      }
+    });
+
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${geminiApiKey}`;
+
+    const response = await fetch(geminiUrl, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${openAIApiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages: [
-          { role: "system", content: "You are a friendly, helpful website assistant who answers clearly and politely." },
-          ...messages,
-        ],
-        max_tokens: 600,
-        temperature: 0.8,
+        contents: history,
+        generationConfig: {
+          maxOutputTokens: 600,
+          temperature: 0.8,
+        },
+        systemInstruction: {
+          parts: [{ text: "You are a friendly, helpful website assistant who answers clearly and politely." }]
+        }
       }),
     });
 
     if (!response.ok) {
       const err = await response.json();
-      return new Response(JSON.stringify({ error: err.error?.message || "OpenAI error" }), {
+      return new Response(JSON.stringify({ error: err.error?.message || "Gemini API error" }), {
         status: 500,
         headers: corsHeaders,
       });
     }
 
     const data = await response.json();
-    const aiMsg = data.choices?.[0]?.message?.content ?? "";
+    const aiMsg = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "Sorry, I couldn't generate a reply!";
 
     return new Response(JSON.stringify({ reply: aiMsg }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
