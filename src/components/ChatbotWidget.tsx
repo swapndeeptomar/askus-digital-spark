@@ -1,5 +1,6 @@
+
 import React, { useRef, useEffect } from "react";
-import { Bot, X } from "lucide-react";
+import { Bot, X, MessageCircle, Mail } from "lucide-react"; // Added MessageCircle, Mail
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLocation } from "react-router-dom";
