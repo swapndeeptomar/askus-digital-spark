@@ -41,7 +41,7 @@ export const chatbotSteps: Record<string, ChatbotStep> = {
         nextStepId: "billing",
       },
       {
-        label: "Other/General Inquiry",
+        label: "General Inquiry / Chat With Us",
         value: "other",
         nextStepId: "other",
       },
@@ -176,7 +176,7 @@ export const chatbotSteps: Record<string, ChatbotStep> = {
         label: "Other Financial Concerns",
         value: "billing_other",
         reply:
-          "Please specify your concern, and our finance team will follow up promptly.",
+          "For financial concerns, please use the 'General Inquiry / Chat With Us' option in the main menu.",
       },
       {
         label: "Back to Main Menu",
@@ -247,7 +247,7 @@ export function useStaticChatbot(params?: UseStaticChatbotParams) {
         {
           role: "assistant",
           content:
-            "For financial concerns, please use the 'Other/General Inquiry' option in the main menu.",
+            "For financial concerns, please use the 'General Inquiry / Chat With Us' option in the main menu.",
           options: [
             {
               label: "Back to Main Menu",
