@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from "react";
 import { Bot, X, MessageCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -149,16 +148,6 @@ const ChatbotWidget: React.FC = () => {
                 <div ref={bottomRef} />
               </div>
             </ScrollArea>
-          </div>
-          {/* Restart link below the message area, always visible */}
-          <div className="p-2 bg-gradient-to-l from-purple-50 via-white to-white border-t flex items-center justify-between">
-            <Button
-              variant="ghost"
-              className="w-full text-askus-purple font-medium hover:bg-askus-purple/15 py-2 rounded-xl"
-              onClick={resetChat}
-            >
-              ⟲ Back to Main Menu
-            </Button>
           </div>
         </div>
       )}
