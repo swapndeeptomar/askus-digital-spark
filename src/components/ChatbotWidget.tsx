@@ -1,10 +1,12 @@
-
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Bot, X, MessageCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useStaticChatbot } from "@/hooks/useStaticChatbot";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 const WHATSAPP_LINK = "https://wa.me/911234567890";
 const GMAIL_LINK = "mailto:info@example.com";
@@ -24,8 +26,19 @@ const ChatbotWidget: React.FC = () => {
   };
 
   // Custom static bot logic
-  const { messages, sendOption, availableOptions, resetChat } =
-    useStaticChatbot({ onExternalNavigate: handleExternalNavigate });
+  const {
+    messages,
+    sendOption,
+    availableOptions,
+    resetChat,
+    freeformSource,
+    submitFreeformIssue,
+  } = useStaticChatbot({ onExternalNavigate: handleExternalNavigate });
+
+  // New: state for textarea and optional email only when freeform is active
+  const [userInput, setUserInput] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (location.pathname !== "/") {
@@ -46,6 +59,21 @@ const ChatbotWidget: React.FC = () => {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, open]);
+
+  // Submit handler for freeform
+  const handleFreeformSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!userInput.trim()) return;
+    setSubmitting(true);
+    await submitFreeformIssue(
+      userInput.trim(),
+      location.pathname,
+      userEmail.trim() || undefined
+    );
+    setUserInput("");
+    setUserEmail("");
+    setSubmitting(false);
+  };
 
   return (
     <>
@@ -156,6 +184,45 @@ const ChatbotWidget: React.FC = () => {
                 <div ref={bottomRef} />
               </div>
             </ScrollArea>
+            {/* Freeform input for Technical/Other/Billing other */}
+            {freeformSource && (
+              <form
+                className="flex flex-col gap-2 p-3 border-t bg-white"
+                onSubmit={handleFreeformSubmit}
+              >
+                <Textarea
+                  value={userInput}
+                  onChange={(e) => setUserInput(e.target.value)}
+                  placeholder={
+                    freeformSource === "technical_support"
+                      ? "Describe your technical issue…"
+                      : freeformSource === "billing_other"
+                      ? "Please specify your financial concern…"
+                      : "Describe your inquiry…"
+                  }
+                  minLength={6}
+                  maxLength={600}
+                  required
+                  className="resize-none"
+                  disabled={submitting}
+                />
+                <Input
+                  value={userEmail}
+                  onChange={(e) => setUserEmail(e.target.value)}
+                  type="email"
+                  placeholder="Your email (optional for response)"
+                  className="mt-1"
+                  disabled={submitting}
+                />
+                <Button
+                  type="submit"
+                  disabled={submitting || !userInput.trim()}
+                  className="mt-1 bg-askus-purple hover:bg-askus-dark text-white"
+                >
+                  {submitting ? "Sending..." : "Send"}
+                </Button>
+              </form>
+            )}
           </div>
         </div>
       )}
@@ -164,4 +231,3 @@ const ChatbotWidget: React.FC = () => {
 };
 
 export default ChatbotWidget;
-

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useLocation } from "react-router-dom";
 
 // Main menu/FAQ pool setup (with formal, clear answers)
 export type ChatbotStep = {
@@ -218,18 +220,58 @@ export function useStaticChatbot(params?: UseStaticChatbotParams) {
   ]);
   const [currentStepId, setCurrentStepId] = useState<string>("start");
 
-  // Helper: special case for "visit_quote" triggers direct navigation
+  // Freeform input mode for specific steps: store the inquiry type or null
+  const [freeformSource, setFreeformSource] = useState<null | "technical_support" | "billing_other" | "other">(null);
+
+  // Call this after user submits their inquiry
+  async function submitFreeformIssue(user_input: string, page_path?: string, user_email?: string) {
+    const source =
+      freeformSource === "billing_other"
+        ? "other_financial"
+        : freeformSource === "technical_support"
+        ? "technical_support"
+        : "general_inquiry";
+    setMessages((prev) => [
+      ...prev,
+      { role: "user", content: user_input },
+      {
+        role: "assistant",
+        content:
+          "Thank you for sharing your issue. Our team will review it and reach out as soon as possible if you provided your email.",
+        options: [
+          {
+            label: "Back to Main Menu",
+            value: "back",
+            nextStepId: "start",
+          },
+        ],
+      },
+    ]);
+    setFreeformSource(null);
+
+    // Persist to Supabase
+    await supabase.from("chatbot").insert([
+      {
+        user_input,
+        source,
+        user_email: user_email || null,
+        page_path: page_path || null,
+      },
+    ]);
+  }
+
+  // Modified sendOption to enable freeform input for the three relevant paths
   function sendOption(optionValue: string) {
     // Always handle "back"
     if (optionValue === "back") {
       resetChat();
+      setFreeformSource(null);
       return;
     }
 
-    // Special: if user selects "Visit Quote Page", navigate to /get-quote and close chatbot
+    // Visit Quote Page logic
     if (optionValue === "visit_quote" && params?.onExternalNavigate) {
       params.onExternalNavigate("/get-quote");
-      // Also reset the chat so it's fresh next open
       resetChat();
       return;
     }
@@ -240,7 +282,36 @@ export function useStaticChatbot(params?: UseStaticChatbotParams) {
 
     const userMessage: ChatMessage = { role: "user", content: selectedOption.label };
 
-    // If the selected option has a reply, show reply and show further assistant options (e.g., Back to Main Menu); user may click "Back"
+    // For specific options, switch to freeform mode for input
+    // Option 1: Technical Support main step
+    if (
+      currentStepId === "technical_support" &&
+      optionValue !== "back"
+    ) {
+      setMessages((prev) => [...prev, userMessage]);
+      setFreeformSource("technical_support");
+      return;
+    }
+    // Option 2: Billing and Payment -> Other Financial Concerns
+    if (
+      currentStepId === "billing" &&
+      optionValue === "billing_other"
+    ) {
+      setMessages((prev) => [...prev, userMessage]);
+      setFreeformSource("billing_other");
+      return;
+    }
+    // Option 3: Other/General Inquiry top menu
+    if (
+      currentStepId === "other" &&
+      optionValue !== "back"
+    ) {
+      setMessages((prev) => [...prev, userMessage]);
+      setFreeformSource("other");
+      return;
+    }
+
+    // If the selected option has a reply, handle as before
     if (selectedOption.reply) {
       setMessages((prev) => [
         ...prev,
@@ -265,10 +336,11 @@ export function useStaticChatbot(params?: UseStaticChatbotParams) {
             },
       ]);
       setCurrentStepId(selectedOption.nextStepId ?? "start");
+      setFreeformSource(null);
       return;
     }
 
-    // If user clicks a regular option with nextStepId
+    // Regular flow
     if (selectedOption.nextStepId && chatbotSteps[selectedOption.nextStepId]) {
       const nextStep = chatbotSteps[selectedOption.nextStepId];
       setMessages((prev) => [
@@ -281,6 +353,7 @@ export function useStaticChatbot(params?: UseStaticChatbotParams) {
         },
       ]);
       setCurrentStepId(nextStep.id);
+      setFreeformSource(null);
     }
   }
 
@@ -302,5 +375,12 @@ export function useStaticChatbot(params?: UseStaticChatbotParams) {
     setCurrentStepId("start");
   }
 
-  return { messages, sendOption, availableOptions, resetChat };
+  return {
+    messages,
+    sendOption,
+    availableOptions,
+    resetChat,
+    freeformSource,
+    submitFreeformIssue,
+  };
 }

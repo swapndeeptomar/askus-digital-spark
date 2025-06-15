@@ -27,6 +27,33 @@ export type Database = {
         }
         Relationships: []
       }
+      chatbot: {
+        Row: {
+          created_at: string
+          id: string
+          page_path: string | null
+          source: string
+          user_email: string | null
+          user_input: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          page_path?: string | null
+          source: string
+          user_email?: string | null
+          user_input: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          page_path?: string | null
+          source?: string
+          user_email?: string | null
+          user_input?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string | null
