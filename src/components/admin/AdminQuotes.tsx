@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,6 +14,56 @@ const fetchQuotes = async (page: number) => {
     .range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1);
   if (error) throw error;
   return data;
+};
+
+const renderServiceNames = (selected_services: any): React.ReactNode => {
+  // If nullish or falsy
+  if (!selected_services) return "-";
+
+  // If it's an array of objects (with 'name' property)
+  if (Array.isArray(selected_services) && selected_services.length > 0) {
+    if (typeof selected_services[0] === "object" && selected_services[0] !== null) {
+      return (
+        <ul className="list-disc pl-4">
+          {selected_services.map(
+            (srv: any, i: number) => <li key={i}>{srv.name ? srv.name : JSON.stringify(srv)}</li>
+          )}
+        </ul>
+      );
+    } else {
+      // Array of strings
+      return (
+        <ul className="list-disc pl-4">
+          {selected_services.map((srv: string | number, i: number) => (
+            <li key={i}>{String(srv)}</li>
+          ))}
+        </ul>
+      );
+    }
+  }
+  // If it's a single object (possibly a map)
+  if (typeof selected_services === "object") {
+    // Object values could be array of objects or strings
+    const values = Object.values(selected_services);
+    if (values.length > 0) {
+      // If first value is object with 'name'
+      if (typeof values[0] === "object" && values[0] !== null && "name" in (values[0] as any)) {
+        return (
+          <ul className="list-disc pl-4">
+            {values.map((srv: any, i: number) => <li key={i}>{srv.name ? srv.name : JSON.stringify(srv)}</li>)}
+          </ul>
+        );
+      } else {
+        // Array of string/number
+        return (
+          <ul className="list-disc pl-4">
+            {values.map((srv: any, i: number) => <li key={i}>{String(srv)}</li>)}
+          </ul>
+        );
+      }
+    }
+  }
+  return "-";
 };
 
 const AdminQuotes: React.FC = () => {
@@ -53,17 +104,7 @@ const AdminQuotes: React.FC = () => {
                   <TableCell>{q.email}</TableCell>
                   <TableCell>{q.phone || "-"}</TableCell>
                   <TableCell>
-                    <ul className="list-disc pl-4">
-                      {Array.isArray(q.selected_services)
-                        ? q.selected_services.map((srv:string, i:number) => (
-                            <li key={i}>{srv}</li>
-                          ))
-                        : q.selected_services && typeof q.selected_services === "object"
-                        ? Object.values(q.selected_services).map((srv: any, i:number) => (
-                            <li key={i}>{srv}</li>
-                          ))
-                        : "-"}
-                    </ul>
+                    {renderServiceNames(q.selected_services)}
                   </TableCell>
                   <TableCell>₹{q.total_estimate}</TableCell>
                   <TableCell>
