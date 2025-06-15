@@ -18,6 +18,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import GetQuote from "./pages/GetQuote";
 import Payment from "./pages/Payment";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import Admin from "./pages/Admin";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const App = () => (
           <Route path="/terms" element={<Terms />} />
           <Route path="/get-quote" element={<GetQuote />} />
           <Route path="/payment" element={<Payment />} />
+          <Route path="/admin" element={<ErrorBoundary><Admin /></ErrorBoundary>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ErrorBoundary>

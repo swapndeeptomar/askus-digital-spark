@@ -29,9 +29,15 @@ const oauthProviders = [
   },
 ];
 
+const ADMIN_ID = "admin";
+const ADMIN_PASSWORD = "supersecret123"; // You may change these
+
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const [loggingIn, setLoggingIn] = useState<string | null>(null);
+  const [adminId, setAdminId] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
+  const [adminError, setAdminError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -89,6 +95,23 @@ const Login = () => {
     }
   };
 
+  const handleAdminLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    setAdminError(null);
+    if (
+      adminId.trim().toLowerCase() === ADMIN_ID &&
+      adminPassword === ADMIN_PASSWORD
+    ) {
+      localStorage.setItem("isAdmin", "1");
+      setAdminId("");
+      setAdminPassword("");
+      setAdminError(null);
+      navigate("/admin", { replace: true });
+    } else {
+      setAdminError("Invalid admin ID or password.");
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen relative overflow-x-hidden">
       {/* Modern, premium multi-gradient and blur background */}
@@ -132,6 +155,42 @@ const Login = () => {
                 </span>
               </Button>
             ))}
+          </div>
+          {/* ADMIN LOGIN FORM */}
+          <div className="pt-4 border-t border-gray-200 mt-3">
+            <form onSubmit={handleAdminLogin} className="space-y-3">
+              <div className="flex gap-2 items-center">
+                <input
+                  type="text"
+                  placeholder="Admin ID"
+                  value={adminId}
+                  onChange={(e) => setAdminId(e.target.value)}
+                  className="w-1/2 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-askus-purple bg-gray-50 text-sm"
+                  autoComplete="username"
+                  disabled={!!loggingIn}
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={adminPassword}
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                  className="w-1/2 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-askus-purple bg-gray-50 text-sm"
+                  autoComplete="current-password"
+                  disabled={!!loggingIn}
+                />
+              </div>
+              <Button
+                type="submit"
+                className="bg-askus-purple w-full hover:bg-askus-purple/90"
+                disabled={!!loggingIn}
+                variant="outline"
+              >
+                Login as Admin
+              </Button>
+              {adminError && (
+                <div className="text-red-600 text-sm text-center">{adminError}</div>
+              )}
+            </form>
           </div>
           <div className="flex justify-center">
             <Link to="/" className="text-askus-purple hover:underline text-sm">
