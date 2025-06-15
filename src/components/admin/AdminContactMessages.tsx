@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -21,8 +20,7 @@ const AdminContactMessages: React.FC = () => {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["admin-contact-messages", page],
-    queryFn: () => fetchContactMessages(page),
-    keepPreviousData: true,
+    queryFn: () => fetchContactMessages(page)
   });
 
   return (

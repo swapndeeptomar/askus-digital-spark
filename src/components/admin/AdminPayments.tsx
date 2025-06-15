@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -21,8 +20,7 @@ const AdminPayments: React.FC = () => {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["admin-payments", page],
-    queryFn: () => fetchPayments(page),
-    keepPreviousData: true,
+    queryFn: () => fetchPayments(page)
   });
 
   return (
