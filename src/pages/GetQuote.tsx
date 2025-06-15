@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input";
@@ -11,6 +10,7 @@ import MovingHeaderLines from "@/components/MovingHeaderLines";
 import ServiceQuoteGenerator, { SERVICES } from "@/components/ServiceQuoteGenerator";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import jsPDF from "jspdf";
 
 const GetQuote = () => {
   // Controlled form fields
@@ -105,6 +105,95 @@ const GetQuote = () => {
     printWindow.document.write('</body></html>');
     printWindow.document.close();
     printWindow.print();
+  };
+
+  // PDF download handler
+  const downloadPdf = () => {
+    const doc = new jsPDF();
+
+    // Brand Header
+    doc.setFontSize(22);
+    doc.setTextColor(55, 7, 134);
+    doc.text("ASKUS - Professional Quote", 105, 20, { align: "center" });
+
+    // Divider
+    doc.setDrawColor(124, 58, 237);
+    doc.line(20, 25, 190, 25);
+
+    // User Info
+    doc.setFontSize(12);
+    doc.setTextColor(40, 40, 40);
+    let y = 35;
+    doc.text(`Name: ${name || "-"}`, 20, y);
+    y += 8;
+    doc.text(`Email: ${email || "-"}`, 20, y);
+    y += 8;
+    if (phone) {
+      doc.text(`Phone: ${phone}`, 20, y);
+      y += 8;
+    }
+
+    // Project Details
+    y += 4;
+    doc.setFontSize(13);
+    doc.setTextColor(124, 58, 237);
+    doc.text("Project Details", 20, y);
+    y += 7;
+    doc.setFontSize(11);
+    doc.setTextColor(60, 60, 60);
+    const detailsLines = doc.splitTextToSize(details || "-", 170);
+    doc.text(detailsLines, 20, y);
+    y += detailsLines.length * 6 + 5;
+
+    // Services
+    doc.setFontSize(13);
+    doc.setTextColor(124, 58, 237);
+    doc.text("Selected Services", 20, y);
+    y += 7;
+    if (selectedServicesInfo.length === 0) {
+      doc.setFontSize(11);
+      doc.setTextColor(133, 133, 133);
+      doc.text("No services selected.", 20, y);
+      y += 7;
+    } else {
+      // Table Head
+      doc.setFontSize(11);
+      doc.setTextColor(80, 80, 80);
+      doc.setFillColor(241, 233, 255);
+      doc.rect(20, y-5, 170, 9, "F");
+      doc.text("Service", 25, y);
+      doc.text("Price", 140, y);
+      y += 7;
+      // Table Rows
+      selectedServicesInfo.forEach(s => {
+        doc.setTextColor(60, 60, 60);
+        doc.text(s.name, 25, y);
+        doc.text(`₹${s.price.toLocaleString()}`, 140, y);
+        y += 7;
+      });
+      // Total row
+      y += 2;
+      doc.setDrawColor(191, 139, 255);
+      doc.setLineWidth(0.5);
+      doc.line(25, y, 190, y);
+      y += 5;
+      doc.setFontSize(12);
+      doc.setTextColor(124, 58, 237);
+      doc.text("Total Estimate:", 25, y);
+      doc.text(`₹${totalEstimate.toLocaleString()}`, 140, y);
+      y += 8;
+    }
+
+    // Footer
+    y = Math.max(y, 260);
+    doc.setFontSize(10);
+    doc.setTextColor(140, 140, 140);
+    doc.text("Thank you for getting a quote from AskUS! We'll connect with you soon.", 105, 285, { align: "center" });
+
+    // Save The PDF
+    doc.save(
+      `AskUS_Quote_${name ? name.replace(/[^a-zA-Z0-9]/g, "_") : "User"}_${new Date().toISOString().slice(0, 10)}.pdf`
+    );
   };
 
   return (
@@ -231,7 +320,7 @@ const GetQuote = () => {
                   required
                 />
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-wrap items-center gap-4">
                 <Button
                   className="bg-askus-purple hover:bg-askus-purple/90 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline"
                   type="submit"
@@ -246,6 +335,14 @@ const GetQuote = () => {
                   className="border border-askus-purple text-askus-purple hover:bg-purple-50"
                 >
                   Print Quote
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={downloadPdf}
+                  className="border border-askus-purple text-askus-purple hover:bg-purple-50"
+                >
+                  Download PDF Quote
                 </Button>
               </div>
             </form>
