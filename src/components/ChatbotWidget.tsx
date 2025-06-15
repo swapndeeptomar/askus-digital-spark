@@ -6,7 +6,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useStaticChatbot } from "@/hooks/useStaticChatbot";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
 
 const WHATSAPP_LINK = "https://wa.me/911234567890";
 const GMAIL_LINK = "mailto:info@example.com";
