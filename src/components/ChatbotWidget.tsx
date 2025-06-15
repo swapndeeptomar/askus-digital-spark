@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect, useState } from "react";
 import { Bot, X, MessageCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -31,6 +30,13 @@ const ChatbotWidget: React.FC = () => {
   const handleExternalNavigate = (page: string) => {
     setOpen(false);
     navigate(page);
+  };
+
+  // Handler to go back to main menu after confirmation
+  const handleBackToMenu = () => {
+    setFreeformSubmitted(false);
+    setFreeformError(null);
+    resetChat();
   };
 
   // Custom static bot logic (no freeform options anymore)
@@ -214,8 +220,8 @@ const ChatbotWidget: React.FC = () => {
                     </div>
                   </div>
                 ))}
-                {/* Show freeform input after bot message for general inquiry */}
-                {showFreeformInput && (
+                {/* Show freeform input after bot message for general inquiry IF NOT submitted */}
+                {showFreeformInput && !freeformSubmitted && (
                   <form
                     onSubmit={handleFreeformSubmit}
                     className="w-full p-2 bg-white rounded-xl mt-1 border border-askus-purple/10 flex flex-col gap-2"
@@ -259,10 +265,18 @@ const ChatbotWidget: React.FC = () => {
                     </Button>
                   </form>
                 )}
-                {/* Confirmation message after submitting inquiry */}
-                {freeformSubmitted && showFreeformInput && (
-                  <div className="w-full p-3 bg-purple-50 rounded-xl border border-askus-purple/10 text-askus-purple text-sm font-medium">
-                    Thank you for reaching out! Our team will review your inquiry and get back to you within 2 business days.
+                {/* Confirmation message after submitting inquiry stays until user goes back */}
+                {freeformSubmitted && (
+                  <div className="flex flex-col gap-2">
+                    <div className="w-full p-3 bg-purple-50 rounded-xl border border-askus-purple/10 text-askus-purple text-sm font-medium">
+                      Thank you for reaching out! Our team will review your inquiry and get back to you within 2 business days.
+                    </div>
+                    <Button
+                      onClick={handleBackToMenu}
+                      className="w-full bg-askus-purple text-white"
+                    >
+                      Back to Main Menu
+                    </Button>
                   </div>
                 )}
                 <div ref={bottomRef} />
@@ -276,4 +290,3 @@ const ChatbotWidget: React.FC = () => {
 };
 
 export default ChatbotWidget;
-
