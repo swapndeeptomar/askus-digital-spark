@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
@@ -91,19 +90,20 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen relative bg-gradient-to-br from-askus-purple/10 via-white to-askus-purple/30">
-      {/* Decorative background circles for extra pop */}
-      <div className="pointer-events-none fixed inset-0 -z-10 flex items-center justify-center">
-        <div className="absolute -top-24 -left-32 w-96 h-96 bg-askus-purple/30 rounded-full blur-2xl opacity-50" />
-        <div className="absolute -bottom-40 right-0 w-[500px] h-[400px] bg-askus-purple/20 rounded-full blur-2xl opacity-40" />
-        <div className="absolute top-1/4 left-1/2 w-1/2 h-40 bg-gradient-to-tr from-askus-purple/20 to-white/0 blur-3xl opacity-40 -z-10 rotate-12" />
+    <div className="flex flex-col min-h-screen relative overflow-x-hidden">
+      {/* Sleek bubbly, layered background */}
+      <div className="fixed inset-0 -z-10 pointer-events-none">
+        <div className="absolute top-[-80px] left-[-100px] w-[380px] h-[320px] bg-askus-purple/30 rounded-full blur-2xl opacity-50" />
+        <div className="absolute -top-40 right-0 w-[320px] h-[230px] bg-white/50 rounded-full blur-3xl opacity-40" />
+        <div className="absolute bottom-[-120px] left-1/2 -translate-x-1/2 w-[425px] h-[190px] bg-askus-purple/20 rounded-full blur-3xl opacity-30" />
+        <div className="absolute top-1/6 left-[68%] w-[210px] h-[120px] bg-gradient-to-tr from-askus-purple/25 to-askus-purple/0 blur-2xl opacity-30 rotate-12" />
       </div>
       <Navbar />
-      <main className="flex flex-1 items-center justify-center py-10 px-4">
-        <div className="w-full max-w-md bg-white/90 backdrop-blur-xl rounded-xl shadow-2xl p-8 space-y-8 mx-auto transition-all">
+      <main className="flex flex-1 items-center justify-center py-10 px-2 sm:px-4">
+        <div className="w-full max-w-md bg-white/90 backdrop-blur-lg rounded-2xl shadow-2xl p-6 sm:p-8 space-y-8 mx-auto transition-all border border-white/50" style={{ boxShadow: "0 4px 40px 0 rgba(139,92,246,0.06),0 2px 8px rgba(70,33,150,0.09)" }}>
           <div className="text-center space-y-4">
             <div className="flex items-center justify-center gap-2">
-              <div className="w-10 h-10 bg-askus-purple rounded-full text-white flex items-center justify-center font-extrabold text-2xl">D</div>
+              <div className="w-10 h-10 bg-askus-purple rounded-full text-white flex items-center justify-center font-extrabold text-2xl shadow-md">D</div>
               <span className="text-2xl font-bold text-askus-dark">DigiSphere Login</span>
             </div>
             <p className="text-gray-600">Welcome back! Sign in to your account.</p>
@@ -114,7 +114,7 @@ const Login = () => {
                 key={provider.id}
                 disabled={!!loggingIn}
                 onClick={() => handleOAuthLogin(provider.id)}
-                className={`flex items-center justify-center gap-3 w-full ${provider.color} hover:bg-gray-50 hover:shadow focus:ring-2 focus:ring-askus-purple`}
+                className={`flex items-center justify-center gap-3 w-full ${provider.color} hover:shadow-lg transition-all ring-1 ring-transparent hover:ring-askus-purple focus:ring-2 focus:ring-askus-purple`}
                 variant="outline"
                 size="lg"
               >
