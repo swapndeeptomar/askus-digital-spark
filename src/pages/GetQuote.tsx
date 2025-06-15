@@ -185,6 +185,40 @@ const GetQuote = () => {
       y + 20
     );
 
+    // Leave some space before adding the formal text
+    y += 60;
+
+    // Signature / Formal label
+    doc.setFontSize(13);
+    doc.setFont(undefined, "bold");
+    doc.setTextColor(66, 66, 66);
+    doc.text("For DigiSphere,", colService, y);
+
+    y += 22;
+    doc.setFont(undefined, "italic");
+    doc.setFontSize(12);
+    doc.text("Digitally signed by DigiSphere", colService, y);
+
+    y += 30;
+    doc.setFont(undefined, "bold");
+    doc.setFontSize(11);
+    doc.setTextColor(120, 120, 120);
+    doc.text("Terms and Conditions", colService, y);
+
+    y += 16;
+    doc.setFont(undefined, "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(130, 130, 130);
+    const termsLines = doc.splitTextToSize(
+      "1. The estimate provided is based on the specifications shared and may be subject to revision upon further project discussion.\n" +
+      "2. Taxes, if any, will be charged extra as applicable.\n" +
+      "3. Work commences upon receipt of initial payment as agreed.\n" +
+      "4. All intellectual property developed remains with DigiSphere until full payment is received.\n" +
+      "5. This quote is strictly confidential. Please contact us for clarifications.",
+      doc.internal.pageSize.getWidth() - 96
+    );
+    doc.text(termsLines, colService, y);
+
     // Get the PDF blob (we'll upload this)
     return doc.output("blob");
   };
@@ -196,6 +230,7 @@ const GetQuote = () => {
       unit: "pt",
       format: "a4",
     });
+
     // Dimensions
     const pageWidth = doc.internal.pageSize.getWidth();
     // DigiSphere Purple: #8F5DF0
@@ -342,6 +377,40 @@ const GetQuote = () => {
       colService,
       y + 20
     );
+
+    // Leave some space before adding the formal text
+    y += 60;
+
+    // Signature / Formal label
+    doc.setFontSize(13);
+    doc.setFont(undefined, "bold");
+    doc.setTextColor(66, 66, 66);
+    doc.text("For DigiSphere,", colService, y);
+
+    y += 22;
+    doc.setFont(undefined, "italic");
+    doc.setFontSize(12);
+    doc.text("Digitally signed by DigiSphere", colService, y);
+
+    y += 30;
+    doc.setFont(undefined, "bold");
+    doc.setFontSize(11);
+    doc.setTextColor(120, 120, 120);
+    doc.text("Terms and Conditions", colService, y);
+
+    y += 16;
+    doc.setFont(undefined, "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(130, 130, 130);
+    const termsLines = doc.splitTextToSize(
+      "1. The estimate provided is based on the specifications shared and may be subject to revision upon further project discussion.\n" +
+      "2. Taxes, if any, will be charged extra as applicable.\n" +
+      "3. Work commences upon receipt of initial payment as agreed.\n" +
+      "4. All intellectual property developed remains with DigiSphere until full payment is received.\n" +
+      "5. This quote is strictly confidential. Please contact us for clarifications.",
+      doc.internal.pageSize.getWidth() - 96
+    );
+    doc.text(termsLines, colService, y);
 
     // Save PDF
     const safeName = name ? name.replace(/[^a-zA-Z0-9]/g, "_") : "User";
