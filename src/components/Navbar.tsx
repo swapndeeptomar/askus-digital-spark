@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
@@ -50,6 +51,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
+            {/* Logo triggers admin login modal */}
             <button
               type="button"
               aria-label="Admin login"
@@ -57,15 +59,17 @@ const Navbar = () => {
               onClick={() => setShowAdminLogin(true)}
               style={{ background: "transparent", border: "none", padding: 0, margin: 0 }}
             >
-              {/* Logo image instead of "D" */}
               <img
                 src="/lovable-uploads/95baa89b-0559-42b7-9b49-4fc9241e6ce5.png"
                 alt="DigiSphere Logo"
                 className="w-10 h-10 rounded-full object-cover bg-white border-2 border-askus-purple shadow-sm"
                 style={{ background: '#fff' }}
               />
-              <span className="text-xl font-bold text-askus-dark">DigiSphere</span>
             </button>
+            {/* "DigiSphere" text links to home page */}
+            <Link to="/" className="ml-2 text-xl font-bold text-askus-dark hover:text-askus-purple transition-colors">
+              DigiSphere
+            </Link>
           </div>
 
           {/* Desktop menu */}
@@ -205,3 +209,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
