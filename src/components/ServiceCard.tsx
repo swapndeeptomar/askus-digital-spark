@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { LucideIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { Link } from 'react-router-dom';
 
 interface ServiceCardProps {
   title: string;
@@ -30,14 +31,17 @@ const ServiceCard = ({ title, description, icon: Icon }: ServiceCardProps) => {
       </div>
       <h3 className="text-xl font-semibold mb-3 text-askus-dark">{title}</h3>
       <p className="text-gray-600 mb-6 flex-grow">{description}</p>
-      <Button variant="outline" className={cn(
-        "mt-auto border-askus-purple text-askus-purple transition-all duration-300",
-        isHovered ? "bg-askus-purple text-white" : "hover:bg-askus-purple hover:text-white"
-      )}>
-        Learn More
-      </Button>
+      <Link to="/blogs" className="mt-auto">
+        <Button variant="outline" className={cn(
+          "w-full border-askus-purple text-askus-purple transition-all duration-300",
+          isHovered ? "bg-askus-purple text-white" : "hover:bg-askus-purple hover:text-white"
+        )}>
+          Learn More
+        </Button>
+      </Link>
     </div>
   );
 };
 
 export default ServiceCard;
+
