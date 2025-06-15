@@ -21,6 +21,7 @@ const GetQuote = () => {
   const [details, setDetails] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [quoteReady, setQuoteReady] = useState(false); // Show download button after submit
+  const [pdfUploadUrl, setPdfUploadUrl] = useState<string | null>(null);
 
   const { toast } = useToast();
   const printRef = useRef<HTMLDivElement>(null);
@@ -29,65 +30,172 @@ const GetQuote = () => {
   const selectedServicesInfo = SERVICES.filter(s => selectedServices.includes(s.id));
   const totalEstimate = selectedServicesInfo.reduce((acc, s) => acc + s.price, 0);
 
-  // Handle Save to Supabase
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name || !email || !details) {
-      toast({
-        variant: "destructive",
-        title: "Please fill all required fields (Name, Email, Details)"
-      });
-      return;
-    }
-    setSubmitting(true);
-
-    const serviceList = selectedServicesInfo.map(s => `- ${s.name} (₹${s.price.toLocaleString()})`).join("\n");
-    const subject = selectedServicesInfo.length
-      ? `Quote Request: ${selectedServicesInfo.map(s => s.name).join(", ")}`
-      : "Quote Request";
-    const message = `Project Details:\n${details}\n\nServices Selected:\n${serviceList || "None selected"}\n\nEstimated Total: ₹${totalEstimate.toLocaleString()}`;
-    const mobile = phone;
-
-    try {
-      const { error } = await supabase.from("contact_messages").insert([
-        {
-          name,
-          email,
-          mobile,
-          subject,
-          message,
-        },
-      ]);
-      if (error) {
-        throw error;
-      }
-      toast({
-        variant: "default",
-        title: "Quote sent!",
-        description: "We'll get back to you soon.",
-      });
-      setQuoteReady(true); // Enable Download button
-      // Do NOT reset form values so user can download using the filled data
-      // setName(""); setEmail(""); setPhone(""); setDetails(""); setSelectedServices([]);
-    } catch (err: any) {
-      toast({
-        variant: "destructive",
-        title: "Failed to send quote",
-        description: err.message || "Unknown error",
-      });
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  // PDF download handler
-  const downloadPdf = () => {
+  // PDF generation logic extracted for re-use
+  const createPdfBlob = (): Blob => {
     const doc = new jsPDF({
       orientation: "portrait",
       unit: "pt",
       format: "a4",
     });
 
+    // Dimensions
+    const pageWidth = doc.internal.pageSize.getWidth();
+    // DigiSphere Purple: #8F5DF0
+    const headerHeight = 80;
+
+    // Header rect (purple)
+    doc.setFillColor(143, 93, 240);
+    doc.rect(0, 0, pageWidth, headerHeight, "F");
+
+    // DigiSphere title
+    doc.setFontSize(28);
+    doc.setTextColor(255, 255, 255);
+    doc.setFont(undefined, 'bold');
+    doc.text("DigiSphere - Service Quote", pageWidth / 2, 52, {
+      align: "center",
+      baseline: "middle",
+    });
+
+    // Start content after header
+    let y = headerHeight + 28;
+
+    // "Prepared For" section
+    doc.setFontSize(15);
+    doc.setFont(undefined, 'bold');
+    doc.setTextColor(33, 33, 33);
+    doc.text("Prepared For:", 48, y);
+
+    y += 26;
+    doc.setFontSize(12);
+    doc.setFont(undefined, 'normal');
+    doc.text(`Name: `, 60, y);
+    doc.setFont(undefined, 'bold');
+    doc.text(name || "-", 108, y);
+
+    doc.setFont(undefined, 'normal');
+    y += 18;
+    doc.text(`Email: `, 60, y);
+    doc.setFont(undefined, 'bold');
+    doc.text(email || "-", 108, y);
+
+    doc.setFont(undefined, 'normal');
+    y += 18;
+    doc.text(`Mobile: `, 60, y);
+    doc.setFont(undefined, 'bold');
+    doc.text(phone || "-", 108, y);
+
+    // Project Details
+    y += 30;
+    doc.setFont(undefined, 'bold');
+    doc.setFontSize(13);
+    doc.setTextColor(33, 33, 33);
+    doc.text("Project Details", 48, y);
+
+    y += 16;
+    doc.setFont(undefined, 'normal');
+    doc.setFontSize(12);
+    doc.setTextColor(66, 66, 66);
+    const detLines = doc.splitTextToSize(details || "-", pageWidth - 96);
+    doc.text(detLines, 60, y);
+    y += detLines.length * 15 + 4;
+
+    // Selected Services section
+    y += 16;
+    doc.setFont(undefined, 'bold');
+    doc.setFontSize(13);
+    doc.setTextColor(33, 33, 33);
+    doc.text("Selected Services", 48, y);
+
+    y += 16;
+
+    // Table Header
+    doc.setFont(undefined, 'bold');
+    doc.setFontSize(12);
+    doc.setTextColor(33,33,33);
+    doc.setDrawColor(143, 93, 240); // Header underline
+
+    // Table columns start x positions
+    const colService = 60;
+    const colDesc = colService + 130;
+    const colPrice = pageWidth - 90;
+
+    doc.text("Service", colService, y);
+    doc.text("Description", colDesc, y);
+    doc.text("Price (₹)", colPrice, y, { align: "right" });
+
+    y += 3;
+    doc.setLineWidth(1);
+    doc.line(colService, y, pageWidth - 60, y);
+
+    y += 13;
+
+    // Table rows
+    doc.setFont(undefined, 'normal');
+    doc.setFontSize(11);
+
+    if (selectedServicesInfo.length === 0) {
+      doc.setTextColor(146, 146, 146);
+      doc.text("No services selected.", colService, y);
+      y += 20;
+    } else {
+      selectedServicesInfo.forEach((serv, idx) => {
+        doc.setTextColor(33, 33, 33);
+        doc.text(serv.name, colService, y, { maxWidth: 125 });
+
+        // Service description (wrap if needed)
+        const descLines = doc.splitTextToSize(serv.description, colPrice - colDesc - 24);
+        doc.setTextColor(80, 80, 80);
+        doc.text(descLines, colDesc, y);
+
+        // The price should align right
+        doc.setTextColor(33, 33, 33);
+        doc.text(`₹${serv.price.toLocaleString()}`, colPrice, y, { align: "right" });
+
+        // Move y by the tallest cell
+        y += Math.max(18, descLines.length * 14);
+      });
+    }
+
+    // Total Estimate section
+    y += 18;
+    doc.setLineWidth(0.5);
+    doc.setDrawColor(200, 180, 255);
+    doc.line(colService, y, pageWidth - 60, y);
+
+    y += 24;
+    doc.setFontSize(15);
+    doc.setFont(undefined, "bold");
+    doc.setTextColor(143, 93, 240);
+    doc.text("Total Estimate:", colService, y);
+    doc.text(
+      `₹${totalEstimate.toLocaleString()}`,
+      colPrice,
+      y,
+      { align: "right" }
+    );
+
+    // Validity note
+    y += 10;
+    doc.setFont(undefined, "normal");
+    doc.setFontSize(11);
+    doc.setTextColor(176, 154, 219);
+    doc.text(
+      "This quote is valid for 15 days. Contact us if you have any questions.",
+      colService,
+      y + 20
+    );
+
+    // Get the PDF blob (we'll upload this)
+    return doc.output("blob");
+  };
+
+  // PDF download handler
+  const handleDownloadPdf = () => {
+    const doc = new jsPDF({
+      orientation: "portrait",
+      unit: "pt",
+      format: "a4",
+    });
     // Dimensions
     const pageWidth = doc.internal.pageSize.getWidth();
     // DigiSphere Purple: #8F5DF0
@@ -244,6 +352,94 @@ const GetQuote = () => {
     );
   };
 
+  const uploadPdfToStorage = async (blob: Blob) => {
+    const safeName = name ? name.replace(/[^a-zA-Z0-9]/g, "_") : "user";
+    const filename = `digisphere-quote-${safeName}-${Date.now()}.pdf`;
+
+    // Upload to Supabase Storage
+    const { data, error } = await supabase.storage
+      .from('quotes-pdfs')
+      .upload(filename, blob, { contentType: "application/pdf" });
+
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "PDF Upload Failed",
+        description: error.message
+      });
+      return null;
+    }
+
+    // Optionally: get the public URL for later usage
+    const { data: publicData } = supabase
+      .storage
+      .from("quotes-pdfs")
+      .getPublicUrl(filename);
+
+    if (publicData?.publicUrl) setPdfUploadUrl(publicData.publicUrl);
+
+    toast({
+      variant: "default",
+      title: "Quote PDF Uploaded",
+      description: "Your PDF quote is securely stored.",
+    });
+
+    return filename;
+  };
+
+  // Handle Save to Supabase and upload PDF file
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || !email || !details) {
+      toast({
+        variant: "destructive",
+        title: "Please fill all required fields (Name, Email, Details)"
+      });
+      return;
+    }
+    setSubmitting(true);
+
+    const serviceList = selectedServicesInfo.map(s => `- ${s.name} (₹${s.price.toLocaleString()})`).join("\n");
+    const subject = selectedServicesInfo.length
+      ? `Quote Request: ${selectedServicesInfo.map(s => s.name).join(", ")}`
+      : "Quote Request";
+    const message = `Project Details:\n${details}\n\nServices Selected:\n${serviceList || "None selected"}\n\nEstimated Total: ₹${totalEstimate.toLocaleString()}`;
+    const mobile = phone;
+
+    try {
+      // Insert contact message
+      const { error: dbError } = await supabase.from("contact_messages").insert([
+        {
+          name,
+          email,
+          mobile,
+          subject,
+          message,
+        },
+      ]);
+      if (dbError) throw dbError;
+
+      // Create and upload PDF
+      const pdfBlob = createPdfBlob();
+      await uploadPdfToStorage(pdfBlob);
+
+      toast({
+        variant: "default",
+        title: "Quote sent!",
+        description: "We'll get back to you soon.",
+      });
+      setQuoteReady(true);
+    } catch (err: any) {
+      toast({
+        variant: "destructive",
+        title: "Failed to send quote",
+        description: err.message || "Unknown error",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -386,7 +582,7 @@ const GetQuote = () => {
                   <Button
                     type="button"
                     variant="secondary"
-                    onClick={downloadPdf}
+                    onClick={handleDownloadPdf}
                     className="border border-askus-purple text-askus-purple hover:bg-purple-50"
                   >
                     Download Your Quote
@@ -394,6 +590,13 @@ const GetQuote = () => {
                 )}
               </div>
             </form>
+            {/* Optional: show PDF URL after upload */}
+            {quoteReady && pdfUploadUrl && (
+              <div className="mt-4">
+                <span className="text-xs text-gray-400">PDF stored at: </span> 
+                <a href={pdfUploadUrl} target="_blank" rel="noopener noreferrer" className="text-askus-purple underline break-all">{pdfUploadUrl}</a>
+              </div>
+            )}
           </div>
         </div>
       </section>
