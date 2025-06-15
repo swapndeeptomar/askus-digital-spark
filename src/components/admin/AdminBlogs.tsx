@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -193,7 +192,6 @@ const AdminBlogs: React.FC = () => {
               onChange={handleChange}
               placeholder="Cover Image URL"
               disabled={saving}
-              icon={<ImageIcon className="w-4 h-4" />}
             />
             <Input
               name="author"
