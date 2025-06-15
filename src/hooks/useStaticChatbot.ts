@@ -282,32 +282,33 @@ export function useStaticChatbot(params?: UseStaticChatbotParams) {
 
     const userMessage: ChatMessage = { role: "user", content: selectedOption.label };
 
-    // For specific options, switch to freeform mode for input
-    // Option 1: Technical Support main step
+    // Special handling for Technical Support, Billing Other, and Other/General Inquiry
     if (
-      currentStepId === "technical_support" &&
-      optionValue !== "back"
+      (currentStepId === "technical_support" && optionValue !== "back") ||
+      (currentStepId === "billing" && optionValue === "billing_other") ||
+      (currentStepId === "other" && optionValue !== "back")
     ) {
-      setMessages((prev) => [...prev, userMessage]);
-      setFreeformSource("technical_support");
-      return;
-    }
-    // Option 2: Billing and Payment -> Other Financial Concerns
-    if (
-      currentStepId === "billing" &&
-      optionValue === "billing_other"
-    ) {
-      setMessages((prev) => [...prev, userMessage]);
-      setFreeformSource("billing_other");
-      return;
-    }
-    // Option 3: Other/General Inquiry top menu
-    if (
-      currentStepId === "other" &&
-      optionValue !== "back"
-    ) {
-      setMessages((prev) => [...prev, userMessage]);
-      setFreeformSource("other");
+      // Add the user message, then a bot prompt for freeform input
+      setMessages((prev) => [
+        ...prev,
+        userMessage,
+        {
+          role: "assistant",
+          content:
+            currentStepId === "technical_support"
+              ? "Please describe your technical issue below."
+              : currentStepId === "billing"
+              ? "Please specify your financial concern below."
+              : "Please describe your inquiry below.",
+        },
+      ]);
+      setFreeformSource(
+        currentStepId === "technical_support"
+          ? "technical_support"
+          : currentStepId === "billing"
+          ? "billing_other"
+          : "other"
+      );
       return;
     }
 
