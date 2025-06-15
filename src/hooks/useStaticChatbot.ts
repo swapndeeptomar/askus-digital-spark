@@ -48,25 +48,67 @@ export const chatbotSteps: Record<string, ChatbotStep> = {
   services_offered: {
     id: "services_offered",
     message:
-      "DigiSphere provides web development, digital marketing (including SEO/SEM), e-commerce solutions, cloud migration, and IT consulting. Do you want information on a specific service?",
+      "DigiSphere offers a full suite of IT and digital services. Choose a specific service to know more:",
     options: [
       {
         label: "Web Development",
-        value: "web_development",
+        value: "web_dev",
         reply:
-          "Our web development team specializes in creating responsive, accessible, and performant websites tailored to your business needs.",
+          "Our web development team creates custom, robust websites tailored to your business needs for seamless experiences.",
+      },
+      {
+        label: "Mobile App Development",
+        value: "mobile_app",
+        reply:
+          "We develop innovative mobile apps that drive engagement and efficiency on both iOS and Android.",
+      },
+      {
+        label: "SEO Optimization",
+        value: "seo",
+        reply:
+          "We boost your online visibility with SEO best practices, helping you rank higher and attract more visitors.",
       },
       {
         label: "Digital Marketing",
         value: "digital_marketing",
         reply:
-          "DigiSphere's digital marketing experts can help grow your online presence through SEO, SEM, and targeted campaigns.",
+          "Our digital marketing experts grow your reach through targeted campaigns and effective strategies.",
+      },
+      {
+        label: "Graphic Design",
+        value: "graphic_design",
+        reply:
+          "We deliver creative graphic design solutions to power your brand messaging and visual impact.",
+      },
+      {
+        label: "Cybersecurity",
+        value: "cybersecurity",
+        reply:
+          "We secure your operations with advanced cybersecurity services and up-to-date risk management.",
+      },
+      {
+        label: "Custom Software Development",
+        value: "custom_software",
+        reply:
+          "From analysis to deployment, we build software tailored to your unique business requirements.",
+      },
+      {
+        label: "UI/UX Design",
+        value: "uiux",
+        reply:
+          "Our design experts craft intuitive, delightful experiences that maximize user satisfaction and conversion.",
+      },
+      {
+        label: "Software & App Testing",
+        value: "testing",
+        reply:
+          "We rigorously test your software and apps to ensure they are secure, stable, and fully optimized.",
       },
       {
         label: "E-commerce Solutions",
-        value: "ecommerce",
+        value: "ecommerce_solutions",
         reply:
-          "We build robust e-commerce platforms, including storefronts, payment integration, and inventory management.",
+          "We build complete e-commerce stores with payment integration and scalable inventory management.",
       },
       {
         label: "Back to Main Menu",
@@ -78,13 +120,19 @@ export const chatbotSteps: Record<string, ChatbotStep> = {
   get_quote: {
     id: "get_quote",
     message:
-      "To receive a personalized quote, please visit our Get Quote page or provide details about your project here, and our team will contact you within one business day.",
+      "To get a personalized quote, you can visit our Quote page directly or share project details for our team to contact you.",
     options: [
       {
-        label: "Visit Get Quote Page",
+        label: "Visit Quote Page",
         value: "visit_quote",
         reply:
-          "You can use the Get Quote page on our website to receive an instant estimate.",
+          "You can get an instant estimate using our Get Quote page: [Open Quote Page](/get-quote)",
+      },
+      {
+        label: "Submit Project Details",
+        value: "submit_details",
+        reply:
+          "Please share the details of your project. Our team will reach out with a quote within one business day.",
       },
       {
         label: "Back to Main Menu",
@@ -108,8 +156,26 @@ export const chatbotSteps: Record<string, ChatbotStep> = {
   billing: {
     id: "billing",
     message:
-      "For billing and payment questions, please specify whether you need help with invoices, payment methods, or other financial concerns.",
+      "Please select what you need help with regarding billing and payments.",
     options: [
+      {
+        label: "Invoices",
+        value: "billing_invoices",
+        reply:
+          "For invoice-related queries, please email billing@digisphere.com with your invoice number and concern.",
+      },
+      {
+        label: "Payment Methods",
+        value: "billing_payment_methods",
+        reply:
+          "We accept bank transfers, UPI, and credit/debit cards. If you need further assistance, please mention your preferred method.",
+      },
+      {
+        label: "Other Financial Concerns",
+        value: "billing_other",
+        reply:
+          "Please specify your concern, and our finance team will follow up promptly.",
+      },
       {
         label: "Back to Main Menu",
         value: "back",
