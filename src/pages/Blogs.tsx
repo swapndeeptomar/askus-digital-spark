@@ -12,21 +12,21 @@ const fetchBlogs = async () => {
     .from("blogs")
     .select("*")
     .order("created_at", { ascending: false })
-    .limit(4);
+    .limit(10);
   if (error) throw error;
   return data;
 };
 
 const Blogs = () => {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["blogs", 4],
+    queryKey: ["blogs", 10],
     queryFn: fetchBlogs,
   });
 
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="flex-1 bg-gray-50 py-12">
+      <main className="flex-1 bg-gray-50 pt-28 pb-12">
         <div className="container mx-auto px-4 max-w-5xl">
           <h1 className="text-4xl font-bold mb-10 text-askus-dark text-center">Our Latest Blogs</h1>
           {isLoading ? (
