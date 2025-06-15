@@ -262,7 +262,7 @@ const ChatbotWidget: React.FC = () => {
                 {/* Confirmation message after submitting inquiry */}
                 {freeformSubmitted && showFreeformInput && (
                   <div className="w-full p-3 bg-purple-50 rounded-xl border border-askus-purple/10 text-askus-purple text-sm font-medium">
-                    Thank you for reaching out! Our team will review your inquiry and get back to you soon.
+                    Thank you for reaching out! Our team will review your inquiry and get back to you within 2 business days.
                   </div>
                 )}
                 <div ref={bottomRef} />
