@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -87,8 +86,9 @@ const Payment = () => {
         <div className="absolute top-2/3 right-1/3 w-[190px] h-[100px] bg-gradient-to-br from-askus-purple/15 to-white/0 blur-2xl opacity-15 rotate-12" />
       </div>
       <Navbar />
-      <main className="flex-grow py-10 px-2 sm:px-0 flex flex-col items-center justify-center">
-        <div className="container max-w-xl bg-white/90 rounded-2xl shadow-2xl p-6 sm:p-10 transition-all backdrop-blur-lg border border-white/50" style={{ boxShadow: "0 4px 40px 0 rgba(139,92,246,0.09),0 2px 8px rgba(70,33,150,0.09)" }}>
+      <main className="flex-grow py-10 px-2 sm:px-0 flex flex-col items-center justify-center pt-20">
+        <div className="container max-w-xl bg-white/90 rounded-2xl shadow-2xl p-6 sm:p-10 transition-all backdrop-blur-lg border border-white/50"
+          style={{ boxShadow: "0 4px 40px 0 rgba(139,92,246,0.09),0 2px 8px rgba(70,33,150,0.09)" }}>
           <h1 className="text-3xl font-bold text-center text-askus-dark mb-8">
             Make a Payment
           </h1>
@@ -142,4 +142,3 @@ const Payment = () => {
 };
 
 export default Payment;
-

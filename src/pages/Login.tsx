@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
@@ -106,7 +105,7 @@ const Login = () => {
         <div className="absolute inset-0 opacity-10 pointer-events-none [mask-image:linear-gradient(to_bottom,rgba(0,0,0,0.48),rgba(0,0,0,0.18)50%,transparent)] bg-[radial-gradient(circle at 1px 1px,rgba(70,33,150,.15)1px,transparent_0)] bg-[size:36px_36px]" />
       </div>
       <Navbar />
-      <main className="flex flex-1 items-center justify-center py-10 px-2 sm:px-4">
+      <main className="flex flex-1 items-center justify-center py-10 px-2 sm:px-4 pt-20">
         <div className="w-full max-w-md bg-white/90 backdrop-blur-lg rounded-2xl shadow-2xl p-6 sm:p-8 space-y-8 mx-auto transition-all border border-white/50">
           <div className="text-center space-y-4">
             <div className="flex items-center justify-center gap-2">
@@ -147,4 +146,3 @@ const Login = () => {
 };
 
 export default Login;
-
