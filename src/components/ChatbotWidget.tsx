@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { useStaticChatbot } from "@/hooks/useStaticChatbot";
 import { supabase } from "@/integrations/supabase/client";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const WHATSAPP_LINK = "https://wa.me/911234567890";
 const GMAIL_LINK = "mailto:info@example.com";
@@ -183,41 +184,66 @@ const ChatbotWidget: React.FC = () => {
                 {messages.map((m, i) => (
                   <div
                     key={i}
-                    className={`flex ${
-                      m.role === "user" ? "justify-end" : "justify-start"
-                    } w-full`}
+                    className={`flex ${m.role === "user" ? "justify-end" : "justify-start"} w-full items-end`}
                   >
-                    <div
-                      className={`relative rounded-2xl text-sm max-w-[84%] px-4 py-2 shadow
-                        ${
-                          m.role === "user"
-                            ? "ml-auto bg-askus-purple text-white rounded-br-[2.2rem] hover:scale-105 transition-transform"
-                            : "mr-auto bg-white text-gray-900 rounded-bl-[2.2rem] border border-gray-100"
-                        }`}
-                      style={{
-                        wordBreak: "break-word",
-                        transition: "box-shadow .3s,transform .3s",
-                      }}
-                    >
-                      {/* Main message */}
-                      <span>{m.content}</span>
-                      {/* If this bot message has options, render them as wide buttons below (inside the bubble) */}
-                      {m.role === "assistant" && m.options && m.options.length > 0 && (
-                        <div className="flex flex-col gap-2 mt-3">
-                          {m.options.map((option) => (
-                            <Button
-                              key={option.value}
-                              variant="outline"
-                              onClick={() => sendOption(option.value)}
-                              className="w-full block py-2 border-askus-purple/60 text-askus-purple font-semibold rounded-xl whitespace-normal text-[15px] shadow-sm bg-purple-50/60 hover:bg-askus-purple hover:text-white hover:border-askus-purple transition"
-                              style={{ lineHeight: "1.3" }}
-                            >
-                              {option.label}
-                            </Button>
-                          ))}
+                    {m.role === "assistant" ? (
+                      // Bot message with icon left
+                      <div className="flex flex-row items-end gap-2">
+                        <div className="mb-2">
+                          <div className="flex items-center justify-center rounded-full bg-askus-purple/90 w-8 h-8 shadow-sm">
+                            <Bot className="w-4 h-4 text-white" />
+                          </div>
                         </div>
-                      )}
-                    </div>
+                        <div
+                          className={`relative rounded-2xl text-sm max-w-[84%] px-4 py-2 shadow
+                            bg-white text-gray-900 rounded-bl-[2.2rem] border border-gray-100`}
+                          style={{
+                            wordBreak: "break-word",
+                            transition: "box-shadow .3s,transform .3s",
+                          }}
+                        >
+                          {/* Main message */}
+                          <span>{m.content}</span>
+                          {/* If this bot message has options, render them as wide buttons below (inside the bubble) */}
+                          {m.options && m.options.length > 0 && (
+                            <div className="flex flex-col gap-2 mt-3">
+                              {m.options.map((option) => (
+                                <Button
+                                  key={option.value}
+                                  variant="outline"
+                                  onClick={() => sendOption(option.value)}
+                                  className="w-full block py-2 border-askus-purple/60 text-askus-purple font-semibold rounded-xl whitespace-normal text-[15px] shadow-sm bg-purple-50/60 hover:bg-askus-purple hover:text-white hover:border-askus-purple transition"
+                                  style={{ lineHeight: "1.3" }}
+                                >
+                                  {option.label}
+                                </Button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ) : (
+                      // User message with avatar right
+                      <div className="flex flex-row-reverse items-end gap-2">
+                        <div className="mb-2">
+                          <Avatar className="w-8 h-8 border border-gray-200 shadow-sm bg-gray-50">
+                            {/* Optionally set AvatarImage src for a user image, otherwise fallback */}
+                            <AvatarImage src={undefined} alt="You" />
+                            <AvatarFallback className="bg-askus-purple text-white">U</AvatarFallback>
+                          </Avatar>
+                        </div>
+                        <div
+                          className={`relative rounded-2xl text-sm max-w-[84%] px-4 py-2 shadow ml-auto
+                            bg-askus-purple text-white rounded-br-[2.2rem] hover:scale-105 transition-transform`}
+                          style={{
+                            wordBreak: "break-word",
+                            transition: "box-shadow .3s,transform .3s",
+                          }}
+                        >
+                          <span>{m.content}</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ))}
                 {/* Show freeform input after bot message for general inquiry IF NOT submitted */}
