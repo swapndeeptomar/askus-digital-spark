@@ -30,8 +30,10 @@ const GetQuote = () => {
   const selectedServicesInfo = SERVICES.filter(s => selectedServices.includes(s.id));
   const totalEstimate = selectedServicesInfo.reduce((acc, s) => acc + s.price, 0);
 
+  const signatureImagePath = "/signature_sample.png"; // publicly accessible!
+
   // PDF generation logic extracted for re-use
-  const createPdfBlob = (): Blob => {
+  const createPdfBlob = async (): Promise<Blob> => {
     const doc = new jsPDF({
       orientation: "portrait",
       unit: "pt",
@@ -185,12 +187,43 @@ const GetQuote = () => {
       y + 20
     );
 
-    // Get the PDF blob (we'll upload this)
+    y += 20;
+
+    // Add sample signature image at the bottom of the PDF
+    // We'll place it above the bottom margin, centered
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const imgWidth = 180;
+    const imgHeight = 40;
+    const imgX = (pageWidth - imgWidth) / 2;
+    const imgY = pageHeight - imgHeight - 48; // 48pt from bottom
+
+    // Load image asynchronously and add to PDF
+    const addSignatureImage = async () => {
+      return new Promise<void>((resolve) => {
+        const img = new window.Image();
+        img.crossOrigin = "Anonymous";
+        img.onload = function () {
+          doc.addImage(
+            img,
+            "PNG",
+            imgX,
+            imgY,
+            imgWidth,
+            imgHeight
+          );
+          resolve();
+        };
+        img.src = signatureImagePath;
+      });
+    };
+    await addSignatureImage();
+
     return doc.output("blob");
   };
 
-  // PDF download handler
-  const handleDownloadPdf = () => {
+  // PDF download handler (synchronous version)
+  const handleDownloadPdf = async () => {
     const doc = new jsPDF({
       orientation: "portrait",
       unit: "pt",
@@ -343,12 +376,37 @@ const GetQuote = () => {
       y + 20
     );
 
-    // Save PDF
+    // Add sample signature image to the PDF (same as above)
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const imgWidth = 180;
+    const imgHeight = 40;
+    const imgX = (pageWidth - imgWidth) / 2;
+    const imgY = pageHeight - imgHeight - 48; // 48pt from bottom
+
+    const addSignatureImage = async () => {
+      return new Promise<void>((resolve) => {
+        const img = new window.Image();
+        img.crossOrigin = "Anonymous";
+        img.onload = function () {
+          doc.addImage(
+            img,
+            "PNG",
+            imgX,
+            imgY,
+            imgWidth,
+            imgHeight
+          );
+          resolve();
+        };
+        img.src = signatureImagePath;
+      });
+    };
+    await addSignatureImage();
+
     const safeName = name ? name.replace(/[^a-zA-Z0-9]/g, "_") : "User";
     doc.save(
-      `digisphere-quote-${safeName}-${new Date()
-        .toISOString()
-        .slice(0, 10)}.pdf`
+      `digisphere-quote-${safeName}-${new Date().toISOString().slice(0, 10)}.pdf`
     );
   };
 
@@ -401,7 +459,7 @@ const GetQuote = () => {
 
     try {
       // 1. Create and upload PDF
-      const pdfBlob = createPdfBlob();
+      const pdfBlob = await createPdfBlob();
       const upload = await uploadPdfToStorage(pdfBlob);
       if (!upload) throw new Error("PDF upload failed");
 
