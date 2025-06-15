@@ -20,6 +20,7 @@ const GetQuote = () => {
   const [phone, setPhone] = useState("");
   const [details, setDetails] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [quoteReady, setQuoteReady] = useState(false); // Show download button after submit
 
   const { toast } = useToast();
   const printRef = useRef<HTMLDivElement>(null);
@@ -31,7 +32,6 @@ const GetQuote = () => {
   // Handle Save to Supabase
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Validation (feel free to enhance further)
     if (!name || !email || !details) {
       toast({
         variant: "destructive",
@@ -41,7 +41,6 @@ const GetQuote = () => {
     }
     setSubmitting(true);
 
-    // Compose subject, message for DB
     const serviceList = selectedServicesInfo.map(s => `- ${s.name} (₹${s.price.toLocaleString()})`).join("\n");
     const subject = selectedServicesInfo.length
       ? `Quote Request: ${selectedServicesInfo.map(s => s.name).join(", ")}`
@@ -67,12 +66,9 @@ const GetQuote = () => {
         title: "Quote sent!",
         description: "We'll get back to you soon.",
       });
-      // Reset form
-      setName("");
-      setEmail("");
-      setPhone("");
-      setDetails("");
-      setSelectedServices([]);
+      setQuoteReady(true); // Enable Download button
+      // Do NOT reset form values so user can download using the filled data
+      // setName(""); setEmail(""); setPhone(""); setDetails(""); setSelectedServices([]);
     } catch (err: any) {
       toast({
         variant: "destructive",
@@ -82,29 +78,6 @@ const GetQuote = () => {
     } finally {
       setSubmitting(false);
     }
-  };
-
-  // Handle Print
-  const handlePrint = () => {
-    if (!printRef.current) return;
-    const printContents = printRef.current.innerHTML;
-    const printWindow = window.open('', '', 'height=640,width=480');
-    if (!printWindow) return;
-    printWindow.document.write('<html><head><title>Quote Summary</title>');
-    printWindow.document.write(
-      `<style>
-        body { font-family: sans-serif; padding: 24px; }
-        h3 { color: #7c3aed; }
-        .services-table { border-collapse: collapse; width: 100%; margin-bottom: 1em; }
-        .services-table th,.services-table td { border: 1px solid #e5e7eb; padding: 0.5em 0.75em; text-align: left; }
-        .total { font-weight: bold; color: #7c3aed; }
-      </style>`
-    );
-    printWindow.document.write('</head><body>');
-    printWindow.document.write(printContents);
-    printWindow.document.write('</body></html>');
-    printWindow.document.close();
-    printWindow.print();
   };
 
   // PDF download handler
@@ -156,7 +129,6 @@ const GetQuote = () => {
       doc.text("No services selected.", 20, y);
       y += 7;
     } else {
-      // Table Head
       doc.setFontSize(11);
       doc.setTextColor(80, 80, 80);
       doc.setFillColor(241, 233, 255);
@@ -164,14 +136,12 @@ const GetQuote = () => {
       doc.text("Service", 25, y);
       doc.text("Price", 140, y);
       y += 7;
-      // Table Rows
       selectedServicesInfo.forEach(s => {
         doc.setTextColor(60, 60, 60);
         doc.text(s.name, 25, y);
         doc.text(`₹${s.price.toLocaleString()}`, 140, y);
         y += 7;
       });
-      // Total row
       y += 2;
       doc.setDrawColor(191, 139, 255);
       doc.setLineWidth(0.5);
@@ -190,7 +160,6 @@ const GetQuote = () => {
     doc.setTextColor(140, 140, 140);
     doc.text("Thank you for getting a quote from AskUS! We'll connect with you soon.", 105, 285, { align: "center" });
 
-    // Save The PDF
     doc.save(
       `AskUS_Quote_${name ? name.replace(/[^a-zA-Z0-9]/g, "_") : "User"}_${new Date().toISOString().slice(0, 10)}.pdf`
     );
@@ -229,7 +198,7 @@ const GetQuote = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
             <h2 className="text-2xl font-bold mb-6 text-askus-dark">Project Details</h2>
-            {/* Printable preview */}
+            {/* Printable preview (unchanged, hidden) */}
             <div ref={printRef} className="hidden print:block">
               <h3>User Information</h3>
               <p><strong>Name:</strong> {name}</p>
@@ -277,6 +246,7 @@ const GetQuote = () => {
                   placeholder="Enter your name"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
                   required
+                  disabled={quoteReady}
                 />
               </div>
               <div>
@@ -291,6 +261,7 @@ const GetQuote = () => {
                   placeholder="Enter your email"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
+                  disabled={quoteReady}
                 />
               </div>
               <div>
@@ -304,6 +275,7 @@ const GetQuote = () => {
                   onChange={e => setPhone(e.target.value)}
                   placeholder="Enter your phone number"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  disabled={quoteReady}
                 />
               </div>
               <div>
@@ -318,32 +290,29 @@ const GetQuote = () => {
                   placeholder="Describe your project"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
+                  disabled={quoteReady}
                 />
               </div>
               <div className="flex flex-wrap items-center gap-4">
-                <Button
-                  className="bg-askus-purple hover:bg-askus-purple/90 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline"
-                  type="submit"
-                  disabled={submitting}
-                >
-                  {submitting ? "Sending..." : "Get Your Quote"}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handlePrint}
-                  className="border border-askus-purple text-askus-purple hover:bg-purple-50"
-                >
-                  Print Quote
-                </Button>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={downloadPdf}
-                  className="border border-askus-purple text-askus-purple hover:bg-purple-50"
-                >
-                  Download PDF Quote
-                </Button>
+                {!quoteReady && (
+                  <Button
+                    className="bg-askus-purple hover:bg-askus-purple/90 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline"
+                    type="submit"
+                    disabled={submitting}
+                  >
+                    {submitting ? "Submitting..." : "Submit to Get Quote"}
+                  </Button>
+                )}
+                {quoteReady && (
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={downloadPdf}
+                    className="border border-askus-purple text-askus-purple hover:bg-purple-50"
+                  >
+                    Download Your Quote
+                  </Button>
+                )}
               </div>
             </form>
           </div>
