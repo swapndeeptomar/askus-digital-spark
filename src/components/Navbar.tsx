@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
@@ -78,12 +77,15 @@ const Navbar = () => {
                   <ChevronDown size={18} className="ml-1" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="z-[105] bg-white min-w-[160px] shadow-lg border border-gray-100">
+              <DropdownMenuContent align="end" className="z-[105] bg-white min-w-[180px] shadow-lg border border-gray-100">
                 <DropdownMenuItem asChild>
                   <Link to="/get-quote">Get Quote</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link to="/contact">Contact Us</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/payment">Make a Payment</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -161,7 +163,7 @@ const Navbar = () => {
                     <ChevronDown size={18} className="ml-1" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="z-[105] bg-white min-w-[160px] shadow-lg border border-gray-100">
+                <DropdownMenuContent align="end" className="z-[105] bg-white min-w-[180px] shadow-lg border border-gray-100">
                   <DropdownMenuItem
                     onSelect={() => handleDropdownClick('/get-quote')}
                   >
@@ -171,6 +173,11 @@ const Navbar = () => {
                     onSelect={() => handleDropdownClick('/contact')}
                   >
                     Contact Us
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onSelect={() => handleDropdownClick('/payment')}
+                  >
+                    Make a Payment
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
