@@ -7,6 +7,8 @@ import { z } from 'zod';
 import { CalendarIcon, Phone, Clock } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -140,16 +142,18 @@ const ScheduleCall = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-24 md:py-32">
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-askus-dark mb-4">
-            Schedule a Call
-          </h1>
-          <p className="text-lg text-gray-600">
-            Book a consultation call with our team to discuss your project requirements.
-          </p>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-askus-background via-askus-background/95 to-askus-background/90">
+      <Navbar />
+      <div className="container mx-auto px-4 py-24 md:py-32">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-10">
+            <h1 className="text-3xl md:text-4xl font-bold text-askus-dark mb-4">
+              Schedule a Call
+            </h1>
+            <p className="text-lg text-askus-text">
+              Book a consultation call with our team to discuss your project requirements.
+            </p>
+          </div>
         
         <div className="bg-white p-6 md:p-8 rounded-xl shadow-md">
           <Form {...form}>
@@ -301,29 +305,31 @@ const ScheduleCall = () => {
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
             <Phone className="text-askus-purple h-10 w-10 mb-4" />
-            <h3 className="text-lg font-semibold mb-2">Professional Consultation</h3>
-            <p className="text-gray-600">
+            <h3 className="text-lg font-semibold mb-2 text-askus-dark">Professional Consultation</h3>
+            <p className="text-askus-text">
               Speak directly with our experts about your project requirements and goals.
             </p>
           </div>
           
           <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
             <CalendarIcon className="text-askus-purple h-10 w-10 mb-4" />
-            <h3 className="text-lg font-semibold mb-2">Flexible Scheduling</h3>
-            <p className="text-gray-600">
+            <h3 className="text-lg font-semibold mb-2 text-askus-dark">Flexible Scheduling</h3>
+            <p className="text-askus-text">
               Choose a date and time that works best for your schedule.
             </p>
           </div>
           
           <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
             <Clock className="text-askus-purple h-10 w-10 mb-4" />
-            <h3 className="text-lg font-semibold mb-2">Timely Follow-up</h3>
-            <p className="text-gray-600">
+            <h3 className="text-lg font-semibold mb-2 text-askus-dark">Timely Follow-up</h3>
+            <p className="text-askus-text">
               Receive a confirmation email with call details and follow-up resources.
             </p>
           </div>
         </div>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 };
