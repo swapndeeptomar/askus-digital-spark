@@ -20,6 +20,7 @@ import Payment from "./pages/Payment";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import Admin from "./pages/Admin";
 import Blogs from "./pages/Blogs";
+import ScheduleCall from "./pages/ScheduleCall";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/payment" element={<Payment />} />
           <Route path="/admin" element={<ErrorBoundary><Admin /></ErrorBoundary>} />
           <Route path="/blogs" element={<Blogs />} />
+          <Route path="/schedule-call" element={<ScheduleCall />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ErrorBoundary>

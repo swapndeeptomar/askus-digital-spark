@@ -106,6 +106,9 @@ const Navbar = () => {
                 <DropdownMenuItem asChild>
                   <Link to="/payment">Make a Payment</Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/schedule-call">Schedule Call</Link>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -197,6 +200,11 @@ const Navbar = () => {
                     onSelect={() => handleDropdownClick('/payment')}
                   >
                     Make a Payment
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onSelect={() => handleDropdownClick('/schedule-call')}
+                  >
+                    Schedule Call
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

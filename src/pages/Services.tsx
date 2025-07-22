@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Loader2, Code, Smartphone, Search, PieChart, Paintbrush, Shield, Server, Settings, FileCheck } from 'lucide-react';
+import { Loader2, Code, Smartphone, Search, PieChart, Paintbrush, Shield, Server, Settings, FileCheck, LucideIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -13,7 +13,7 @@ import MovingHeaderLines from "@/components/MovingHeaderLines";
 import { supabase } from '@/integrations/supabase/client';
 
 // Icon mapping from string names to Lucide icon components
-const serviceIconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+const serviceIconMap: Record<string, LucideIcon> = {
   'code': Code,
   'smartphone': Smartphone,
   'search': Search,

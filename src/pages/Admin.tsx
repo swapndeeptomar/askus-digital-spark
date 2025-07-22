@@ -12,6 +12,7 @@ import AdminQuotesPDFs from "@/components/admin/AdminQuotesPDFs";
 import AdminChatbotMessages from "@/components/admin/AdminChatbotMessages";
 import AdminBlogs from "@/components/admin/AdminBlogs";
 import AdminServices from "@/components/admin/AdminServices";
+import AdminAppointments from "@/components/admin/AdminAppointments";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -48,6 +49,7 @@ const Admin = () => {
               <TabsTrigger value="chatbot" className="min-w-[110px]">Chatbot Messages</TabsTrigger>
               <TabsTrigger value="services" className="min-w-[110px]">Services</TabsTrigger>
               <TabsTrigger value="blogs" className="min-w-[110px]">Blogs</TabsTrigger>
+              <TabsTrigger value="appointments" className="min-w-[110px]">Appointments</TabsTrigger>
             </TabsList>
             <TabsContent value="contact"><AdminContactMessages /></TabsContent>
             <TabsContent value="payments"><AdminPayments /></TabsContent>
@@ -57,6 +59,7 @@ const Admin = () => {
             <TabsContent value="chatbot"><AdminChatbotMessages /></TabsContent>
             <TabsContent value="services"><AdminServices /></TabsContent>
             <TabsContent value="blogs"><AdminBlogs /></TabsContent>
+            <TabsContent value="appointments"><AdminAppointments /></TabsContent>
           </Tabs>
           <Button onClick={handleLogout} className="bg-askus-purple hover:bg-askus-purple/90 w-full mt-8">Logout</Button>
         </div>
