@@ -74,10 +74,14 @@ const ChatbotWidget: React.FC = () => {
 
   useEffect(() => {
     if (open) {
-      // Small delay to ensure DOM is updated
+      // Longer delay for smoother, more gradual scrolling
       setTimeout(() => {
-        bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-      }, 100);
+        bottomRef.current?.scrollIntoView({ 
+          behavior: "smooth", 
+          block: "end",
+          inline: "nearest"
+        });
+      }, 300);
     }
   }, [messages, open, showFreeformInput]);
 
