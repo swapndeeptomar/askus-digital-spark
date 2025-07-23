@@ -19,6 +19,7 @@ const ChatbotWidget: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const bottomRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   // For general inquiry freeform input
   const [freeformIssue, setFreeformIssue] = useState("");
@@ -72,16 +73,45 @@ const ChatbotWidget: React.FC = () => {
     };
   }, [location.pathname]);
 
+  // Custom smooth scroll function for better readability
+  const smoothScrollToBottom = () => {
+    const scrollArea = scrollAreaRef.current?.querySelector('[data-radix-scroll-area-viewport]');
+    if (!scrollArea) return;
+
+    const startScrollTop = scrollArea.scrollTop;
+    const targetScrollTop = scrollArea.scrollHeight - scrollArea.clientHeight;
+    const distance = targetScrollTop - startScrollTop;
+    
+    if (distance <= 0) return;
+
+    const duration = Math.min(1500, Math.max(800, distance * 2)); // Adaptive duration based on distance
+    const startTime = performance.now();
+
+    const easeInOutCubic = (t: number) => {
+      return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+    };
+
+    const animateScroll = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeInOutCubic(progress);
+      
+      scrollArea.scrollTop = startScrollTop + (distance * easedProgress);
+
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
+      }
+    };
+
+    requestAnimationFrame(animateScroll);
+  };
+
   useEffect(() => {
-    if (open) {
-      // Longer delay for smoother, more gradual scrolling
+    if (open && messages.length > 0) {
+      // Delay to allow DOM to update, then smooth scroll
       setTimeout(() => {
-        bottomRef.current?.scrollIntoView({ 
-          behavior: "smooth", 
-          block: "end",
-          inline: "nearest"
-        });
-      }, 300);
+        smoothScrollToBottom();
+      }, 150);
     }
   }, [messages, open, showFreeformInput]);
 
@@ -188,7 +218,7 @@ const ChatbotWidget: React.FC = () => {
           </div>
           {/* Chat History */}
           <div className="flex-1 flex flex-col min-h-0 bg-gradient-to-br from-askus-light/90 via-purple-50 to-white">
-            <ScrollArea className="flex-1 px-2 py-2">
+            <ScrollArea ref={scrollAreaRef} className="flex-1 px-2 py-2">
               <div className="flex flex-col gap-3 pb-4 min-h-full">
                 {messages.map((m, i) => (
                   <div
