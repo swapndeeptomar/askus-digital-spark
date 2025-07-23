@@ -73,7 +73,12 @@ const ChatbotWidget: React.FC = () => {
   }, [location.pathname]);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (open) {
+      // Small delay to ensure DOM is updated
+      setTimeout(() => {
+        bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+      }, 100);
+    }
   }, [messages, open, showFreeformInput]);
 
   // Reset freeform states when chat is closed or reset
@@ -179,8 +184,8 @@ const ChatbotWidget: React.FC = () => {
           </div>
           {/* Chat History */}
           <div className="flex-1 flex flex-col min-h-0 bg-gradient-to-br from-askus-light/90 via-purple-50 to-white">
-            <ScrollArea className="flex-1 px-2 py-2 overflow-y-auto">
-              <div className="flex flex-col gap-3 pb-1">
+            <ScrollArea className="flex-1 px-2 py-2">
+              <div className="flex flex-col gap-3 pb-4 min-h-full">
                 {messages.map((m, i) => (
                   <div
                     key={i}
@@ -305,7 +310,7 @@ const ChatbotWidget: React.FC = () => {
                     </Button>
                   </div>
                 )}
-                <div ref={bottomRef} />
+                <div ref={bottomRef} className="h-1" />
               </div>
             </ScrollArea>
           </div>
