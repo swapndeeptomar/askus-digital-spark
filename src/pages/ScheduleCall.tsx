@@ -142,9 +142,23 @@ const ScheduleCall = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-askus-background via-askus-background/95 to-askus-background/90">
+    <div className="flex flex-col min-h-screen relative overflow-x-hidden">
+      {/* Modern, premium multi-gradient and blur background */}
+      <div className="fixed inset-0 -z-10 pointer-events-none">
+        {/* Main gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-askus-purple/70 via-askus-light/90 to-white/95 dark:from-[#201C3E]/90 dark:via-[#15001E]/80 dark:to-[#2b2550]/70 transition-colors" />
+        {/* Blurred violets and accents */}
+        <div className="absolute -top-24 -left-24 md:left-[-120px] w-[340px] h-[340px] md:w-[460px] md:h-[440px] bg-askus-purple/30 blur-[120px] rounded-full opacity-50 pointer-events-none" />
+        <div className="absolute bottom-[-120px] left-1/2 -translate-x-1/2 w-[550px] h-[160px] bg-askus-purple/15 blur-[100px] rounded-full opacity-25" />
+        <div className="absolute top-[30%] right-[-100px] w-[260px] h-[280px] bg-pink-300/10 blur-[80px] rounded-full opacity-40" />
+        <div className="absolute top-7 left-[60%] w-[160px] h-[140px] bg-emerald-300/10 blur-3xl rounded-full opacity-30" />
+        <div className="absolute top-[60%] left-[5%] w-[140px] h-[90px] bg-sky-300/10 blur-2xl rounded-full opacity-20" />
+        {/* Subtle grid or tech pattern */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none [mask-image:linear-gradient(to_bottom,rgba(0,0,0,0.48),rgba(0,0,0,0.18)50%,transparent)] bg-[radial-gradient(circle at 1px 1px,rgba(70,33,150,.15)1px,transparent_0)] bg-[size:36px_36px]" />
+      </div>
       <Navbar />
-      <div className="container mx-auto px-4 py-24 md:py-32">
+      <main className="flex-1 py-24 md:py-32">
+        <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-10">
             <h1 className="text-3xl md:text-4xl font-bold text-askus-dark mb-4">
@@ -329,6 +343,7 @@ const ScheduleCall = () => {
         </div>
         </div>
       </div>
+      </main>
       <Footer />
     </div>
   );
