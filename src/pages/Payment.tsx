@@ -6,14 +6,14 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/use-toast";
 
-const RAZORPAY_KEY = "rzp_test_1DP5mmOlF5G5ag"; // demo key, replace with real key in prod!
+const RAZORPAY_KEY = "rzp_test_1DP5mmOlF5G5ag"; 
 const PAYMENT_AMOUNT = 50000; // 500.00 INR as sample
 
 const Payment = () => {
   const [number, setNumber] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Handler for Razorpay payment success
+  // Handler for Razorpay payment success 
   async function handleRazorpaySuccess(response: any) {
     setIsLoading(true);
     const { error } = await supabase.from("payments").insert({

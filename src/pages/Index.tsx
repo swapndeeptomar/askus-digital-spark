@@ -12,6 +12,7 @@ import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import MovingHeaderLines from "@/components/MovingHeaderLines";
+import TaglineRotator from "@/components/TaglineRotator";
 
 const Index = () => {
   const isMobile = useIsMobile();
@@ -96,8 +97,8 @@ const Index = () => {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       
-      {/* Video Banner - Reduced height */}
-      <section className="w-full relative h-[40vh] md:h-[50vh]">
+    
+      <section className="w-full relative h-[92vh] md:h-[92vh]">
         <div className="w-full h-full">
           <video
             ref={videoRef}
@@ -126,33 +127,12 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Horizontal Banner */}
-      <section className="bg-gradient-to-r from-askus-purple via-purple-600 to-askus-purple py-8 md:py-12">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="text-center md:text-left">
-              <h3 className="text-white text-xl md:text-2xl font-bold mb-2">
-                Ready to Transform Your Business?
-              </h3>
-              <p className="text-white/90 text-sm md:text-base">
-                Get expert digital solutions tailored to your needs. Start your journey with DigiSphere today.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link to="/contact">
-                <Button className="bg-white text-askus-purple hover:bg-gray-100 font-semibold px-6 py-3">
-                  Get Started
-                </Button>
-              </Link>
-              <Link to="/get-quote">
-                <Button variant="outline" className="border-white text-white hover:bg-white/10 px-6 py-3">
-                  Get Quote
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+<TaglineRotator />
+
+
+
+
+
       
       {/* Hero Section */}
       <section className="pt-32 pb-16 gradient-bg text-white relative overflow-hidden">

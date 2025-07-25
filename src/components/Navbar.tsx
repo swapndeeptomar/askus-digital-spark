@@ -60,7 +60,7 @@ const Navbar = () => {
               style={{ background: "transparent", border: "none", padding: 0, margin: 0 }}
             >
               <img
-                src="/lovable-uploads/95baa89b-0559-42b7-9b49-4fc9241e6ce5.png"
+                src="/ref-uploads/95baa89b-0559-42b7-9b49-4fc9241e6ce5.png"
                 alt="DigiSphere Logo"
                 className="w-10 h-10 rounded-full object-cover bg-white border-2 border-askus-purple shadow-sm"
                 style={{ background: '#fff' }}
