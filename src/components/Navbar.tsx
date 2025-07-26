@@ -89,6 +89,11 @@ const Navbar = () => {
           </nav>
 
           <div className="hidden md:flex items-center gap-2">
+            <Link to="/digital-partner">
+              <Button variant="outline" className="text-askus-purple border-askus-purple hover:bg-askus-purple hover:text-white">
+                Digital Partner
+              </Button>
+            </Link>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button className="bg-askus-purple hover:bg-askus-purple/90 flex items-center gap-1">
@@ -177,7 +182,12 @@ const Navbar = () => {
                 </Link>
               )
             }
-            <div className="pt-2 flex gap-2">
+            <div className="pt-2 flex flex-col gap-2">
+              <Link to="/digital-partner">
+                <Button variant="outline" className="w-full text-askus-purple border-askus-purple hover:bg-askus-purple hover:text-white">
+                  Digital Partner
+                </Button>
+              </Link>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button className="w-full bg-askus-purple hover:bg-askus-purple/90 flex items-center gap-1 justify-center">
