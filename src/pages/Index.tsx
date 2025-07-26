@@ -98,7 +98,7 @@ const Index = () => {
       <Navbar />
       
     
-      <section className="w-full relative h-[92vh] md:h-[85vh]">
+      <section className="w-full relative h-[92vh] md:h-[55vh]">
         <div className="w-full h-full">
           <video
             ref={videoRef}
