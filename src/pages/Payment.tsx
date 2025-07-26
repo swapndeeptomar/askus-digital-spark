@@ -97,7 +97,7 @@ const Payment = () => {
               <span className="font-semibold text-sm mb-1">Scan to Pay (Sample QR)</span>
               <div className="border rounded-lg bg-gray-100 p-2 shadow">
                 <img
-                  src="/lovable-uploads/b9148232-f0bf-406b-9c86-a82618eb4e94.png"
+                  src="/ref-uploads/b9148232-f0bf-406b-9c86-a82618eb4e94.png"
                   alt="DigiSphere QR"
                   className="w-40 h-40 object-contain"
                 />
