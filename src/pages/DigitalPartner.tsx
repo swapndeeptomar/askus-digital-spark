@@ -74,21 +74,18 @@ const DigitalPartner = () => {
         resumeUrl = publicUrl;
       }
 
+      // Temporarily store in contact_messages until types are updated
+      const partnerData = {
+        name: formData.name,
+        email: formData.email,
+        mobile: formData.phone,
+        subject: `Digital Partner Application - ${formData.domain}`,
+        message: `Domain: ${formData.domain}\nExperience: ${formData.experience}\nSkills: ${formData.skills}\nPortfolio: ${formData.portfolio}\nResume: ${resumeUrl}\n\nMessage: ${formData.message}`
+      };
+
       const { error } = await supabase
-        .from('digital_partners')
-        .insert([
-          {
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            domain: formData.domain,
-            experience: formData.experience,
-            skills: formData.skills,
-            portfolio: formData.portfolio,
-            message: formData.message,
-            resume_url: resumeUrl
-          }
-        ]);
+        .from('contact_messages')
+        .insert([partnerData]);
 
       if (error) throw error;
 

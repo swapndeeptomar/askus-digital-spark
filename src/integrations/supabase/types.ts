@@ -152,6 +152,51 @@ export type Database = {
         }
         Relationships: []
       }
+      digital_partners: {
+        Row: {
+          created_at: string
+          domain: string
+          email: string
+          experience: string | null
+          id: string
+          message: string | null
+          name: string
+          phone: string
+          portfolio: string | null
+          resume_url: string | null
+          skills: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          domain: string
+          email: string
+          experience?: string | null
+          id?: string
+          message?: string | null
+          name: string
+          phone: string
+          portfolio?: string | null
+          resume_url?: string | null
+          skills?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          domain?: string
+          email?: string
+          experience?: string | null
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string
+          portfolio?: string | null
+          resume_url?: string | null
+          skills?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       payments: {
         Row: {
           amount: number
