@@ -375,10 +375,10 @@ const About = () => {
                 />
               </div>
               <div className="p-6 text-center">
-                <h3 className="text-xl font-semibold text-askus-dark"> Allen Woods</h3>
+                <h3 className="text-xl font-semibold text-askus-dark"> Aditya Nagar</h3>
                 <p className="text-askus-purple mb-3">CEO & Founder</p>
                 <p className="text-gray-600 text-sm">
-                   Allen leads our team with vision and expertise.
+                   Aditya leads our team with vision and expertise.
                 </p>
               </div>
               <div className="team-social">
@@ -416,10 +416,10 @@ const About = () => {
                 />
               </div>
               <div className="p-6 text-center">
-                <h3 className="text-xl font-semibold text-askus-dark">Richard Mille</h3>
-                <p className="text-askus-purple mb-3">Co Founder</p>
+                <h3 className="text-xl font-semibold text-askus-dark">Ashwin Paroolkar</h3>
+                <p className="text-askus-purple mb-3">CTO</p>
                 <p className="text-gray-600 text-sm">
-                  Richard oversees all technical aspects of our projects, ensuring we deliver cutting-edge solutions.
+                  Ashwin oversees all technical aspects of our projects, ensuring we deliver cutting-edge solutions.
                 </p>
               </div>
               <div className="team-social">
@@ -457,10 +457,10 @@ const About = () => {
                 />
               </div>
               <div className="p-6 text-center">
-                <h3 className="text-xl font-semibold text-askus-dark">John Doe</h3>
-                <p className="text-askus-purple mb-3">Co Founder</p>
+                <h3 className="text-xl font-semibold text-askus-dark">Karnraj Mandloi</h3>
+                <p className="text-askus-purple mb-3">Marketing Lead</p>
                 <p className="text-gray-600 text-sm">
-                  John brings creativity and innovation to all our design projects, creating stunning visual experiences.
+                  Karnraj brings creativity and innovation to all our design projects, creating stunning visual experiences.
                 </p>
               </div>
               <div className="team-social">
@@ -498,10 +498,10 @@ const About = () => {
                 />
               </div>
               <div className="p-6 text-center">
-                <h3 className="text-xl font-semibold text-askus-dark">Emily Davis</h3>
-                <p className="text-askus-purple mb-3">Marketing Strategist</p>
+                <h3 className="text-xl font-semibold text-askus-dark">Aveena Bhagat</h3>
+                <p className="text-askus-purple mb-3">Human Resource Lead</p>
                 <p className="text-gray-600 text-sm">
-                  Emily develops effective digital marketing strategies that help our clients reach their target audience.
+                  Aveena develops effective digital marketing strategies that help our clients reach their target audience.
                 </p>
               </div>
               <div className="team-social">
