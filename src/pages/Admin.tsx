@@ -13,6 +13,8 @@ import AdminChatbotMessages from "@/components/admin/AdminChatbotMessages";
 import AdminBlogs from "@/components/admin/AdminBlogs";
 import AdminServices from "@/components/admin/AdminServices";
 import AdminAppointments from "@/components/admin/AdminAppointments";
+import AdminApplicants from "@/components/admin/AdminApplicants";
+import AdminPartners from "@/components/admin/AdminPartners";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -50,6 +52,8 @@ const Admin = () => {
               <TabsTrigger value="services" className="min-w-[110px]">Services</TabsTrigger>
               <TabsTrigger value="blogs" className="min-w-[110px]">Blogs</TabsTrigger>
               <TabsTrigger value="appointments" className="min-w-[110px]">Appointments</TabsTrigger>
+              <TabsTrigger value="applicants" className="min-w-[110px]">Applicants</TabsTrigger>
+              <TabsTrigger value="partners" className="min-w-[110px]">Partners</TabsTrigger>
             </TabsList>
             <TabsContent value="contact"><AdminContactMessages /></TabsContent>
             <TabsContent value="payments"><AdminPayments /></TabsContent>
@@ -60,6 +64,8 @@ const Admin = () => {
             <TabsContent value="services"><AdminServices /></TabsContent>
             <TabsContent value="blogs"><AdminBlogs /></TabsContent>
             <TabsContent value="appointments"><AdminAppointments /></TabsContent>
+            <TabsContent value="applicants"><AdminApplicants /></TabsContent>
+            <TabsContent value="partners"><AdminPartners /></TabsContent>
           </Tabs>
           <Button onClick={handleLogout} className="bg-askus-purple hover:bg-askus-purple/90 w-full mt-8">Logout</Button>
         </div>
