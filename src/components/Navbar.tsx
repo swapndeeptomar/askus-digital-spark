@@ -104,7 +104,7 @@ const Navbar = () => {
                   <Link to="/contact">Contact Us</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/payment">Make a Payment</Link>
+                  <Link to="/payment">Make Payment</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link to="/schedule-call">Schedule Call</Link>
