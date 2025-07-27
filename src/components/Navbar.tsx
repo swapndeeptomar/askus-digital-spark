@@ -48,7 +48,7 @@ const Navbar = () => {
   return (
     <header className="fixed w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
       <AdminLoginModal open={showAdminLogin} onOpenChange={setShowAdminLogin} />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-2 sm:px-4 lg:px-0">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             {/* Logo triggers admin login modal */}
@@ -73,7 +73,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop menu */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex space-x-6">
             <Link to="/" className="text-gray-700 hover:text-askus-purple font-medium">Home</Link>
             <Link to="/services" className="text-gray-700 hover:text-askus-purple font-medium">Services</Link>
             <Link to="/portfolio" className="text-gray-700 hover:text-askus-purple font-medium">Portfolio</Link>
