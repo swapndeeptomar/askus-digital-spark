@@ -152,6 +152,83 @@ export type Database = {
         }
         Relationships: []
       }
+      current_partner: {
+        Row: {
+          created_at: string
+          current_task_deadline: string | null
+          current_task_description: string | null
+          current_task_document_url: string | null
+          current_task_image_url: string | null
+          current_task_title: string | null
+          domain: string
+          email: string
+          experience: string | null
+          id: string
+          name: string
+          partner_id: string
+          phone: string | null
+          portfolio: string | null
+          resume_url: string | null
+          skills: string | null
+          status: string
+          task_status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_task_deadline?: string | null
+          current_task_description?: string | null
+          current_task_document_url?: string | null
+          current_task_image_url?: string | null
+          current_task_title?: string | null
+          domain: string
+          email: string
+          experience?: string | null
+          id?: string
+          name: string
+          partner_id: string
+          phone?: string | null
+          portfolio?: string | null
+          resume_url?: string | null
+          skills?: string | null
+          status?: string
+          task_status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_task_deadline?: string | null
+          current_task_description?: string | null
+          current_task_document_url?: string | null
+          current_task_image_url?: string | null
+          current_task_title?: string | null
+          domain?: string
+          email?: string
+          experience?: string | null
+          id?: string
+          name?: string
+          partner_id?: string
+          phone?: string | null
+          portfolio?: string | null
+          resume_url?: string | null
+          skills?: string | null
+          status?: string
+          task_status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "current_partner_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: true
+            referencedRelation: "digital_partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       digital_partners: {
         Row: {
           created_at: string
@@ -166,6 +243,7 @@ export type Database = {
           resume_url: string | null
           skills: string | null
           status: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
@@ -180,6 +258,7 @@ export type Database = {
           resume_url?: string | null
           skills?: string | null
           status?: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
@@ -194,6 +273,7 @@ export type Database = {
           resume_url?: string | null
           skills?: string | null
           status?: string
+          user_id?: string | null
         }
         Relationships: []
       }
