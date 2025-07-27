@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,6 +9,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import PartnerDashboard from '@/components/PartnerDashboard';
 
 const DigitalPartner = () => {
   const [formData, setFormData] = useState({
@@ -23,6 +24,50 @@ const DigitalPartner = () => {
   });
   const [resume, setResume] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [isCurrentPartner, setIsCurrentPartner] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    checkAuthAndPartnerStatus();
+  }, []);
+
+  const checkAuthAndPartnerStatus = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+
+      if (user) {
+        // Check if user is already a current partner
+        const { data: partnerData } = await supabase
+          .from('current_partner')
+          .select('id')
+          .eq('user_id', user.id)
+          .single();
+
+        if (partnerData) {
+          setIsCurrentPartner(true);
+        }
+      }
+    } catch (error) {
+      console.error('Error checking auth status:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // If user is a current partner, show dashboard
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-lg">Loading...</div>
+      </div>
+    );
+  }
+
+  if (isCurrentPartner) {
+    return <PartnerDashboard />;
+  }
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
@@ -41,6 +86,16 @@ const DigitalPartner = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Check if user is authenticated
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to submit your application.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (!formData.name || !formData.email || !formData.phone || !formData.domain) {
       toast({
         title: "Missing Information",
@@ -74,24 +129,30 @@ const DigitalPartner = () => {
         resumeUrl = publicUrl;
       }
 
-      // Temporarily store in contact_messages until types are updated
+      // Store in digital_partners table
       const partnerData = {
+        user_id: user.id,
         name: formData.name,
         email: formData.email,
-        mobile: formData.phone,
-        subject: `Digital Partner Application - ${formData.domain}`,
-        message: `Domain: ${formData.domain}\nExperience: ${formData.experience}\nSkills: ${formData.skills}\nPortfolio: ${formData.portfolio}\nResume: ${resumeUrl}\n\nMessage: ${formData.message}`
+        phone: formData.phone,
+        domain: formData.domain,
+        experience: formData.experience,
+        skills: formData.skills,
+        portfolio: formData.portfolio,
+        resume_url: resumeUrl,
+        message: formData.message,
+        status: 'pending'
       };
 
       const { error } = await supabase
-        .from('contact_messages')
+        .from('digital_partners')
         .insert([partnerData]);
 
       if (error) throw error;
 
       toast({
         title: "Application Submitted!",
-        description: "Thank you for your interest in becoming our digital partner. We'll get back to you soon.",
+        description: "Thank you for your interest in becoming our digital partner. We'll review your application and get back to you soon.",
       });
 
       // Reset form

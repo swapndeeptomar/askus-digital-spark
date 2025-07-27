@@ -3,25 +3,58 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from '@/hooks/use-toast';
-import { ExternalLink, User, Mail, Phone, Globe, FileText, Edit, Trash2 } from 'lucide-react';
+import { ExternalLink, User, Mail, Phone, Globe, FileText, Edit, Trash2, Plus, Calendar, Image } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
-interface DigitalPartner {
+interface CurrentPartner {
   id: string;
+  user_id: string;
+  partner_id: string;
   created_at: string;
   name: string;
   email: string;
-  mobile: string | null;
-  subject: string;
-  message: string;
+  phone: string;
+  domain: string;
+  experience: string | null;
+  skills: string | null;
+  portfolio: string | null;
+  resume_url: string | null;
+  status: string;
+  current_task_title: string | null;
+  current_task_description: string | null;
+  current_task_image_url: string | null;
+  current_task_document_url: string | null;
+  current_task_deadline: string | null;
+  task_status: string | null;
+}
+
+interface TaskForm {
+  title: string;
+  description: string;
+  deadline: string;
+  image_url: string;
+  document_url: string;
 }
 
 const AdminPartners = () => {
-  const [partners, setPartners] = useState<DigitalPartner[]>([]);
+  const [partners, setPartners] = useState<CurrentPartner[]>([]);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState<string | null>(null);
+  const [taskForm, setTaskForm] = useState<TaskForm>({
+    title: '',
+    description: '',
+    deadline: '',
+    image_url: '',
+    document_url: ''
+  });
+  const [selectedPartnerId, setSelectedPartnerId] = useState<string | null>(null);
+  const [taskDialogOpen, setTaskDialogOpen] = useState(false);
 
   useEffect(() => {
     fetchPartners();
@@ -30,9 +63,8 @@ const AdminPartners = () => {
   const fetchPartners = async () => {
     try {
       const { data, error } = await supabase
-        .from('contact_messages')
+        .from('current_partner')
         .select('*')
-        .like('subject', '%Selected Digital Partner%')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -49,47 +81,13 @@ const AdminPartners = () => {
     }
   };
 
-  const parsePartnerData = (message: string) => {
-    const lines = message.split('\n');
-    const data: Record<string, string> = {};
-    
-    lines.forEach(line => {
-      const [key, ...valueParts] = line.split(': ');
-      if (key && valueParts.length > 0) {
-        data[key.toLowerCase()] = valueParts.join(': ');
-      }
-    });
-    
-    return data;
-  };
-
-  const getPartnerStatus = (message: string) => {
-    if (message.includes('SELECTED PARTNER')) return 'active';
-    return 'inactive';
-  };
-
   const updatePartnerStatus = async (partnerId: string, status: string) => {
     setUpdating(partnerId);
     
     try {
-      const partner = partners.find(p => p.id === partnerId);
-      if (!partner) return;
-
-      let updatedMessage = partner.message;
-      if (status === 'active' && !updatedMessage.includes('SELECTED PARTNER')) {
-        updatedMessage = `SELECTED PARTNER\n\n${updatedMessage}`;
-      } else if (status === 'inactive' && updatedMessage.includes('SELECTED PARTNER')) {
-        updatedMessage = updatedMessage.replace('SELECTED PARTNER\n\n', '');
-      }
-
       const { error } = await supabase
-        .from('contact_messages')
-        .update({ 
-          message: updatedMessage,
-          subject: status === 'active' 
-            ? partner.subject.replace('Inactive', 'Selected') 
-            : partner.subject.replace('Selected', 'Inactive')
-        })
+        .from('current_partner')
+        .update({ status })
         .eq('id', partnerId);
 
       if (error) throw error;
@@ -100,7 +98,6 @@ const AdminPartners = () => {
       });
 
       fetchPartners();
-
     } catch (error) {
       console.error('Error updating partner status:', error);
       toast({
@@ -116,7 +113,7 @@ const AdminPartners = () => {
   const removePartner = async (partnerId: string) => {
     try {
       const { error } = await supabase
-        .from('contact_messages')
+        .from('current_partner')
         .delete()
         .eq('id', partnerId);
 
@@ -124,16 +121,58 @@ const AdminPartners = () => {
 
       toast({
         title: "Partner Removed",
-        description: "Partner has been removed from the system",
+        description: "Partner has been removed from current partners",
       });
 
       fetchPartners();
-
     } catch (error) {
       console.error('Error removing partner:', error);
       toast({
         title: "Error",
         description: "Failed to remove partner",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const assignTask = async () => {
+    if (!selectedPartnerId || !taskForm.title) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in the task title",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('current_partner')
+        .update({
+          current_task_title: taskForm.title,
+          current_task_description: taskForm.description,
+          current_task_deadline: taskForm.deadline || null,
+          current_task_image_url: taskForm.image_url || null,
+          current_task_document_url: taskForm.document_url || null,
+          task_status: 'pending'
+        })
+        .eq('id', selectedPartnerId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Task Assigned",
+        description: "Task has been assigned successfully",
+      });
+
+      setTaskForm({ title: '', description: '', deadline: '', image_url: '', document_url: '' });
+      setTaskDialogOpen(false);
+      fetchPartners();
+    } catch (error) {
+      console.error('Error assigning task:', error);
+      toast({
+        title: "Error",
+        description: "Failed to assign task",
         variant: "destructive"
       });
     }
@@ -166,19 +205,16 @@ const AdminPartners = () => {
       ) : (
         <div className="grid gap-6">
           {partners.map((partner) => {
-            const partnerData = parsePartnerData(partner.message);
-            const status = getPartnerStatus(partner.message);
-            
             return (
-              <Card key={partner.id} className={`border-l-4 ${status === 'active' ? 'border-l-green-500' : 'border-l-gray-400'}`}>
+              <Card key={partner.id} className={`border-l-4 ${partner.status === 'active' ? 'border-l-green-500' : 'border-l-gray-400'}`}>
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div>
                       <CardTitle className="text-xl flex items-center gap-2">
                         <User className="h-5 w-5" />
                         {partner.name}
-                        <Badge variant={status === 'active' ? 'default' : 'secondary'}>
-                          {status === 'active' ? 'Active' : 'Inactive'}
+                        <Badge variant={partner.status === 'active' ? 'default' : 'secondary'}>
+                          {partner.status === 'active' ? 'Active' : 'Inactive'}
                         </Badge>
                       </CardTitle>
                       <p className="text-sm text-gray-500">
@@ -186,12 +222,46 @@ const AdminPartners = () => {
                       </p>
                     </div>
                     <div className="flex gap-2">
+                      <Dialog open={taskDialogOpen && selectedPartnerId === partner.id} onOpenChange={(open) => {
+                        setTaskDialogOpen(open);
+                        if (open) setSelectedPartnerId(partner.id);
+                        else setSelectedPartnerId(null);
+                      }}>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Plus className="h-4 w-4 mr-1" />
+                            Task
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Assign Task</DialogTitle>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                            <Input
+                              placeholder="Task title"
+                              value={taskForm.title}
+                              onChange={(e) => setTaskForm(prev => ({ ...prev, title: e.target.value }))}
+                            />
+                            <Textarea
+                              placeholder="Description"
+                              value={taskForm.description}
+                              onChange={(e) => setTaskForm(prev => ({ ...prev, description: e.target.value }))}
+                            />
+                            <Input
+                              type="date"
+                              value={taskForm.deadline}
+                              onChange={(e) => setTaskForm(prev => ({ ...prev, deadline: e.target.value }))}
+                            />
+                            <Button onClick={assignTask}>Assign</Button>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                       <Select
-                        value={status}
+                        value={partner.status}
                         onValueChange={(value) => updatePartnerStatus(partner.id, value)}
-                        disabled={updating === partner.id}
                       >
-                        <SelectTrigger className="w-32">
+                        <SelectTrigger className="w-24">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -199,92 +269,42 @@ const AdminPartners = () => {
                           <SelectItem value="inactive">Inactive</SelectItem>
                         </SelectContent>
                       </Select>
-                      
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button variant="destructive" size="sm">
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Remove Partner</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Are you sure you want to remove {partner.name} from the partners list? This action cannot be undone.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={() => removePartner(partner.id)}>
-                              Remove
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-2">
-                        <Mail className="h-4 w-4 text-gray-500" />
-                        <span className="text-sm">{partner.email}</span>
+                  <div className="space-y-4">
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <Mail className="h-4 w-4" />
+                          <span className="text-sm">{partner.email}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Phone className="h-4 w-4" />
+                          <span className="text-sm">{partner.phone}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Globe className="h-4 w-4" />
+                          <Badge variant="outline">{partner.domain}</Badge>
+                        </div>
                       </div>
-                      {partner.mobile && (
-                        <div className="flex items-center gap-2">
-                          <Phone className="h-4 w-4 text-gray-500" />
-                          <span className="text-sm">{partner.mobile}</span>
-                        </div>
-                      )}
-                      {partnerData.domain && (
-                        <div className="flex items-center gap-2">
-                          <Globe className="h-4 w-4 text-gray-500" />
-                          <Badge variant="outline">{partnerData.domain}</Badge>
-                        </div>
-                      )}
-                      {partnerData.experience && (
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium">Experience:</span>
-                          <span className="text-sm">{partnerData.experience}</span>
-                        </div>
-                      )}
+                      <div className="space-y-2">
+                        {partner.skills && (
+                          <div>
+                            <span className="text-sm font-medium">Skills:</span>
+                            <p className="text-sm text-gray-600">{partner.skills}</p>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    
-                    <div className="space-y-3">
-                      {partnerData.skills && (
-                        <div>
-                          <span className="text-sm font-medium">Skills:</span>
-                          <p className="text-sm text-gray-600 mt-1">{partnerData.skills}</p>
-                        </div>
-                      )}
-                      {partnerData.portfolio && (
-                        <div className="flex items-center gap-2">
-                          <ExternalLink className="h-4 w-4 text-gray-500" />
-                          <a 
-                            href={partnerData.portfolio} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-sm text-blue-600 hover:underline"
-                          >
-                            View Portfolio
-                          </a>
-                        </div>
-                      )}
-                      {partnerData.resume && (
-                        <div className="flex items-center gap-2">
-                          <FileText className="h-4 w-4 text-gray-500" />
-                          <a 
-                            href={partnerData.resume} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-sm text-blue-600 hover:underline"
-                          >
-                            View Resume
-                          </a>
-                        </div>
-                      )}
-                    </div>
+                    {partner.current_task_title && (
+                      <div className="p-3 bg-blue-50 rounded-lg">
+                        <h4 className="font-medium text-blue-900">Current Task: {partner.current_task_title}</h4>
+                        <p className="text-sm text-blue-700">{partner.current_task_description}</p>
+                        <Badge className="mt-2">{partner.task_status || 'pending'}</Badge>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>

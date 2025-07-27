@@ -9,11 +9,17 @@ import { ExternalLink, User, Mail, Phone, Globe, FileText, CheckCircle } from 'l
 interface DigitalPartnerApplication {
   id: string;
   created_at: string;
+  user_id: string;
   name: string;
   email: string;
-  mobile: string | null;
-  subject: string;
-  message: string;
+  phone: string;
+  domain: string;
+  experience: string | null;
+  skills: string | null;
+  portfolio: string | null;
+  resume_url: string | null;
+  message: string | null;
+  status: string;
 }
 
 const AdminApplicants = () => {
@@ -28,9 +34,9 @@ const AdminApplicants = () => {
   const fetchApplications = async () => {
     try {
       const { data, error } = await supabase
-        .from('contact_messages')
+        .from('digital_partners')
         .select('*')
-        .like('subject', '%Digital Partner Application%')
+        .eq('status', 'pending')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -47,38 +53,36 @@ const AdminApplicants = () => {
     }
   };
 
-  const parseApplicationData = (message: string) => {
-    const lines = message.split('\n');
-    const data: Record<string, string> = {};
-    
-    lines.forEach(line => {
-      const [key, ...valueParts] = line.split(': ');
-      if (key && valueParts.length > 0) {
-        data[key.toLowerCase()] = valueParts.join(': ');
-      }
-    });
-    
-    return data;
-  };
-
   const selectApplicant = async (application: DigitalPartnerApplication) => {
     setSelecting(application.id);
     
     try {
-      const applicationData = parseApplicationData(application.message);
-      
-      // Create new partner record (temporarily in contact_messages with different subject)
-      const { error } = await supabase
-        .from('contact_messages')
+      // Update the application status to 'selected'
+      const { error: updateError } = await supabase
+        .from('digital_partners')
+        .update({ status: 'selected' })
+        .eq('id', application.id);
+
+      if (updateError) throw updateError;
+
+      // Create new record in current_partner table
+      const { error: insertError } = await supabase
+        .from('current_partner')
         .insert([{
+          user_id: application.user_id,
+          partner_id: application.id,
           name: application.name,
           email: application.email,
-          mobile: application.mobile,
-          subject: `Selected Digital Partner - ${applicationData.domain || 'Unknown'}`,
-          message: `SELECTED PARTNER\n\n${application.message}\n\nSelected on: ${new Date().toISOString()}`
+          phone: application.phone,
+          domain: application.domain,
+          experience: application.experience,
+          skills: application.skills,
+          portfolio: application.portfolio,
+          resume_url: application.resume_url,
+          status: 'active'
         }]);
 
-      if (error) throw error;
+      if (insertError) throw insertError;
 
       toast({
         title: "Partner Selected",
@@ -127,8 +131,6 @@ const AdminApplicants = () => {
       ) : (
         <div className="grid gap-6">
           {applications.map((application) => {
-            const applicationData = parseApplicationData(application.message);
-            
             return (
               <Card key={application.id} className="border-l-4 border-l-blue-500">
                 <CardHeader>
@@ -159,38 +161,38 @@ const AdminApplicants = () => {
                         <Mail className="h-4 w-4 text-gray-500" />
                         <span className="text-sm">{application.email}</span>
                       </div>
-                      {application.mobile && (
+                      {application.phone && (
                         <div className="flex items-center gap-2">
                           <Phone className="h-4 w-4 text-gray-500" />
-                          <span className="text-sm">{application.mobile}</span>
+                          <span className="text-sm">{application.phone}</span>
                         </div>
                       )}
-                      {applicationData.domain && (
+                      {application.domain && (
                         <div className="flex items-center gap-2">
                           <Globe className="h-4 w-4 text-gray-500" />
-                          <Badge variant="outline">{applicationData.domain}</Badge>
+                          <Badge variant="outline">{application.domain}</Badge>
                         </div>
                       )}
-                      {applicationData.experience && (
+                      {application.experience && (
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-medium">Experience:</span>
-                          <span className="text-sm">{applicationData.experience}</span>
+                          <span className="text-sm">{application.experience}</span>
                         </div>
                       )}
                     </div>
                     
                     <div className="space-y-3">
-                      {applicationData.skills && (
+                      {application.skills && (
                         <div>
                           <span className="text-sm font-medium">Skills:</span>
-                          <p className="text-sm text-gray-600 mt-1">{applicationData.skills}</p>
+                          <p className="text-sm text-gray-600 mt-1">{application.skills}</p>
                         </div>
                       )}
-                      {applicationData.portfolio && (
+                      {application.portfolio && (
                         <div className="flex items-center gap-2">
                           <ExternalLink className="h-4 w-4 text-gray-500" />
                           <a 
-                            href={applicationData.portfolio} 
+                            href={application.portfolio} 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="text-sm text-blue-600 hover:underline"
@@ -199,11 +201,11 @@ const AdminApplicants = () => {
                           </a>
                         </div>
                       )}
-                      {applicationData.resume && (
+                      {application.resume_url && (
                         <div className="flex items-center gap-2">
                           <FileText className="h-4 w-4 text-gray-500" />
                           <a 
-                            href={applicationData.resume} 
+                            href={application.resume_url} 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="text-sm text-blue-600 hover:underline"
@@ -215,10 +217,10 @@ const AdminApplicants = () => {
                     </div>
                   </div>
                   
-                  {applicationData.message && (
+                  {application.message && (
                     <div className="mt-4 p-3 bg-gray-50 rounded-lg">
                       <span className="text-sm font-medium">Message:</span>
-                      <p className="text-sm text-gray-600 mt-1">{applicationData.message}</p>
+                      <p className="text-sm text-gray-600 mt-1">{application.message}</p>
                     </div>
                   )}
                 </CardContent>
