@@ -154,6 +154,7 @@ export type Database = {
       }
       current_partner: {
         Row: {
+          completed_by_partner: boolean | null
           created_at: string
           current_task_deadline: string | null
           current_task_description: string | null
@@ -163,6 +164,7 @@ export type Database = {
           domain: string
           email: string
           experience: string | null
+          feedback_rating: number | null
           id: string
           name: string
           partner_id: string
@@ -174,8 +176,10 @@ export type Database = {
           task_status: string | null
           updated_at: string
           user_id: string
+          verified_by_admin: boolean | null
         }
         Insert: {
+          completed_by_partner?: boolean | null
           created_at?: string
           current_task_deadline?: string | null
           current_task_description?: string | null
@@ -185,6 +189,7 @@ export type Database = {
           domain: string
           email: string
           experience?: string | null
+          feedback_rating?: number | null
           id?: string
           name: string
           partner_id: string
@@ -196,8 +201,10 @@ export type Database = {
           task_status?: string | null
           updated_at?: string
           user_id: string
+          verified_by_admin?: boolean | null
         }
         Update: {
+          completed_by_partner?: boolean | null
           created_at?: string
           current_task_deadline?: string | null
           current_task_description?: string | null
@@ -207,6 +214,7 @@ export type Database = {
           domain?: string
           email?: string
           experience?: string | null
+          feedback_rating?: number | null
           id?: string
           name?: string
           partner_id?: string
@@ -218,6 +226,7 @@ export type Database = {
           task_status?: string | null
           updated_at?: string
           user_id?: string
+          verified_by_admin?: boolean | null
         }
         Relationships: [
           {

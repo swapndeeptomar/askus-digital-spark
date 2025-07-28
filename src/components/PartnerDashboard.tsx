@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, FileText, Image, Clock, CheckCircle, AlertCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Calendar, FileText, Image, Clock, CheckCircle, AlertCircle, Star } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
 interface PartnerTask {
@@ -17,6 +18,9 @@ interface PartnerTask {
   current_task_deadline?: string;
   task_status?: string;
   status: string;
+  completed_by_partner?: boolean;
+  verified_by_admin?: boolean;
+  feedback_rating?: number;
 }
 
 const PartnerDashboard = () => {
@@ -69,6 +73,34 @@ const PartnerDashboard = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const markTaskCompleted = async () => {
+    if (!partnerData) return;
+
+    try {
+      const { error } = await supabase
+        .from('current_partner')
+        .update({ completed_by_partner: true })
+        .eq('id', partnerData.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Task Marked as Completed",
+        description: "Your task has been submitted for admin review",
+      });
+
+      // Refresh data to show updated status
+      fetchPartnerData();
+    } catch (error) {
+      console.error('Error marking task as completed:', error);
+      toast({
+        title: "Error",
+        description: "Failed to mark task as completed",
+        variant: "destructive"
+      });
     }
   };
 
@@ -162,11 +194,43 @@ const PartnerDashboard = () => {
                 </div>
 
                 {partnerData.current_task_deadline && (
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
                     <Calendar className="h-4 w-4" />
                     <span>Deadline: {new Date(partnerData.current_task_deadline).toLocaleDateString()}</span>
                   </div>
                 )}
+
+                {/* Task Status and Actions */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <Badge className={
+                      partnerData.verified_by_admin 
+                        ? 'bg-green-100 text-green-800' 
+                        : partnerData.completed_by_partner 
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : 'bg-blue-100 text-blue-800'
+                    }>
+                      {partnerData.verified_by_admin 
+                        ? 'Completed & Verified' 
+                        : partnerData.completed_by_partner 
+                          ? 'Awaiting Review'
+                          : 'In Progress'}
+                    </Badge>
+                    {partnerData.feedback_rating && (
+                      <div className="flex items-center gap-1">
+                        <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                        <span className="text-sm font-medium">{partnerData.feedback_rating}/5</span>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {!partnerData.completed_by_partner && (
+                    <Button onClick={markTaskCompleted} size="sm">
+                      <CheckCircle className="h-4 w-4 mr-1" />
+                      Mark as Completed
+                    </Button>
+                  )}
+                </div>
 
                 <div className="grid md:grid-cols-2 gap-4 mt-4">
                   {partnerData.current_task_image_url && (
