@@ -48,7 +48,7 @@ const PartnerDashboard = () => {
         .from('current_partner')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
 
       if (error) {
         if (error.code === 'PGRST116') {
