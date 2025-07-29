@@ -80,12 +80,22 @@ const PartnerDashboard = () => {
     if (!partnerData) return;
 
     try {
+      console.log('Marking task as completed for partner:', partnerData.id);
+      
       const { error } = await supabase
         .from('current_partner')
-        .update({ completed_by_partner: true })
+        .update({ 
+          completed_by_partner: true,
+          task_status: 'in_progress'
+        })
         .eq('id', partnerData.id);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase update error:', error);
+        throw error;
+      }
+
+      console.log('Task marked as completed successfully');
 
       toast({
         title: "Task Marked as Completed",

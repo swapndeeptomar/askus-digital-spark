@@ -433,12 +433,20 @@ const AdminPartners = () => {
                               size="sm" 
                               onClick={() => {
                                 setReviewingTask(partner);
+                                setRating(5); // Reset to default rating
                                 setReviewDialogOpen(true);
                               }}
+                              className="bg-blue-600 hover:bg-blue-700 text-white"
                             >
                               <CheckCircle className="h-4 w-4 mr-1" />
-                              Review
+                              Verify Task
                             </Button>
+                          )}
+                          {partner.verified_by_admin && (
+                            <Badge className="bg-green-100 text-green-800">
+                              <CheckCircle className="h-4 w-4 mr-1" />
+                              Verified
+                            </Badge>
                           )}
                         </div>
                         <p className="text-sm text-blue-700 mb-2">{partner.current_task_description}</p>
@@ -526,7 +534,14 @@ const AdminPartners = () => {
               </div>
 
               <div className="flex gap-2">
-                <Button onClick={() => verifyTask(reviewingTask.id, rating)}>
+                <Button 
+                  onClick={() => {
+                    console.log('Verifying task for partner:', reviewingTask.id, 'with rating:', rating);
+                    verifyTask(reviewingTask.id, rating);
+                  }}
+                  className="bg-green-600 hover:bg-green-700 text-white"
+                >
+                  <CheckCircle className="h-4 w-4 mr-1" />
                   Verify & Rate Task
                 </Button>
                 <Button variant="outline" onClick={() => setReviewDialogOpen(false)}>
