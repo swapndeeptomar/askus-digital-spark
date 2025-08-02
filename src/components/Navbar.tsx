@@ -79,7 +79,7 @@ const Navbar = () => {
             <Link to="/portfolio" className="text-gray-700 hover:text-askus-purple font-medium">Portfolio</Link>
             <Link to="/about" className="text-gray-700 hover:text-askus-purple font-medium">About Us</Link>
             <Link to="/contact" className="text-gray-700 hover:text-askus-purple font-medium">Contact</Link>
-            {/* Show either login link or user menu */}
+            
             {user
               ? <div className="flex items-center"><UserMenu user={user} /></div>
               : (
